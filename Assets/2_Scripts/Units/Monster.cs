@@ -1,26 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using MonsterSkill;
 
-namespace OffLine
+public enum NextAttackPos
 {
-    public enum NextAttackPos
-    {
-        None = 0,
-        Left  = 1,
-        Middle = 2,
-        Right = 4
-    }
-    
-    public class Monster : Unit
-    {
-        protected List<MonsterSkill> _monstersBuffer = new List<MonsterSkill>();
-        [SerializeField] protected MonsterSkill[] useSkills;
+    None = 0,
+    Left = 1,
+    Middle = 2,
+    Right = 4
+}
 
-        public NextAttackPos nextAttackPos = NextAttackPos.None;
+public class Monster : Unit
+{
+    protected List<Skill> _monstersBuffer = new List<Skill>();
+    [SerializeField] protected Skill[] useSkills;
 
-        public Monster()
-        {
-            
-        }
+    public NextAttackPos nextAttackPos = NextAttackPos.None;
+
+    public Monster()
+    {
     }
 }

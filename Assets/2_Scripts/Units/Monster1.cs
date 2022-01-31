@@ -1,9 +1,5 @@
 ﻿using UnityEngine;
 
-namespace OffLine
+public class Monster1 : Monster
 {
-    public class Monster1 : Monster
-    {
-        
-    }
 }

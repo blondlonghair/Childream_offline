@@ -17,8 +17,4 @@ public class Player : Unit
     public int maxMp;
 
     private Hit _nextHit = Hit.None;
-
-    private void Start()
-    {
-    }
 }

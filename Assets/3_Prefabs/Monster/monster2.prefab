@@ -101,13 +101,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7cfd5877cfa4f3da2fb08a1208d5f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
-  curHp: 0
+  maxHp: 10
+  curHp: 10
   armor: 0
   strength: 0
   agility: 0
   weakness: 0
   thorn: 0
+  _skillBuffer: []
+  _useSkills: []
   nextAttackPos: 0
 --- !u!95 &1253920604970340979
 Animator:

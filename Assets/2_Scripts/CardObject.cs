@@ -34,8 +34,8 @@ public class CardObject : MonoBehaviour
         nameText.text = cardName;
         costText.text = cost.ToString();
         descText.text = cardDesc;
-        CardImage.sprite = cardImage;
-        CardImageBG.sprite = cardImageBG;
+        // CardImage.sprite = cardImage;
+        // CardImageBG.sprite = cardImageBG;
     }
 
     private void OnEnable()

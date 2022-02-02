@@ -9,9 +9,18 @@ public class Card
     public int cost;
     public int power;
     public string desc;
-    
-    public virtual void Effect(Player caster, Monster target) { }
-    public virtual void Upgrade() { }
+
+    public bool isUpgrade;
+
+    public virtual void Effect(Player caster, Monster target)
+    {
+        caster.curMp -= cost;
+    }
+
+    public virtual void Upgrade()
+    {
+        isUpgrade = true;
+    }
 }
 
 namespace Cards
@@ -30,7 +39,6 @@ namespace Cards
         public override void Effect(Player caster, Monster target)
         {
             target.curHp -= power;
-            caster.curMp -= cost;
             
             base.Effect(caster, target);
         }
@@ -60,8 +68,6 @@ namespace Cards
         {
             target.curHp -= power;
             target.weakness += _weakness;
-
-            caster.curMp -= cost;
             
             base.Effect(caster, target);
         }
@@ -77,7 +83,7 @@ namespace Cards
 
     public class PommelStrike : Card
     {
-        private int _drowCard = 1;
+        private int _drawCard = 1;
 
         public PommelStrike()
         {
@@ -85,13 +91,13 @@ namespace Cards
             name = "폼멜타격";
             cost = 1;
             power = 9;
-            desc = $"피해를 {power} 줍니다.\n카드를 {_drowCard}장 뽑습니다.";
+            desc = $"피해를 {power} 줍니다.\n카드를 {_drawCard}장 뽑습니다.";
         }
 
         public override void Effect(Player caster, Monster target)
         {
             target.curHp -= power;
-            //카드 드로우
+            CardManager.Instance.DrawCard();
             
             base.Effect(caster, target);
         }
@@ -99,7 +105,7 @@ namespace Cards
         public override void Upgrade()
         {
             power = 10;
-            _drowCard = 2;
+            _drawCard = 2;
         
             base.Upgrade();
         }
@@ -109,7 +115,7 @@ namespace Cards
     {
         public Defend()
         {
-            id = 4;
+            id = 10;
             name = "수비";
             cost = 1;
             power = 5;
@@ -126,6 +132,61 @@ namespace Cards
         public override void Upgrade()
         {
             power = 8;
+            
+            base.Upgrade();
+        }
+    }
+
+    public class ShrugItOff : Card
+    {
+        private int _drawCard = 1;
+
+        public ShrugItOff()
+        {
+            id = 11;
+            name = "흘려보내기";
+            cost = 1;
+            power = 8;
+            desc = $"방어도를 {power} 얻습니다.\n카드를 {_drawCard}장 뽑습니다.";
+        }
+
+        public override void Effect(Player caster, Monster target)
+        {
+            caster.armor += power;
+            CardManager.Instance.DrawCard();
+            
+            base.Effect(caster, target);
+        }
+
+        public override void Upgrade()
+        {
+            power = 11;
+            
+            base.Upgrade();
+        }
+    }
+
+    public class Entrench : Card
+    {
+        public Entrench()
+        {
+            id = 12;
+            name = "참호";
+            cost = 2;
+            power = 2;
+            desc = $"방어도가 {power}배로 증가합니다.";
+        }
+
+        public override void Effect(Player caster, Monster target)
+        {
+            caster.armor *= power;
+            
+            base.Effect(caster, target);
+        }
+
+        public override void Upgrade()
+        {
+            cost = 1;
             
             base.Upgrade();
         }

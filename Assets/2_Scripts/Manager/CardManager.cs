@@ -23,17 +23,17 @@ public class CardManager : SingletonMonoDestroy<CardManager>
     public List<CardObject> cards;
     public List<Card> deck = new List<Card>();
 
-    [Header("카드 덱 위치")] 
+    [Header("카드 덱 위치")]
     [SerializeField] private Transform cardLeft;
     [SerializeField] private Transform cardRight;
 
-    [Header("카드 드로우 위치")] 
+    [Header("카드 드로우 위치")]
     [SerializeField] private Transform drawPos;
 
-    [Header("max카드 수")] 
+    [Header("max카드 수")]
     [SerializeField] private int maxCard = 7;
 
-    [Header("프리팹")] 
+    [Header("프리팹")]
     [SerializeField] private GameObject cardPrefab;
 
     private List<Card> _cardBuffer = new List<Card>();
@@ -54,7 +54,7 @@ public class CardManager : SingletonMonoDestroy<CardManager>
     }
 
     //카드 뽑기
-    public void DrowCard()
+    public void DrawCard()
     {
         if (cards.Count >= maxCard) return;
 

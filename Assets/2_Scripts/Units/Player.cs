@@ -6,14 +6,19 @@ public class Player : Unit
     [Flags]
     enum Hit
     {
-        none = 0,
-        one = 1 << 0,
-        two = 1 << 1,
-        three = 1 << 2
+        None = 0,
+        One = 1 << 0,
+        Two = 1 << 1,
+        Three = 1 << 2
     }
 
+    [Header("Mp")]
     public int curMp;
     public int maxMp;
-    
-    private Hit _hit = Hit.one | Hit.two | Hit.three;
+
+    private Hit _nextHit = Hit.None;
+
+    private void Start()
+    {
+    }
 }

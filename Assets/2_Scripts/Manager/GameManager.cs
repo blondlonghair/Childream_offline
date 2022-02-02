@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Mail;
 using UnityEngine;
 
-public class GameManager : SingletonMono<GameManager>
+public class GameManager : SingletonMonoDestroy<GameManager>
 {
     enum GameState
     {
@@ -18,13 +19,14 @@ public class GameManager : SingletonMono<GameManager>
     //내부
     private int _curStage;
     private int _curTurn;
-    private GameState _gameState = GameState.PlayerTurnStart;
+    private GameState _gameState = GameState.GameStart;
 
     public Player player;
     public List<Monster> monsters = new List<Monster>();
 
     //외부
     [SerializeField] private float attackTime;
+    [SerializeField] private float attackInterval;
 
     private void Start()
     {
@@ -46,6 +48,7 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnGameStart()
     {
+        _gameState = GameState.PlayerTurnStart;
     }
 
     private void OnPlayerTurnStart()
@@ -64,12 +67,30 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnEnemyTurnStart()
     {
-        
+        _gameState = GameState.EnemyTurn;
     }
+
+    private int t;
     
     private void OnEnemyTurn()
     {
-        StartCoroutine(Co_AttackMonster());
+        attackTime += Time.deltaTime;
+        
+        if (attackTime > attackInterval)
+        {
+            if (t < monsters.Count)
+            {
+                monsters[t].Attack();
+                t++;
+                attackTime = 0;
+            }
+            
+            else
+            {
+                _gameState = GameState.PlayerTurnStart;
+                t = 0;
+            }
+        }
     }
 
     private void OnGameEnd()
@@ -85,5 +106,13 @@ public class GameManager : SingletonMono<GameManager>
         }
 
         _gameState = GameState.PlayerTurn;
+    }
+
+    public void TurnEndButton()
+    {
+        if (_gameState == GameState.PlayerTurn)
+        {
+            _gameState = GameState.EnemyTurnStart;
+        }
     }
 }

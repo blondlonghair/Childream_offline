@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MonsterSkill;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public enum NextAttackPos
@@ -13,22 +14,23 @@ public enum NextAttackPos
 
 public class Monster : Unit
 {
-    protected List<Skill> _skillBuffer = new List<Skill>();
-    protected List<Skill> _useSkills = new List<Skill>();
+    [SerializeField] protected List<Skill> _skillBuffer = new List<Skill>();
+    [SerializeField] protected List<Skill> _useSkills = new List<Skill>();
     
     public NextAttackPos nextAttackPos = NextAttackPos.None;
 
-    protected void Start()
+    protected virtual void Start()
     {
         GameManager.Instance.monsters.Add(this);
+        SetupCard();
     }
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameManager.Instance.monsters.Remove(this);
     }
 
-    public void Attack()
+    public virtual void Attack()
     {
         if (_skillBuffer.Count <= 0)
         {
@@ -39,7 +41,7 @@ public class Monster : Unit
         _skillBuffer.RemoveAt(0);
     }
     
-    protected void SetupCard()
+    protected virtual void SetupCard()
     {
         for (int i = 0; i < _useSkills.Count; i++)
         {

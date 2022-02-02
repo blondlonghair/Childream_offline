@@ -115,7 +115,7 @@ namespace Cards
     {
         public Defend()
         {
-            id = 10;
+            id = 8;
             name = "수비";
             cost = 1;
             power = 5;
@@ -143,7 +143,7 @@ namespace Cards
 
         public ShrugItOff()
         {
-            id = 11;
+            id = 9;
             name = "흘려보내기";
             cost = 1;
             power = 8;
@@ -170,7 +170,7 @@ namespace Cards
     {
         public Entrench()
         {
-            id = 12;
+            id = 10;
             name = "참호";
             cost = 2;
             power = 2;

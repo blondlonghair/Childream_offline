@@ -1,8 +1,10 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace MonsterSkill
 {
-    public class Skill : MonoBehaviour
+    [Serializable]
+    public class Skill
     {
         public int id;
         public string name;
@@ -12,14 +14,14 @@ namespace MonsterSkill
         public virtual void Effect(Monster caster,  Player target) { }
     }
 
-    public class MonsterSkill1 : Skill
+    public class Strike : Skill
     {
-        MonsterSkill1()
+        public Strike(int power)
         {
             id = 1;
             name = "타격";
-            power = 6;
-            desc = $"피해를 {power} 줍니다.";
+            this.power = power;
+            desc = $"피해를 {this.power} 줍니다.";
         }
 
         public override void Effect(Monster caster,  Player target)
@@ -28,20 +30,20 @@ namespace MonsterSkill
         }
     }
 
-    public class MonsterSkill2 : Skill
+    public class Bash : Skill
     {
         private int weakness = 2;
         
-        MonsterSkill2()
+        public Bash(int power)
         {
             id = 2;
             name = "강타";
-            power = 8;
+            this.power = power;
         }
 
         public override void Effect(Monster caster, Player target)
         {
-            target.curHp -= power;
+            target.curHp -= this.power;
             target.weakness += this.weakness;
         }
     }

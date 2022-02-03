@@ -1,20 +1,31 @@
 ﻿using System;
 using UnityEngine;
 
+[Flags]
+public enum FootPos
+{
+    None = 0,
+    Left = 1 << 0,
+    Middle = 1 << 1,
+    Right = 1 << 2
+}
+
 public class Player : Unit
 {
-    [Flags]
-    enum Hit
-    {
-        None = 0,
-        One = 1 << 0,
-        Two = 1 << 1,
-        Three = 1 << 2
-    }
-
     [Header("Mp")]
     public int curMp;
     public int maxMp;
 
-    private Hit _nextHit = Hit.None;
+    [Header("Position")] public FootPos curPos = FootPos.Middle;
+
+    public void Move(FootPos footPos)
+    {
+        switch (footPos)
+        {
+            case FootPos.Left: transform.position = Vector3.left * 3.5f; break;
+            case FootPos.Middle: transform.position = Vector3.zero; break;
+            case FootPos.Right: transform.position = Vector3.right * 3.5f; break;
+            default: break;
+        }
+    }
 }

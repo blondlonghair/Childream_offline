@@ -8,7 +8,7 @@ using UnityEditor.SceneManagement;
 
 public class EditorSceneOpen
 {
-    [MenuItem("Scenes/1.IntroScene")]
+    [MenuItem("Scenes/1.IngameScene")]
     public static void OpenScene_Title()
     {
         OpenScene("Assets/1_Scenes/Ingame.unity");

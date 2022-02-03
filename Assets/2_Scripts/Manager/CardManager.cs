@@ -44,7 +44,7 @@ public class CardManager : SingletonMonoDestroy<CardManager>
         deck.Add(new Cards.Strike());
         deck.Add(new Cards.Strike());
         deck.Add(new Cards.Strike());
-        deck.Add(new Cards.Strike());
+        deck.Add(new Cards.Bash());
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());

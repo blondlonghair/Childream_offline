@@ -20,6 +20,8 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     private int _curStage;
     private int _curTurn;
     private GameState _gameState = GameState.GameStart;
+    private Vector3 _mousePos;
+    private CardObject _cardObject;
 
     public Player player;
     public List<Monster> monsters = new List<Monster>();
@@ -35,6 +37,10 @@ public class GameManager : SingletonMonoDestroy<GameManager>
 
     private void Update()
     {
+        MouseInput();
+        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _mousePos.z = 0;
+
         switch (_gameState)
         {
             case GameState.GameStart: OnGameStart(); break;
@@ -53,16 +59,23 @@ public class GameManager : SingletonMonoDestroy<GameManager>
 
     private void OnPlayerTurnStart()
     {
-        CardManager.Instance.DrawCard();
-        CardManager.Instance.DrawCard();
-        CardManager.Instance.DrawCard();
+        foreach (var monster in monsters)
+        {
+            // monster.ShowAttackPos();
+        }
+
+        for (int i = 0; i < 3; i++)
+        {
+            CardManager.Instance.DrawCard();
+        }
+
+        player.curMp = player.maxMp;
 
         _gameState = GameState.PlayerTurn;
     }
     
     private void OnPlayerTurn()
     {
-        
     }
 
     private void OnEnemyTurnStart()
@@ -97,15 +110,44 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     {
     }
 
-    private IEnumerator Co_AttackMonster()
+    private void MouseInput()
     {
-        for (int i = 0; i < monsters.Count; i++)
+        if (Input.GetMouseButton(0))
         {
-            monsters[i].Attack();
-            yield return new WaitForSeconds(attackTime);
+            if (TryCastRay(out CardObject cardObj))
+            {
+                cardObj.CardZoomOut();
+                cardObj.transform.position = _mousePos;
+            }
         }
 
-        _gameState = GameState.PlayerTurn;
+        else
+        {
+            if (TryCastRay(out CardObject cardObj))
+            {
+                if (cardObj != _cardObject && _cardObject != null)
+                {
+                    _cardObject.CardZoomOut();
+                }
+
+                _cardObject = cardObj;
+                _cardObject.CardZoomIn();
+            }
+
+            else if (_cardObject != null)
+            {
+                _cardObject.CardZoomOut();
+            }
+        }
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (TryCastRay(out Monster monster))
+            {
+                _cardObject.originCard.Effect(player, monster);
+                Destroy(_cardObject.gameObject);
+            }
+        }
     }
 
     public void TurnEndButton()
@@ -114,5 +156,39 @@ public class GameManager : SingletonMonoDestroy<GameManager>
         {
             _gameState = GameState.EnemyTurnStart;
         }
+    }
+
+    private bool TryCastRay<T>(string tag, out T component) where T : class?
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);
+        
+        foreach (var hit2D in hits)
+        {
+            if (hit2D.collider.gameObject.CompareTag(tag))
+            {
+                component = hit2D.collider.gameObject.GetComponent<T>();
+                return true;
+            }
+        }
+
+        component = null;
+        return false;
+    }
+    
+    private bool TryCastRay<T>(out T component) where T : class?
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);
+        
+        foreach (var hit2D in hits)
+        {
+            if (hit2D.collider.gameObject.TryGetComponent(out T hi))
+            {
+                component = hit2D.collider.gameObject.GetComponent<T>();
+                return true;
+            }
+        }
+
+        component = null;
+        return false;
     }
 }

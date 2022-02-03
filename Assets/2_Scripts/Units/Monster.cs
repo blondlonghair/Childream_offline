@@ -4,20 +4,12 @@ using MonsterSkill;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public enum NextAttackPos
-{
-    None = 0,
-    Left = 1,
-    Middle = 2,
-    Right = 4
-}
-
 public class Monster : Unit
 {
     [SerializeField] protected List<Skill> _skillBuffer = new List<Skill>();
     [SerializeField] protected List<Skill> _useSkills = new List<Skill>();
     
-    public NextAttackPos nextAttackPos = NextAttackPos.None;
+    public FootPos attackPos = FootPos.None;
 
     protected virtual void Start()
     {
@@ -54,5 +46,11 @@ public class Monster : Unit
             int rand = Random.Range(i, _skillBuffer.Count);
             (_skillBuffer[i], _skillBuffer[rand]) = (_skillBuffer[rand], _skillBuffer[i]);
         }
+    }
+
+    public virtual void ShowAttackPos()
+    {
+        int nextAttackPos = _skillBuffer[0].id;
+        // 다음 공격할곳 보여주기
     }
 }

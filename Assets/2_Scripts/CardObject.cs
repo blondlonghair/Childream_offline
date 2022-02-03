@@ -6,6 +6,7 @@ using TMPro;
 public class CardObject : MonoBehaviour
 {
     public PRS originRPS;
+    public Card originCard;
 
     [Header("카드 정보")] 
     public int id;
@@ -24,6 +25,8 @@ public class CardObject : MonoBehaviour
     
     public void Setup(Card card)
     {
+        originCard = card;
+        
         id = card.id;
         cardName = card.name;
         cost = card.cost;
@@ -63,5 +66,30 @@ public class CardObject : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    public void CardZoomIn()
+    {
+        OrderInLayer(100);
+        transform.localScale = new Vector3(2, 2, 2);
+        transform.position = new Vector3(transform.position.x, -5, -9);
+        transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
+
+    public void CardZoomOut()
+    {
+        OrderInLayer(originRPS.index);
+        transform.localScale = Vector3.one;
+        transform.position = originRPS.pos;
+        transform.rotation = originRPS.rot;
+    }
+    
+    private void OrderInLayer(int index)
+    {
+        nameText.sortingOrder = index;
+        costText.sortingOrder = index;
+        descText.sortingOrder = index;
+        CardImage.sortingOrder = index - 1;
+        CardImageBG.sortingOrder = index - 1;
     }
 }

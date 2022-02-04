@@ -22,6 +22,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     private GameState _gameState = GameState.GameStart;
     private Vector3 _mousePos;
     private CardObject _cardObject;
+    private int _curMonster;
 
     public Player player;
     public List<Monster> monsters = new List<Monster>();
@@ -83,25 +84,23 @@ public class GameManager : SingletonMonoDestroy<GameManager>
         _gameState = GameState.EnemyTurn;
     }
 
-    private int t;
-    
     private void OnEnemyTurn()
     {
         attackTime += Time.deltaTime;
         
         if (attackTime > attackInterval)
         {
-            if (t < monsters.Count)
+            if (_curMonster < monsters.Count)
             {
-                monsters[t].Attack();
-                t++;
+                monsters[_curMonster].Attack();
+                _curMonster++;
                 attackTime = 0;
             }
             
             else
             {
                 _gameState = GameState.PlayerTurnStart;
-                t = 0;
+                _curMonster = 0;
             }
         }
     }
@@ -140,13 +139,25 @@ public class GameManager : SingletonMonoDestroy<GameManager>
             }
         }
 
+        //카드 효과 발동
         if (Input.GetMouseButtonUp(0))
         {
-            if (TryCastRay(out Monster monster))
+            if (_cardObject.originCard.type == Card.CardType.One)
             {
-                _cardObject.originCard.Effect(player, monster);
-                Destroy(_cardObject.gameObject);
+                if (TryCastRay(out Monster monster))
+                {
+                    _cardObject.originCard.Effect(player, monster);
+                    _cardObject.Destroy();
+                }
             }
+
+            else
+            {
+                _cardObject.originCard.Effect(player, null);
+                _cardObject.Destroy();
+            }
+            
+            CardManager.Instance.CardAlignment();
         }
     }
 

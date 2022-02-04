@@ -17,9 +17,10 @@ public class Monster : Unit
         SetupCard();
     }
 
-    protected virtual void OnDestroy()
+    public virtual void Destroy()
     {
         GameManager.Instance.monsters.Remove(this);
+        Destroy(gameObject);
     }
 
     public virtual void Attack()

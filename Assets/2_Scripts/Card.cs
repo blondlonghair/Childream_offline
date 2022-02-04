@@ -2,8 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[Serializable]
 public class Card
 {
+    public enum CardType
+    {
+        None = 0,
+        One = 1,
+        All = 2
+    }
     public int id;
     public string name;
     public int cost;
@@ -11,6 +18,7 @@ public class Card
     public string desc;
 
     public bool isUpgrade;
+    public CardType type;
 
     public virtual void Effect(Player caster, Monster target)
     {
@@ -34,6 +42,7 @@ namespace Cards
             cost = 1;
             power = 6;
             desc = $"피해를 {power} 줍니다.";
+            type = CardType.One;
         }
 
         public override void Effect(Player caster, Monster target)
@@ -62,6 +71,7 @@ namespace Cards
             cost = 2;
             power = 8;
             desc = $"피해를 {power} 줍니다.\n취약을 {_weakness} 부여합니다.";
+            type = CardType.One;
         }
 
         public override void Effect(Player caster, Monster target)
@@ -92,6 +102,7 @@ namespace Cards
             cost = 1;
             power = 9;
             desc = $"피해를 {power} 줍니다.\n카드를 {_drawCard}장 뽑습니다.";
+            type = CardType.One;
         }
 
         public override void Effect(Player caster, Monster target)
@@ -120,6 +131,7 @@ namespace Cards
             cost = 1;
             power = 5;
             desc = $"방어도를 {power} 얻습니다.";
+            type = CardType.None;
         }
 
         public override void Effect(Player caster, Monster target)
@@ -148,6 +160,7 @@ namespace Cards
             cost = 1;
             power = 8;
             desc = $"방어도를 {power} 얻습니다.\n카드를 {_drawCard}장 뽑습니다.";
+            type = CardType.None;
         }
 
         public override void Effect(Player caster, Monster target)
@@ -175,6 +188,7 @@ namespace Cards
             cost = 2;
             power = 2;
             desc = $"방어도가 {power}배로 증가합니다.";
+            type = CardType.None;
         }
 
         public override void Effect(Player caster, Monster target)

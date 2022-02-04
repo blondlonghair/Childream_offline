@@ -14,7 +14,7 @@ public class CardObject : MonoBehaviour
     public int cost;
     [TextArea(5, 10)] public string cardDesc;
     public Sprite cardImage;
-    public Sprite cardImageBG;
+    public Sprite cardBG;
 
     [Header("카드 요소")] 
     [SerializeField] TextMeshPro nameText;
@@ -32,13 +32,13 @@ public class CardObject : MonoBehaviour
         cost = card.cost;
         cardDesc = card.desc;
         // cardImage = card.cardImage;
-        // cardImageBG = card.cardImageBG;
+        // cardBG = card.cardImageBG;
 
         nameText.text = cardName;
         costText.text = cost.ToString();
         descText.text = cardDesc;
         // CardImage.sprite = cardImage;
-        // CardImageBG.sprite = cardImageBG;
+        // CardBG.sprite = cardImageBG;
     }
 
     private void OnEnable()
@@ -46,9 +46,10 @@ public class CardObject : MonoBehaviour
         CardManager.Instance.cards.Add(this);
     }
 
-    private void OnDestroy()
+    public void Destroy()
     {
         CardManager.Instance.cards.Remove(this);
+        Destroy(gameObject);
     }
 
     public void Alignment()
@@ -58,8 +59,11 @@ public class CardObject : MonoBehaviour
 
     private IEnumerator Co_Alignment()
     {
-        while (!Mathf.Approximately(transform.position.x, originRPS.pos.x))
+        while (!(Mathf.Approximately(transform.position.x, originRPS.pos.x) && 
+               Mathf.Approximately(transform.rotation.z, originRPS.rot.z) && 
+               Mathf.Approximately(transform.localScale.x, originRPS.scale.x)))
         {
+            print($"{gameObject.name} Lerping");
             transform.position = Vector3.Lerp(transform.position, originRPS.pos, 0.2f);
             transform.rotation = Quaternion.Lerp(transform.rotation, originRPS.rot, 0.2f);
             transform.localScale = Vector3.Lerp(transform.localScale, Vector3.one, 0.2f);

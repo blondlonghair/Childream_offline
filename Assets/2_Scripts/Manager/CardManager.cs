@@ -21,7 +21,7 @@ public class PRS
 public class CardManager : SingletonMonoDestroy<CardManager>
 {
     public List<CardObject> cards;
-    public List<Card> deck = new List<Card>();
+    public List<Card> deck;
 
     [Header("카드 덱 위치")]
     [SerializeField] private Transform cardLeft;
@@ -120,15 +120,9 @@ public class CardManager : SingletonMonoDestroy<CardManager>
         //카드 로테이션
         switch (objCount)
         {
-            case 1:
-                objLerps = new float[] {0.5f};
-                break;
-            case 2:
-                objLerps = new float[] {0.27f, 0.73f};
-                break;
-            case 3:
-                objLerps = new float[] {0.1f, 0.5f, 0.9f};
-                break;
+            case 1: objLerps = new float[] {0.5f}; break;
+            case 2: objLerps = new float[] {0.27f, 0.73f}; break;
+            case 3: objLerps = new float[] {0.1f, 0.5f, 0.9f}; break;
             default:
                 float interval = 1f / (objCount - 1);
                 for (int i = 0; i < objCount; i++)

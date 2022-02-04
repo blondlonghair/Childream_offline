@@ -1273,6 +1273,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cards: []
+  deck: []
   cardLeft: {fileID: 1642539423}
   cardRight: {fileID: 1734523953}
   drawPos: {fileID: 595720895}
@@ -1653,8 +1654,8 @@ MonoBehaviour:
   agility: 0
   weakness: 0
   thorn: 0
-  curMp: 0
-  maxMp: 0
+  maxMp: 3
+  curMp: 3
   curPos: 2
 --- !u!4 &3034880521185422118 stripped
 Transform:

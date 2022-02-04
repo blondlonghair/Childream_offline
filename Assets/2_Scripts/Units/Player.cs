@@ -13,8 +13,8 @@ public enum FootPos
 public class Player : Unit
 {
     [Header("Mp")]
-    public int curMp;
     public int maxMp;
+    public int curMp;
 
     [Header("Position")] public FootPos curPos = FootPos.Middle;
 

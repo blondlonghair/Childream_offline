@@ -20,9 +20,11 @@ public class Card
     public bool isUpgrade;
     public CardType type;
 
-    public virtual void Effect(Player caster, Monster target)
+    public virtual void Effect(Player caster, params Monster[] target)
     {
         caster.curMp -= cost;
+        
+        EffectManager.Instance.InitEffect("Attack1", target[0].transform);
     }
 
     public virtual void Upgrade()
@@ -45,9 +47,9 @@ namespace Cards
             type = CardType.One;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
-            target.curHp -= power;
+            target[0].curHp -= power;
             
             base.Effect(caster, target);
         }
@@ -74,10 +76,10 @@ namespace Cards
             type = CardType.One;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
-            target.curHp -= power;
-            target.weakness += _weakness;
+            target[0].curHp -= power;
+            target[0].weakness += _weakness;
             
             base.Effect(caster, target);
         }
@@ -105,9 +107,9 @@ namespace Cards
             type = CardType.One;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
-            target.curHp -= power;
+            target[0].curHp -= power;
             CardManager.Instance.DrawCard();
             
             base.Effect(caster, target);
@@ -134,7 +136,7 @@ namespace Cards
             type = CardType.None;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
             caster.armor += power;
             
@@ -163,7 +165,7 @@ namespace Cards
             type = CardType.None;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
             caster.armor += power;
             CardManager.Instance.DrawCard();
@@ -191,7 +193,7 @@ namespace Cards
             type = CardType.None;
         }
 
-        public override void Effect(Player caster, Monster target)
+        public override void Effect(Player caster, params Monster[] target)
         {
             caster.armor *= power;
             

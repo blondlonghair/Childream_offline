@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mail;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class GameManager : SingletonMonoDestroy<GameManager>
+public class GameManager : SingletonMono<GameManager>
 {
     enum GameState
     {
@@ -19,10 +21,11 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     //내부
     private int _curStage;
     private int _curTurn;
-    private GameState _gameState = GameState.GameStart;
+    [SerializeField] private GameState _gameState = GameState.GameStart;
     private Vector3 _mousePos;
     private CardObject _cardObject;
     private int _curMonster;
+    private Coroutine _stateRoutine;
 
     public Player player;
     public List<Monster> monsters = new List<Monster>();
@@ -30,10 +33,21 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     //외부
     [SerializeField] private float attackTime;
     [SerializeField] private float attackInterval;
+    [SerializeField] private Image statePanel;
+    [SerializeField] private MonsterHpBar monsterHpBar;
+    [SerializeField] private GameObject canvas;
 
     private void Start()
     {
         GameObject.FindWithTag("Player").TryGetComponent(out player);
+
+        foreach (var monster in monsters)
+        {
+            var monsterTransform = monster.transform;
+            MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up * 2,
+                quaternion.identity, canvas.transform);
+            monster.hpBar = hpBar;
+        }
     }
 
     private void Update()
@@ -55,7 +69,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
 
     private void OnGameStart()
     {
-        _gameState = GameState.PlayerTurnStart;
+        ChangeState(GameState.PlayerTurnStart);
     }
 
     private void OnPlayerTurnStart()
@@ -72,7 +86,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
 
         player.curMp = player.maxMp;
 
-        _gameState = GameState.PlayerTurn;
+        ChangeState(GameState.PlayerTurn);
     }
     
     private void OnPlayerTurn()
@@ -81,7 +95,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
 
     private void OnEnemyTurnStart()
     {
-        _gameState = GameState.EnemyTurn;
+        ChangeState(GameState.EnemyTurn);
     }
 
     private void OnEnemyTurn()
@@ -94,14 +108,15 @@ public class GameManager : SingletonMonoDestroy<GameManager>
             {
                 monsters[_curMonster].Attack();
                 _curMonster++;
-                attackTime = 0;
             }
             
             else
             {
-                _gameState = GameState.PlayerTurnStart;
+                ChangeState(GameState.PlayerTurnStart);
                 _curMonster = 0;
             }
+
+            attackTime = 0;
         }
     }
 
@@ -109,6 +124,41 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     {
     }
 
+    private void ChangeState(GameState gameState)
+    {
+        if (_stateRoutine != null)
+        {
+            StopCoroutine(_stateRoutine);
+            _gameState = gameState;
+        }
+
+        _stateRoutine = StartCoroutine(Co_ChangeState(gameState));
+    }
+
+    private IEnumerator Co_ChangeState(GameState gameState)
+    {
+        Color statePanelColor = statePanel.color;
+            
+        while (statePanelColor.a < 1)
+        {
+            statePanelColor.a += 0.02f;
+            statePanel.color = statePanelColor;
+
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+
+        while (statePanelColor.a > 0)
+        {
+            statePanelColor.a -= 0.02f;
+            statePanel.color = statePanelColor;
+
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+
+        _gameState = gameState;
+        yield return null;
+    }
+    
     private void MouseInput()
     {
         if (Input.GetMouseButton(0))
@@ -156,7 +206,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
                 _cardObject.originCard.Effect(player, null);
                 _cardObject.Destroy();
             }
-            
+
             CardManager.Instance.CardAlignment();
         }
     }
@@ -165,7 +215,7 @@ public class GameManager : SingletonMonoDestroy<GameManager>
     {
         if (_gameState == GameState.PlayerTurn)
         {
-            _gameState = GameState.EnemyTurnStart;
+            ChangeState(GameState.EnemyTurnStart);
         }
     }
 

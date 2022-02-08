@@ -2,23 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PRS
-{
-    public Vector3 pos;
-    public Quaternion rot;
-    public Vector3 scale;
-    public int index;
-
-    public PRS(Vector3 pos, Quaternion rot, Vector3 scale, int index)
-    {
-        this.pos = pos;
-        this.rot = rot;
-        this.scale = scale;
-        this.index = index;
-    }
-}
-
-public class CardManager : SingletonMonoDestroy<CardManager>
+public class CardManager : SingletonMono<CardManager>
 {
     public List<CardObject> cards;
     public List<Card> deck;

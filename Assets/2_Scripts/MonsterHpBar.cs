@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class MonsterHpBar : MonoBehaviour
@@ -6,26 +7,30 @@ public class MonsterHpBar : MonoBehaviour
     [SerializeField] private Image back;
     [SerializeField] private Image front;
 
-    private float backValue;
-    private float frontValue;
+    private float _backValue;
+    private float _frontValue;
 
-    public float Back
+    public float Value
     {
-        get => backValue;
+        get => _frontValue;
         set 
         { 
-            back.fillAmount = value;
-            backValue = value;
+            front.fillAmount = value;
+            _frontValue = value;
         }
     }
 
-    public float Front
+    public void Lerp()
     {
-        get => frontValue;
-        set
+        StartCoroutine(Co_Lerp());
+    }
+
+    private IEnumerator Co_Lerp()
+    {
+        while (Mathf.Approximately(back.fillAmount, front.fillAmount))
         {
-            front.fillAmount = value;
-            frontValue = value;
+            back.fillAmount = Mathf.Lerp(back.fillAmount, _frontValue, 0.5f);
+            yield return YieldCache.WaitForSeconds(0.01f);
         }
     }
 }

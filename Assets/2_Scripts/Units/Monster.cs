@@ -10,8 +10,6 @@ public class Monster : Unit
     [SerializeField] protected List<Skill> skillBuffer = new List<Skill>();
     [SerializeField] protected List<Skill> useSkills = new List<Skill>();
     
-    public FootPos attackPos = FootPos.None;
-
     public MonsterHpBar hpBar;
 
     protected virtual void Start()

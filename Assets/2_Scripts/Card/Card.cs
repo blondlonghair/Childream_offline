@@ -28,6 +28,11 @@ public class Card
     {
         caster.curMp -= cost;
 
+        foreach (var monster in target)
+        {
+            monster.GetHit();
+        }
+        
         EffectManager.Instance.InitEffect(this.GetType().Name, target[0].transform);
     }
 
@@ -330,7 +335,7 @@ namespace Cards
         {
             foreach (var card in CardManager.Instance.cards)
             {
-                card.Destroy();
+                CardManager.Instance.DestroyCard(card);
             }
 
             target[0].curHp -= power;
@@ -457,7 +462,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             caster.armor += power;
-            CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)].Destroy();
+            CardManager.Instance.DestroyCard(CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
             
             base.Effect(caster, target);
         }
@@ -508,7 +513,7 @@ namespace Cards
             
             foreach (var card in CardManager.Instance.cards)
             {
-                card.Destroy();
+                CardManager.Instance.DestroyCard(card);
             }
             
             base.Effect(caster, target);
@@ -679,7 +684,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)].Destroy();
+            CardManager.Instance.DestroyCard(CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
             
             CardManager.Instance.DrawCard();
             CardManager.Instance.DrawCard();

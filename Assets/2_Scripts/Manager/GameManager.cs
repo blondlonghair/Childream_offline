@@ -197,14 +197,14 @@ public class GameManager : SingletonMono<GameManager>
                 if (TryCastRay(out Monster monster))
                 {
                     _cardObject.originCard.Effect(player, monster);
-                    _cardObject.Destroy();
+                    CardManager.Instance.DestroyCard(_cardObject);
                 }
             }
 
             else
             {
-                _cardObject.originCard.Effect(player, null);
-                _cardObject.Destroy();
+                _cardObject.originCard.Effect(player, monsters.ToArray());
+                CardManager.Instance.DestroyCard(_cardObject);
             }
 
             CardManager.Instance.CardAlignment();

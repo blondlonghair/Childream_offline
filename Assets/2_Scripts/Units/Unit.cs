@@ -13,10 +13,10 @@ public class Unit : MonoBehaviour
     public int armor;
     
     [Header("State")]
-    public int strength = 0; //힘
-    public int agility = 0; //민첩
-    public int vulnerable = 0; //취약
-    public int weakness = 0; //약화
+    public int strength = 0;    //힘
+    public int agility = 0;     //민첩
+    public int vulnerable = 0;  //취약
+    public int weakness = 0;    //약화
 
     private Coroutine _coroutine;
 

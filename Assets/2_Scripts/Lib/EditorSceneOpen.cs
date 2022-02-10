@@ -8,12 +8,18 @@ using UnityEditor.SceneManagement;
 
 public class EditorSceneOpen
 {
-    [MenuItem("Scenes/1.IngameScene")]
-    public static void OpenScene_Title()
+    [MenuItem("Scenes/1.MapScene")]
+    public static void OpenScene_Map()
+    {
+        OpenScene("Assets/1_Scenes/Map.unity");
+    }
+    
+    [MenuItem("Scenes/2.IngameScene")]
+    public static void OpenScene_Ingame()
     {
         OpenScene("Assets/1_Scenes/Ingame.unity");
     }
-    
+
     public static void OpenScene(string scenepath)
     {
         if(EditorSceneManager.GetActiveScene().isDirty == true)

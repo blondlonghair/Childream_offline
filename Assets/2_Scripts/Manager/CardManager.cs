@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,9 +11,8 @@ public class CardManager : SingletonMono<CardManager>
     [Header("카드 덱 위치")]
     [SerializeField] private Transform cardLeft;
     [SerializeField] private Transform cardRight;
-
-    [Header("카드 드로우 위치")]
     [SerializeField] private Transform drawPos;
+    [SerializeField] public Transform destroyPos;
 
     [Header("max카드 수")]
     [SerializeField] private int maxCard = 7;
@@ -32,9 +32,30 @@ public class CardManager : SingletonMono<CardManager>
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());
-        deck.Add(new Cards.Defend());
+        deck.Add(new Cards.Move());
 
         SetupCard();
+    }
+
+    public void DestroyCard(CardObject cardObject)
+    {
+        StartCoroutine(Co_DestroyCard(cardObject.gameObject));
+        
+        Destroy(cardObject);
+    }
+
+    private IEnumerator Co_DestroyCard(GameObject cardObject)
+    {
+        while (!Helper.Approximately(cardObject.transform, destroyPos))
+        {
+            cardObject.transform.position = Vector3.Slerp(cardObject.transform.position, destroyPos.position, 0.2f);
+            // cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+        
+        print("destroy");
+        Destroy(gameObject);
+        yield return null;
     }
 
     //카드 뽑기
@@ -65,7 +86,7 @@ public class CardManager : SingletonMono<CardManager>
     }
 
     //카드 뽑을때 카드 댁 랜덤 셔플
-    void SetupCard()
+    private void SetupCard()
     {
         for (int i = 0; i < deck.Count; i++)
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
 
@@ -48,17 +49,53 @@ public class CardObject : MonoBehaviour
         CardManager.Instance.cards.Add(this);
     }
 
-    public void Destroy()
-    {
-        CardManager.Instance.cards.Remove(this);
-        Destroy(gameObject);
-    }
+    // public void Destroy()
+    // {
+    //     if (_coroutine != null)
+    //     {
+    //         StopCoroutine(_coroutine);
+    //     }
+    //
+    //     // await AsyncDestroy();
+    //
+    //     _coroutine = StartCoroutine(Co_Destroy());
+    //     CardManager.Instance.cards.Remove(this);
+    // }
+
+    // private async Task AsyncDestroy()
+    // {
+    //     while (!Helper.Approximately(transform, CardManager.Instance.destroyPos))
+    //     {
+    //         transform.position =
+    //             Vector3.Lerp(transform.position, CardManager.Instance.destroyPos.position, Time.deltaTime);
+    //     }
+    //     
+    //     Destroy(gameObject);
+    // }
 
     public void Alignment()
     {
+        if (_coroutine != null)
+        {
+            StopCoroutine(_coroutine);
+        }
+        
         _coroutine = StartCoroutine(Co_Alignment());
         OrderInLayer(originRPS.index);
     }
+
+    // private IEnumerator Co_Destroy()
+    // {
+    //     while (!Helper.Approximately(transform, CardManager.Instance.destroyPos))
+    //     {
+    //         transform.position =
+    //             Vector3.Lerp(transform.position, CardManager.Instance.destroyPos.position, 0.2f);
+    //         yield return YieldCache.WaitForSeconds(0.01f);
+    //     }
+    //     
+    //     Destroy(gameObject);
+    //     yield return null;
+    // }
 
     private IEnumerator Co_Alignment()
     {

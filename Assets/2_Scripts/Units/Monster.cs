@@ -38,6 +38,18 @@ public class Monster : Unit
         base.Attack();
     }
 
+    public override void GetHit()
+    {
+        hpBar.Value = curHp / maxHp;
+
+        if (curHp <= 0)
+        {
+            Destroy();
+        }
+        
+        base.GetHit();
+    }
+
     protected override IEnumerator Co_Attack()
     {
         print("Attack");

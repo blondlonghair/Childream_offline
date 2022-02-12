@@ -8,13 +8,25 @@ using UnityEditor.SceneManagement;
 
 public class EditorSceneOpen
 {
-    [MenuItem("Scenes/1.MapScene")]
+    [MenuItem("Scenes/1.IntroScene")]
+    public static void OpenScene_Intro()
+    {
+        OpenScene("Assets/1_Scenes/Intro.unity");
+    }
+    
+    [MenuItem("Scenes/2.LobbyScene")]
+    public static void OpenScene_Lobby()
+    {
+        OpenScene("Assets/1_Scenes/Lobby.unity");
+    }
+    
+    [MenuItem("Scenes/3.MapScene")]
     public static void OpenScene_Map()
     {
         OpenScene("Assets/1_Scenes/Map.unity");
     }
     
-    [MenuItem("Scenes/2.IngameScene")]
+    [MenuItem("Scenes/4.IngameScene")]
     public static void OpenScene_Ingame()
     {
         OpenScene("Assets/1_Scenes/Ingame.unity");

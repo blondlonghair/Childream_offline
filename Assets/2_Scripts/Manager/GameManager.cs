@@ -23,6 +23,12 @@ public class GameManager : SingletonMono<GameManager>
     //내부
     private int _curStage;
     private int _curTurn;
+    private int _saveCurHp;
+    private int _saveMaxHp;
+    private int _saveCurMp;
+    private int _saveMaxMp;
+    
+    
     [SerializeField] private GameState _gameState = GameState.GameStart;
     private Vector3 _mousePos;
     private CardObject _cardObject;
@@ -153,11 +159,17 @@ public class GameManager : SingletonMono<GameManager>
             monster.Weakness -= 1;
         }
 
+        player.stateBar.HpLerp();
+
         ChangeState(GameState.PlayerTurnStart);
     }
 
     private void OnGameEnd()
     {
+        _saveCurHp = player.curHp;
+        _saveMaxHp = player.maxHp;
+        _saveCurMp = player.curMp;
+        _saveMaxMp = player.maxMp;
     }
 
     private void ChangeState(GameState gameState)
@@ -225,22 +237,6 @@ public class GameManager : SingletonMono<GameManager>
                 _cardObject?.CardZoomOut();
                 _cardObject = null;
             }
-            
-            // if (TryCastRay(out CardObject cardObj))
-            // {
-            //     if (cardObj != _cardObject && _cardObject != null)
-            //     {
-            //         _cardObject.CardZoomOut();
-            //     }
-            //
-            //     _cardObject = cardObj;
-            //     _cardObject.CardZoomIn();
-            // }
-            //
-            // else if (_cardObject != null)
-            // {
-            //     _cardObject.CardZoomOut();
-            // }
         }
 
         //카드 효과 발동

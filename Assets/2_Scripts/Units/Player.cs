@@ -19,6 +19,8 @@ public class Player : Unit
 
     [Header("Position")] public FootPos curPos = FootPos.Middle;
 
+    public PlayerStateBar stateBar;
+
     public void Move(FootPos footPos)
     {
         switch (footPos)

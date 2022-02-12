@@ -15,7 +15,7 @@ namespace MonsterSkill
 
         public virtual void Effect(Monster caster, Player target)
         {
-            
+            target.stateBar.HpValue = (float)target.curHp / (float)target.maxHp;
         }
     }
 

@@ -37,6 +37,12 @@ public class EditorSceneOpen
     {
         OpenScene("Assets/1_Scenes/Ingame.unity");
     }
+    
+    [MenuItem("Scenes/Stage/Stage2")]
+    public static void OpenScene_Stage2()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage2.unity");
+    }
 
     public static void OpenScene(string scenepath)
     {

@@ -48,9 +48,7 @@ public class CardManager : SingletonMono<CardManager>
     private IEnumerator Co_DestroyCard(GameObject cardObject)
     {
         while (!Mathf.Approximately(cardObject.transform.position.x, destroyPos.position.x))
-        // while (!Helper.Approximately(cardObject.transform, destroyPos))
         {
-            // cardObject.transform.position = Vector3.Slerp(cardObject.transform.position, destroyPos.position, 0.2f);
             cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }

@@ -28,12 +28,15 @@ public class Card
     {
         caster.curMp -= cost;
 
-        foreach (var monster in target)
+        if (target != null)
         {
-            monster.GetHit();
+            foreach (var monster in target)
+            {
+                monster.GetHit();
+            }
+
+            EffectManager.Instance.InitEffect(this.GetType().Name, target[0]?.transform);
         }
-        
-        EffectManager.Instance.InitEffect(this.GetType().Name, target[0].transform);
     }
 
     public virtual void Upgrade()
@@ -88,7 +91,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].curHp -= power;
-            target[0].weakness += _weakness;
+            target[0].Weakness += _weakness;
             
             base.Effect(caster, target);
         }
@@ -183,7 +186,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power + caster.strength * _powerUp;
+            target[0].curHp -= power + caster.Strength * _powerUp;
             
             base.Effect(caster, target);
         }
@@ -262,7 +265,7 @@ namespace Cards
             foreach (var monster in target)
             {
                 monster.curHp -= power;
-                monster.vulnerable -= _vulnerable;
+                monster.Vulnerable -= _vulnerable;
             }
             
             base.Effect(caster, target);
@@ -307,7 +310,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            if (target[0].vulnerable > 0)
+            if (target[0].Vulnerable > 0)
             {
                 caster.curMp += _energy;
                 CardManager.Instance.DrawCard();
@@ -362,8 +365,8 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].curHp -= power;
-            target[0].vulnerable += _vulnerable;
-            target[0].weakness += _weakness;
+            target[0].Vulnerable += _vulnerable;
+            target[0].Weakness += _weakness;
             
             base.Effect(caster, target);
         }
@@ -575,7 +578,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].strength -= 2;
+            target[0].Strength -= 2;
             
             base.Effect(caster, target);
         }
@@ -597,7 +600,7 @@ namespace Cards
         {
             foreach (var monster in target)
             {
-                monster.weakness += 1;
+                monster.Weakness += 1;
             }
             
             base.Effect(caster, target);
@@ -618,7 +621,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            caster.strength *= power;
+            caster.Strength *= power;
             
             base.Effect(caster, target);
         }
@@ -664,7 +667,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            caster.strength *= power;
+            caster.Strength *= power;
             
             base.Effect(caster, target);
         }
@@ -727,7 +730,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].vulnerable += power;
+            target[0].Vulnerable += power;
             
             base.Effect(caster, target);
         }
@@ -747,7 +750,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].weakness += power;
+            target[0].Weakness += power;
             
             base.Effect(caster, target);
         }

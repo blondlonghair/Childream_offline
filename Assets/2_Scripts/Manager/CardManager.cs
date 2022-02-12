@@ -15,7 +15,7 @@ public class CardManager : SingletonMono<CardManager>
     [SerializeField] public Transform destroyPos;
 
     [Header("max카드 수")]
-    [SerializeField] private int maxCard = 7;
+    [SerializeField] private int maxCard = 9;
 
     [Header("프리팹")]
     [SerializeField] private GameObject cardPrefab;
@@ -41,20 +41,21 @@ public class CardManager : SingletonMono<CardManager>
     {
         StartCoroutine(Co_DestroyCard(cardObject.gameObject));
         
+        cards.Remove(cardObject);
         Destroy(cardObject);
     }
 
     private IEnumerator Co_DestroyCard(GameObject cardObject)
     {
-        while (!Helper.Approximately(cardObject.transform, destroyPos))
+        while (!Mathf.Approximately(cardObject.transform.position.x, destroyPos.position.x))
+        // while (!Helper.Approximately(cardObject.transform, destroyPos))
         {
-            cardObject.transform.position = Vector3.Slerp(cardObject.transform.position, destroyPos.position, 0.2f);
-            // cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
+            // cardObject.transform.position = Vector3.Slerp(cardObject.transform.position, destroyPos.position, 0.2f);
+            cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
         
-        print("destroy");
-        Destroy(gameObject);
+        Destroy(cardObject);
         yield return null;
     }
 

@@ -11,12 +11,35 @@ public class Unit : MonoBehaviour
     public int maxHp;
     public int curHp;
     public int armor;
+
+    [SerializeField] private int strength;
+    [SerializeField] private int agility;
+    [SerializeField] private int vulnerable;
+    [SerializeField] private int weakness;
     
-    [Header("State")]
-    public int strength = 0;    //힘
-    public int agility = 0;     //민첩
-    public int vulnerable = 0;  //취약
-    public int weakness = 0;    //약화
+    public int Strength
+    {
+        get => strength;
+        set => strength = value < strength ? 0 : value;
+    }//힘
+
+    public int Agility
+    {
+        get => agility;
+        set => agility = value < agility ? 0 : value;
+    }//민첩
+
+    public int Vulnerable
+    {
+        get => vulnerable;
+        set => vulnerable = value < vulnerable ? 0 : value;
+    }//취약
+
+    public int Weakness
+    {
+        get => weakness;
+        set => weakness = value < weakness ? 0 : value;
+    }//약화
 
     private Coroutine _coroutine;
 

@@ -13,8 +13,10 @@ public class GameManager : SingletonMono<GameManager>
         GameStart,
         PlayerTurnStart,
         PlayerTurn,
+        PlayerTurnEnd,
         EnemyTurnStart,
         EnemyTurn,
+        EnemyTurnEnd,
         GameEnd
     }
 
@@ -53,16 +55,21 @@ public class GameManager : SingletonMono<GameManager>
     private void Update()
     {
         MouseInput();
-        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _mousePos.z = 0;
+
+        if (monsters.Count <= 0)
+        {
+            
+        }
 
         switch (_gameState)
         {
             case GameState.GameStart: OnGameStart(); break;
             case GameState.PlayerTurnStart: OnPlayerTurnStart(); break;
             case GameState.PlayerTurn: OnPlayerTurn(); break;
+            case GameState.PlayerTurnEnd: OnPlayerTurnEnd(); break;
             case GameState.EnemyTurnStart: OnEnemyTurnStart(); break;
             case GameState.EnemyTurn: OnEnemyTurn(); break;
+            case GameState.EnemyTurnEnd: OnEnemyTurnEnd(); break;
             case GameState.GameEnd: OnGameEnd(); break;
         }
     }
@@ -79,7 +86,7 @@ public class GameManager : SingletonMono<GameManager>
             // monster.ShowAttackPos();
         }
 
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
             CardManager.Instance.DrawCard();
         }
@@ -91,6 +98,21 @@ public class GameManager : SingletonMono<GameManager>
     
     private void OnPlayerTurn()
     {
+    }
+    
+    private void OnPlayerTurnEnd()
+    {
+        foreach (var monster in monsters)
+        {
+            monster.hpBar.Lerp();
+        }
+
+        foreach (var card in CardManager.Instance.cards)
+        {
+            CardManager.Instance.DestroyCard(card);
+        }
+        
+        ChangeState(GameState.EnemyTurnStart);
     }
 
     private void OnEnemyTurnStart()
@@ -112,12 +134,26 @@ public class GameManager : SingletonMono<GameManager>
             
             else
             {
-                ChangeState(GameState.PlayerTurnStart);
+                ChangeState(GameState.EnemyTurnEnd);
                 _curMonster = 0;
             }
 
             attackTime = 0;
         }
+    }
+
+    private void OnEnemyTurnEnd()
+    {
+        player.Vulnerable -= 1;
+        player.Weakness -= 1;
+
+        foreach (var monster in monsters)
+        {
+            monster.Vulnerable -= 1;
+            monster.Weakness -= 1;
+        }
+
+        ChangeState(GameState.PlayerTurnStart);
     }
 
     private void OnGameEnd()
@@ -161,11 +197,14 @@ public class GameManager : SingletonMono<GameManager>
     
     private void MouseInput()
     {
+        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _mousePos.z = 0;
+        
         if (Input.GetMouseButton(0))
         {
             if (TryCastRay(out CardObject cardObj))
             {
-                cardObj.CardZoomOut();
+                // cardObj.CardZoomOut();
                 cardObj.transform.position = _mousePos;
             }
         }
@@ -174,19 +213,34 @@ public class GameManager : SingletonMono<GameManager>
         {
             if (TryCastRay(out CardObject cardObj))
             {
-                if (cardObj != _cardObject && _cardObject != null)
+                if (_cardObject != cardObj)
                 {
-                    _cardObject.CardZoomOut();
+                    _cardObject?.CardZoomOut();
+                    _cardObject = cardObj;
+                    _cardObject?.CardZoomIn();
                 }
-
-                _cardObject = cardObj;
-                _cardObject.CardZoomIn();
             }
-
-            else if (_cardObject != null)
+            else
             {
-                _cardObject.CardZoomOut();
+                _cardObject?.CardZoomOut();
+                _cardObject = null;
             }
+            
+            // if (TryCastRay(out CardObject cardObj))
+            // {
+            //     if (cardObj != _cardObject && _cardObject != null)
+            //     {
+            //         _cardObject.CardZoomOut();
+            //     }
+            //
+            //     _cardObject = cardObj;
+            //     _cardObject.CardZoomIn();
+            // }
+            //
+            // else if (_cardObject != null)
+            // {
+            //     _cardObject.CardZoomOut();
+            // }
         }
 
         //카드 효과 발동
@@ -197,14 +251,26 @@ public class GameManager : SingletonMono<GameManager>
                 if (TryCastRay(out Monster monster))
                 {
                     _cardObject.originCard.Effect(player, monster);
+                    
                     CardManager.Instance.DestroyCard(_cardObject);
+                    _cardObject = null;
                 }
             }
 
             else
             {
-                _cardObject.originCard.Effect(player, monsters.ToArray());
+                if (_cardObject.originCard.type == Card.CardType.All)
+                {
+                    _cardObject.originCard.Effect(player, monsters.ToArray());
+                }
+
+                else if (_cardObject.originCard.type == Card.CardType.None)
+                {
+                    _cardObject.originCard.Effect(player, null);
+                }
+                
                 CardManager.Instance.DestroyCard(_cardObject);
+                _cardObject = null;
             }
 
             CardManager.Instance.CardAlignment();
@@ -215,7 +281,7 @@ public class GameManager : SingletonMono<GameManager>
     {
         if (_gameState == GameState.PlayerTurn)
         {
-            ChangeState(GameState.EnemyTurnStart);
+            ChangeState(GameState.PlayerTurnEnd);
         }
     }
 

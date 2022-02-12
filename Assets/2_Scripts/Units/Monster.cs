@@ -22,6 +22,8 @@ public class Monster : Unit
     public virtual void Destroy()
     {
         GameManager.Instance.monsters.Remove(this);
+        
+        Destroy(hpBar.gameObject);
         Destroy(gameObject);
     }
 
@@ -40,7 +42,7 @@ public class Monster : Unit
 
     public override void GetHit()
     {
-        hpBar.Value = curHp / maxHp;
+        hpBar.Value = (float)curHp / (float)maxHp;
 
         if (curHp <= 0)
         {
@@ -70,27 +72,26 @@ public class Monster : Unit
 
     protected override IEnumerator Co_GetHit()
     {
-        print("GetHit");
         Vector3 originPos = transform.position;
 
         for (int i = 0; i < 2; i++)
         {
-            while (!Mathf.Approximately(transform.position.x, originPos.x - 0.3f))
+            while (!Mathf.Approximately(transform.position.x, originPos.x - 0.5f))
             {
-                transform.position = Vector3.Lerp(transform.position, originPos - Vector3.left * 0.5f, 0.5f);
+                transform.position = Vector3.Lerp(transform.position, originPos + Vector3.left * 0.5f, 0.9f);
                 yield return YieldCache.WaitForSeconds(0.01f);
             }
 
-            while (!Mathf.Approximately(transform.position.x, originPos.x + 0.3f))
+            while (!Mathf.Approximately(transform.position.x, originPos.x + 0.5f))
             {
-                transform.position = Vector3.Lerp(transform.position, originPos - Vector3.right * 0.5f, 0.5f);
+                transform.position = Vector3.Lerp(transform.position, originPos + Vector3.right * 0.5f, 0.9f);
                 yield return YieldCache.WaitForSeconds(0.01f);
             }
         }
 
         while (!Mathf.Approximately(transform.position.x, originPos.x))
         {
-            transform.position = Vector3.Lerp(transform.position, originPos, 0.5f);
+            transform.position = Vector3.Lerp(transform.position, originPos, 0.9f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
     }

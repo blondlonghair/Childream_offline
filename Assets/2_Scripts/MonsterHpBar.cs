@@ -7,8 +7,8 @@ public class MonsterHpBar : MonoBehaviour
     [SerializeField] private Image back;
     [SerializeField] private Image front;
 
-    private float _backValue;
-    private float _frontValue;
+    [SerializeField] private float _backValue = 1;
+    [SerializeField] private float _frontValue = 1;
 
     public float Value
     {
@@ -27,10 +27,10 @@ public class MonsterHpBar : MonoBehaviour
 
     private IEnumerator Co_Lerp()
     {
-        while (Mathf.Approximately(back.fillAmount, front.fillAmount))
+        while (!Mathf.Approximately(back.fillAmount, front.fillAmount))
         {
-            back.fillAmount = Mathf.Lerp(back.fillAmount, _frontValue, 0.5f);
-            yield return YieldCache.WaitForSeconds(0.01f);
+            back.fillAmount = Mathf.Lerp(back.fillAmount, _frontValue, 0.1f);
+            yield return YieldCache.WaitForSeconds(0.02f);
         }
     }
 }

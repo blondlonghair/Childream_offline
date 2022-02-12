@@ -104,7 +104,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster, Player target)
         {
-            caster.strength += power;
+            caster.Strength += power;
             
             base.Effect(caster, target);
         }
@@ -121,7 +121,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster, Player target)
         {
-            caster.agility += power;
+            caster.Agility += power;
             
             base.Effect(caster, target);
         }
@@ -139,7 +139,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster, Player target)
         {
-            target.vulnerable += power;
+            target.Vulnerable += power;
             
             base.Effect(caster, target);
         }
@@ -157,7 +157,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster, Player target)
         {
-            target.weakness += power;
+            target.Weakness += power;
             
             base.Effect(caster, target);
         }

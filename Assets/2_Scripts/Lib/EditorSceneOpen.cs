@@ -20,13 +20,19 @@ public class EditorSceneOpen
         OpenScene("Assets/1_Scenes/Lobby.unity");
     }
     
-    [MenuItem("Scenes/3.MapScene")]
+    [MenuItem("Scenes/3.TutorialScene")]
+    public static void OpenScene_Tutorial()
+    {
+        OpenScene("Assets/1_Scenes/Tutorial.unity");
+    }   
+    
+    [MenuItem("Scenes/4.MapScene")]
     public static void OpenScene_Map()
     {
         OpenScene("Assets/1_Scenes/Map.unity");
     }
     
-    [MenuItem("Scenes/4.IngameScene")]
+    [MenuItem("Scenes/5.IngameScene")]
     public static void OpenScene_Ingame()
     {
         OpenScene("Assets/1_Scenes/Ingame.unity");

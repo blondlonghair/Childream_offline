@@ -12,10 +12,9 @@ namespace MonsterSkill
         public int power;
         public string desc;
         public FootPos attackPos;
-
+        
         public virtual void Effect(Monster caster, Player target)
         {
-            target.stateBar.HpValue = (float)target.curHp / (float)target.maxHp;
         }
     }
 
@@ -32,8 +31,11 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster,  Player target)
         {
-            target.curHp -= power;
-         
+            if (target.curPos == attackPos)
+            {
+                target.CurHp -= power;
+            }
+
             base.Effect(caster, target);
         }
     }
@@ -51,8 +53,11 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster,  Player target)
         {
-            target.curHp -= power;
-         
+            if (target.curPos == attackPos)
+            {
+                target.CurHp -= power;
+            }
+
             base.Effect(caster, target);
         }
     }
@@ -70,7 +75,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster,  Player target)
         {
-            target.curHp -= power;
+            target.CurHp -= power;
             
             base.Effect(caster, target);
         }

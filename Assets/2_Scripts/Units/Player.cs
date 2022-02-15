@@ -8,7 +8,8 @@ public enum FootPos
     None = 0,
     Left = 1 << 0,
     Middle = 1 << 1,
-    Right = 1 << 2
+    Right = 1 << 2,
+    All = 1 << 3
 }
 
 public class Player : Unit
@@ -16,6 +17,46 @@ public class Player : Unit
     [Header("Mp")]
     public int maxMp;
     public int curMp;
+
+    public int CurHp
+    {
+        get => curHp;
+        set
+        {
+            curHp = value;
+            stateBar.HpValue = (float)curHp / (float)maxHp;
+        }
+    }
+
+    public int MaxHp
+    {
+        get => maxHp;
+        set
+        {
+            maxHp = value; 
+            stateBar.HpValue = (float)curHp / (float)maxHp;
+        }
+    }
+    
+    public int CurMp
+    {
+        get => curMp;
+        set
+        {
+            curMp = value; 
+            stateBar.MpValue = (float)curMp / (float)maxMp;
+        }
+    }
+
+    public int MaxMp
+    {
+        get => maxMp;
+        set
+        {
+            maxMp = value; 
+            stateBar.MpValue = (float)curMp / (float)maxMp;
+        }
+    }
 
     [Header("Position")] public FootPos curPos = FootPos.Middle;
 

@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 public class CardManager : SingletonMono<CardManager>
@@ -33,30 +35,18 @@ public class CardManager : SingletonMono<CardManager>
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Move());
+    }
 
+    public void OnChangeScene()
+    {
+        GameObject.Find("CardLeft").TryGetComponent(out cardLeft);
+        GameObject.Find("CardRight").TryGetComponent(out cardRight);
+        GameObject.Find("CardDraw").TryGetComponent(out drawPos);
+        GameObject.Find("CardDestroy").TryGetComponent(out destroyPos);
+        
         SetupCard();
     }
-
-    public void DestroyCard(CardObject cardObject)
-    {
-        StartCoroutine(Co_DestroyCard(cardObject.gameObject));
-        
-        cards.Remove(cardObject);
-        Destroy(cardObject);
-    }
-
-    private IEnumerator Co_DestroyCard(GameObject cardObject)
-    {
-        while (!Mathf.Approximately(cardObject.transform.position.x, destroyPos.position.x))
-        {
-            cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
-            yield return YieldCache.WaitForSeconds(0.01f);
-        }
-        
-        Destroy(cardObject);
-        yield return null;
-    }
-
+    
     //카드 뽑기
     public void DrawCard()
     {
@@ -70,6 +60,52 @@ public class CardManager : SingletonMono<CardManager>
         }
         
         CardAlignment();
+    }
+
+    // 정렬하는 함수
+    public void CardAlignment()
+    {
+        // print("CardAlignment");
+        var originCardRPS = RondAlignment(cardLeft, cardRight, cards.Count, -0.5f, Vector3.one);
+
+        for (var i = 0; i < cards.Count; i++)
+        {
+            var targetCard = cards[i];
+
+            targetCard.originRPS = originCardRPS[i];
+            targetCard.Alignment();
+        }
+    }
+
+    public void DestroyCard(CardObject cardObject)
+    {
+        StartCoroutine(Co_DestroyCard(cardObject.gameObject));
+        
+        cards.Remove(cardObject);
+        Destroy(cardObject);
+    }
+
+    public void ClearBuffer()
+    {
+        cards.Clear();
+        _cardBuffer.Clear();
+    }
+
+    public void AddCard(Card card)
+    {
+        deck.Add(card);
+    }
+
+    private IEnumerator Co_DestroyCard(GameObject cardObject)
+    {
+        while (!Mathf.Approximately(cardObject.transform.position.x, destroyPos.position.x))
+        {
+            cardObject.transform.position = Vector3.Lerp(cardObject.transform.position, destroyPos.position, 0.2f);
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+        
+        Destroy(cardObject);
+        yield return null;
     }
 
     private Card PopCard()
@@ -97,21 +133,6 @@ public class CardManager : SingletonMono<CardManager>
         {
             int rand = Random.Range(i, _cardBuffer.Count);
             (_cardBuffer[i], _cardBuffer[rand]) = (_cardBuffer[rand], _cardBuffer[i]);
-        }
-    }
-
-    // 정렬하는 함수
-    public void CardAlignment()
-    {
-        // print("CardAlignment");
-        var originCardRPS = RondAlignment(cardLeft, cardRight, cards.Count, -0.5f, Vector3.one);
-
-        for (var i = 0; i < cards.Count; i++)
-        {
-            var targetCard = cards[i];
-
-            targetCard.originRPS = originCardRPS[i];
-            targetCard.Alignment();
         }
     }
 

@@ -12,10 +12,10 @@ public class Unit : MonoBehaviour
     public int curHp;
     public int armor;
 
-    [SerializeField] private int strength;
-    [SerializeField] private int agility;
-    [SerializeField] private int vulnerable;
-    [SerializeField] private int weakness;
+    [SerializeField] private int strength;  // 힘     카드로 주는 피해량이 힘 수치만큼 데미지 상승
+    [SerializeField] private int agility;   // 민첩   카드로 얻는 방어도가 민첩 수치만큼 증가
+    [SerializeField] private int vulnerable;// 취약   공격 피해를 입을때 50%의 피해를 추가로 입는다
+    [SerializeField] private int weakness;  // 약화   공격 피해량이 25% 줄어든다
     
     public int Strength
     {

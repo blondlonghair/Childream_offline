@@ -11,6 +11,7 @@ public class Monster : Unit
     [SerializeField] protected List<Skill> useSkills = new List<Skill>();
     
     public MonsterHpBar hpBar;
+    public AtkEffect atkEffect;
 
     protected virtual void Start()
     {
@@ -24,16 +25,12 @@ public class Monster : Unit
         GameManager.Instance.monsters.Remove(this);
         
         Destroy(hpBar.gameObject);
+        Destroy(atkEffect.gameObject);
         Destroy(gameObject);
     }
 
     public override void Attack()
     {
-        if (skillBuffer.Count <= 0)
-        {
-            SetupSkill();
-        }
-        
         skillBuffer[0].Effect(this, GameManager.Instance.player);
         skillBuffer.RemoveAt(0);
         
@@ -57,15 +54,15 @@ public class Monster : Unit
         print("Attack");
         Vector3 originPos = transform.position;
         
-        while (!Mathf.Approximately(transform.position.y, originPos.y - 2))
+        while (transform.position.y > originPos.y - 1.5)
         {
-            transform.position = Vector3.Lerp(transform.position, originPos + Vector3.down * 2, 0.5f);
+            transform.position = Vector3.Lerp(transform.position, originPos + Vector3.down * 2, 0.1f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
         while (!Mathf.Approximately(transform.position.y, originPos.y))
         {
-            transform.position = Vector3.Lerp(transform.position, originPos, 0.5f);
+            transform.position = Vector3.Lerp(transform.position, originPos, 0.1f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
     }
@@ -113,7 +110,18 @@ public class Monster : Unit
     
     public virtual void ShowAttackPos()
     {
-        int nextAttackPos = skillBuffer[0].id;
+        if (skillBuffer.Count <= 0)
+        {
+            SetupSkill();
+        }
+        
+        atkEffect.Effect(skillBuffer[0]);
+        
+        // if (TryGetComponent(out SpriteRenderer spriteRenderer))
+        // {
+            // EffectManager.Instance.MonsterEffect(skillBuffer[0], transform);
+        // }
+        
         // 다음 공격할곳 보여주기
     }
 }

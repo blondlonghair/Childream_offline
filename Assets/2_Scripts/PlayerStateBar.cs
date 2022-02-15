@@ -1,24 +1,31 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerStateBar : MonoBehaviour
 {
+    [Header("HP")]
     [SerializeField] private Image hpBack;
     [SerializeField] private Image hpFront;
+    [SerializeField] private TextMeshProUGUI hpText;
+    [Header("MP")]
     [SerializeField] private Image mpBack;
     [SerializeField] private Image mpFront;
+    [SerializeField] private TextMeshProUGUI mpText;
 
-    [SerializeField] private float _hpBackValue = 1;
-    [SerializeField] private float _hpFrontValue = 1;
-    [SerializeField] private float _mpBackValue = 1;
-    [SerializeField] private float _mpFrontValue = 1;
+    [Header("Value")]
+    [SerializeField, Range(0, 1)] private float _hpBackValue = 1;
+    [SerializeField, Range(0, 1)] private float _hpFrontValue = 1;
+    [SerializeField, Range(0, 1)] private float _mpBackValue = 1;
+    [SerializeField, Range(0, 1)] private float _mpFrontValue = 1;
 
     public float HpValue
     {
         get => _hpFrontValue;
-        set 
-        { 
+        set
+        {
+            hpText.text = $"{GameManager.Instance.player.CurHp} / {GameManager.Instance.player.MaxHp}";
             hpFront.fillAmount = value;
             _hpFrontValue = value;
         }
@@ -30,6 +37,7 @@ public class PlayerStateBar : MonoBehaviour
         get => _mpFrontValue;
         set 
         { 
+            mpText.text = $"{GameManager.Instance.player.CurMp} / {GameManager.Instance.player.MaxMp}";
             mpFront.fillAmount = value;
             _mpFrontValue = value;
         }

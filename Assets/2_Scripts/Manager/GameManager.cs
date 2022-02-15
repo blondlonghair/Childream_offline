@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Net.Mail;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : SingletonMono<GameManager>
 {
     enum GameState
     {
+        None,
         GameStart,
         PlayerTurnStart,
         PlayerTurn,
@@ -21,14 +23,13 @@ public class GameManager : SingletonMono<GameManager>
     }
 
     //내부
-    private int _curStage;
+    private int _curStage = 1;
     private int _curTurn;
-    private int _saveCurHp;
-    private int _saveMaxHp;
-    private int _saveCurMp;
-    private int _saveMaxMp;
-    
-    
+    [SerializeField] private int _saveCurHp = 80;
+    [SerializeField] private int _saveMaxHp = 80;
+    private int _saveCurMp = 3;
+    private int _saveMaxMp = 3;
+
     [SerializeField] private GameState _gameState = GameState.GameStart;
     private Vector3 _mousePos;
     private CardObject _cardObject;
@@ -38,33 +39,65 @@ public class GameManager : SingletonMono<GameManager>
     public Player player;
     public List<Monster> monsters = new List<Monster>();
 
-    //외부
+    //가지고 가는거
+    [Header("가지고 가는거")]
     [SerializeField] private float attackTime;
     [SerializeField] private float attackInterval;
-    [SerializeField] private Image statePanel;
     [SerializeField] private MonsterHpBar monsterHpBar;
+    [SerializeField] private AtkEffect atkEffect;
+    [SerializeField] private LoadingPanel loadingPanel;
+
+    //가지고 가지 않는거
+    [Header("가지고 가지 않는거")]
+    [SerializeField] private Image statePanel;
+    [SerializeField] private CardSelectPanel cardSelectPanel;
     [SerializeField] private GameObject canvas;
+    [SerializeField] private Button turnEndButton;
 
     private void Start()
     {
+        OnChangeScene();
+    }
+
+    private void OnChangeScene()
+    {
+        CardManager.Instance.OnChangeScene();
+        
         GameObject.FindWithTag("Player").TryGetComponent(out player);
+        canvas = GameObject.FindWithTag("Canvas");
+        GameObject.FindWithTag("CardSelectPanel").TryGetComponent(out cardSelectPanel);
+        GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
+        GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
+        turnEndButton.onClick.AddListener(TurnEndButton);
+        
+        cardSelectPanel.gameObject.SetActive(false);
 
         foreach (var monster in monsters)
         {
             var monsterTransform = monster.transform;
-            MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up * 2,
+            MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up,
                 quaternion.identity, canvas.transform);
+            AtkEffect atkEft = Instantiate(atkEffect, monsterTransform.position + Vector3.up * 2,
+                quaternion.identity);
             monster.hpBar = hpBar;
+            monster.atkEffect = atkEft;
         }
+
+        _gameState = GameState.GameStart;
     }
+        
 
     private void Update()
     {
         MouseInput();
-
-        if (monsters.Count <= 0)
+        
+        if (SceneManager.GetActiveScene().name.Contains("Stage") && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
         {
+            string[] scene = SceneManager.GetActiveScene().name.Split("Stage");
+            _curStage = int.Parse(scene[1]);
             
+            loadingPanel.Open();
+            OnChangeScene();
         }
 
         switch (_gameState)
@@ -82,6 +115,13 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnGameStart()
     {
+        player.CurHp = _saveCurHp;
+        player.MaxHp = _saveMaxHp;
+        player.CurMp = _saveCurMp;
+        player.MaxMp = _saveMaxMp;
+        player.stateBar.HpLerp();
+        player.stateBar.MpLerp();
+
         ChangeState(GameState.PlayerTurnStart);
     }
 
@@ -89,7 +129,7 @@ public class GameManager : SingletonMono<GameManager>
     {
         foreach (var monster in monsters)
         {
-            // monster.ShowAttackPos();
+            monster.ShowAttackPos();
         }
 
         for (int i = 0; i < 4; i++)
@@ -97,13 +137,18 @@ public class GameManager : SingletonMono<GameManager>
             CardManager.Instance.DrawCard();
         }
 
-        player.curMp = player.maxMp;
+        player.CurMp = player.MaxMp;
 
         ChangeState(GameState.PlayerTurn);
     }
     
     private void OnPlayerTurn()
     {
+        if (monsters.Count <= 0)
+        {
+            //게임 끝
+            ChangeState(GameState.GameEnd);
+        }
     }
     
     private void OnPlayerTurnEnd()
@@ -152,11 +197,13 @@ public class GameManager : SingletonMono<GameManager>
     {
         player.Vulnerable -= 1;
         player.Weakness -= 1;
+        player.armor = 0;
 
         foreach (var monster in monsters)
         {
             monster.Vulnerable -= 1;
             monster.Weakness -= 1;
+            monster.armor = 0;
         }
 
         player.stateBar.HpLerp();
@@ -166,10 +213,15 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnGameEnd()
     {
-        _saveCurHp = player.curHp;
-        _saveMaxHp = player.maxHp;
-        _saveCurMp = player.curMp;
-        _saveMaxMp = player.maxMp;
+        cardSelectPanel.gameObject.SetActive(true);
+        
+        _saveCurHp = player.CurHp;
+        _saveMaxHp = player.MaxHp;
+        _saveCurMp = player.CurMp;
+        _saveMaxMp = player.MaxMp;
+        
+        CardManager.Instance.ClearBuffer();
+        ChangeState(GameState.None);
     }
 
     private void ChangeState(GameState gameState)
@@ -242,6 +294,11 @@ public class GameManager : SingletonMono<GameManager>
         //카드 효과 발동
         if (Input.GetMouseButtonUp(0))
         {
+            if (player.curMp < _cardObject?.cost)
+            {
+                return;
+            }
+
             if (_cardObject.originCard.type == Card.CardType.One)
             {
                 if (TryCastRay(out Monster monster))
@@ -279,6 +336,12 @@ public class GameManager : SingletonMono<GameManager>
         {
             ChangeState(GameState.PlayerTurnEnd);
         }
+    }
+
+    public void NextStage()
+    {
+        loadingPanel.Close($"Stage{_curStage + 1}");
+        // SceneManager.LoadScene($"Stage{_curStage + 1}");
     }
 
     private bool TryCastRay<T>(string tag, out T component) where T : class?

@@ -32,16 +32,64 @@ public class EditorSceneOpen
         OpenScene("Assets/1_Scenes/Map.unity");
     }
     
-    [MenuItem("Scenes/5.IngameScene")]
+    [MenuItem("Scenes/Stage/IngameScene")]
     public static void OpenScene_Ingame()
     {
-        OpenScene("Assets/1_Scenes/Ingame.unity");
+        OpenScene("Assets/1_Scenes/Stage/Ingame.unity");
     }
     
     [MenuItem("Scenes/Stage/Stage2")]
     public static void OpenScene_Stage2()
     {
         OpenScene("Assets/1_Scenes/Stage/Stage2.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage3")]
+    public static void OpenScene_Stage3()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage3.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage4")]
+    public static void OpenScene_Stage4()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage4.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage5")]
+    public static void OpenScene_Stage5()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage5.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage6")]
+    public static void OpenScene_Stage6()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage6.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage7")]
+    public static void OpenScene_Stage7()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage7.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage8")]
+    public static void OpenScene_Stage8()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage8.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage9")]
+    public static void OpenScene_Stage9()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage9.unity");
+    }
+    
+    [MenuItem("Scenes/Stage/Stage10")]
+    public static void OpenScene_Stage10()
+    {
+        OpenScene("Assets/1_Scenes/Stage/Stage10.unity");
     }
 
     public static void OpenScene(string scenepath)

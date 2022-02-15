@@ -34,14 +34,14 @@ public class CardObject : MonoBehaviour
         cardName = card.name;
         cost = card.cost;
         cardDesc = card.desc;
-        // cardImage = card.cardImage;
-        // cardBG = card.cardImageBG;
+        cardImage = card.sprite;
+        cardBG = card.backGround;
 
         nameText.text = cardName;
         costText.text = cost.ToString();
         descText.text = cardDesc;
-        // CardImage.sprite = cardImage;
-        // CardBG.sprite = cardImageBG;
+        CardImage.sprite = cardImage;
+        CardImageBG.sprite = cardBG;
     }
 
     private void OnEnable()
@@ -92,7 +92,8 @@ public class CardObject : MonoBehaviour
             StopCoroutine(_coroutine);
         }
         
-        OrderInLayer(originRPS.index);
+        OrderInLayer(
+            originRPS.index);
         transform.localScale = Vector3.one;
         transform.position = originRPS.pos;
         transform.rotation = originRPS.rot;

@@ -9,7 +9,6 @@ public class EffectManager : SingletonMono<EffectManager>
     [SerializeField] private GameObject[] attackEffects;
     private Dictionary<string, GameObject> _hitEffect = new Dictionary<string, GameObject>();
     private Dictionary<string, GameObject> _attackEffect = new Dictionary<string, GameObject>();
-    [SerializeField] private AtkEffect atkEffect;
 
     private void Start()
     {

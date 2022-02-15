@@ -46,11 +46,11 @@ public class GameManager : SingletonMono<GameManager>
     [SerializeField] private MonsterHpBar monsterHpBar;
     [SerializeField] private AtkEffect atkEffect;
     [SerializeField] private LoadingPanel loadingPanel;
+    [SerializeField] private GameObject cardSelectPanel;
 
     //가지고 가지 않는거
     [Header("가지고 가지 않는거")]
     [SerializeField] private Image statePanel;
-    [SerializeField] private CardSelectPanel cardSelectPanel;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button turnEndButton;
 
@@ -65,12 +65,12 @@ public class GameManager : SingletonMono<GameManager>
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
         canvas = GameObject.FindWithTag("Canvas");
-        GameObject.FindWithTag("CardSelectPanel").TryGetComponent(out cardSelectPanel);
+        // GameObject.FindWithTag("CardSelectPanel").TryGetComponent(out cardSelectPanel);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
         turnEndButton.onClick.AddListener(TurnEndButton);
         
-        cardSelectPanel.gameObject.SetActive(false);
+        // cardSelectPanel.gameObject.SetActive(false);
 
         foreach (var monster in monsters)
         {
@@ -213,7 +213,8 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnGameEnd()
     {
-        cardSelectPanel.gameObject.SetActive(true);
+        // cardSelectPanel.gameObject.SetActive(true);
+        Instantiate(cardSelectPanel, canvas.transform);
         
         _saveCurHp = player.CurHp;
         _saveMaxHp = player.MaxHp;
@@ -299,11 +300,14 @@ public class GameManager : SingletonMono<GameManager>
                 return;
             }
 
-            if (_cardObject.originCard.type == Card.CardType.One)
+            if (_cardObject?.originCard.type == Card.CardType.One)
             {
                 if (TryCastRay(out Monster monster))
                 {
-                    _cardObject.originCard.Effect(player, monster);
+                    _cardObject?.originCard.Effect(player, monster);
+
+                    if (_cardObject == null)
+                        return;
                     
                     CardManager.Instance.DestroyCard(_cardObject);
                     _cardObject = null;
@@ -312,15 +316,18 @@ public class GameManager : SingletonMono<GameManager>
 
             else
             {
-                if (_cardObject.originCard.type == Card.CardType.All)
+                if (_cardObject?.originCard.type == Card.CardType.All)
                 {
-                    _cardObject.originCard.Effect(player, monsters.ToArray());
+                    _cardObject?.originCard.Effect(player, monsters.ToArray());
                 }
 
-                else if (_cardObject.originCard.type == Card.CardType.None)
+                else if (_cardObject?.originCard.type == Card.CardType.None)
                 {
-                    _cardObject.originCard.Effect(player, null);
+                    _cardObject?.originCard.Effect(player, null);
                 }
+                
+                if (_cardObject == null)
+                    return;
                 
                 CardManager.Instance.DestroyCard(_cardObject);
                 _cardObject = null;

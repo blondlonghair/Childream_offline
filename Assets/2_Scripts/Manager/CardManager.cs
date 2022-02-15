@@ -24,6 +24,8 @@ public class CardManager : SingletonMono<CardManager>
 
     private List<Card> _cardBuffer = new List<Card>();
 
+    [SerializeField] private Sprite[] cardSprites;
+    [SerializeField] private Sprite[] cardBackGrounds;
 
     private void Start()
     {
@@ -94,6 +96,12 @@ public class CardManager : SingletonMono<CardManager>
     public void AddCard(Card card)
     {
         deck.Add(card);
+    }
+
+    public void GetSprite(int id, out Sprite sprite, out Sprite backGround)
+    {
+        sprite = cardSprites[id - 1];
+        backGround = cardBackGrounds[id - 1];
     }
 
     private IEnumerator Co_DestroyCard(GameObject cardObject)

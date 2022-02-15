@@ -20,6 +20,8 @@ public class Card
     public int cost;
     public int power;
     public string desc;
+    public Sprite sprite;
+    public Sprite backGround;
 
     public bool isUpgrade;
     public CardType type;
@@ -62,6 +64,7 @@ namespace Cards
             power = 6;
             desc = $"피해를 {power} 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -91,6 +94,7 @@ namespace Cards
             power = 8;
             desc = $"피해를 {power} 줍니다.\n취약을 {_weakness} 부여합니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -119,6 +123,7 @@ namespace Cards
             cost = 1;
             desc = $"현재 방어도만큼 피해를 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -139,6 +144,7 @@ namespace Cards
             power = 8;
             desc = $"적 전체에게 피해를 {power} 줍니다.";
             type = CardType.All;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -164,6 +170,7 @@ namespace Cards
             power = 15;
             desc = $"체력을 {_loseHealth} 잃습니다. 피해를 {power} 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -187,6 +194,7 @@ namespace Cards
             power = 14;
             desc = $"피해 {power} 줍니다. 힘의 효과가 {_powerUp}배로 적용됩니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -209,6 +217,7 @@ namespace Cards
             power = 5;
             desc = $"방어도를 {power} 얻습니다. 피해를 {_armor} 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -232,6 +241,7 @@ namespace Cards
             power = 9;
             desc = $"피해를 {power} 줍니다.\n카드를 {_drawCard}장 뽑습니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -263,6 +273,7 @@ namespace Cards
             power = 4;
             desc = $"적 전체에게 피해를 {power} 주고 취약을 {_vulnerable} 부여합니다.";
             type = CardType.All;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -289,6 +300,7 @@ namespace Cards
             power = 12;
             desc = $"피해 {power} 줍니다. 약화를 {_weakness} 부여합니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -311,6 +323,7 @@ namespace Cards
             power = 5;
             desc = $"피해를 {power} 줍니다. 적이 취약 상태라면 {_energy} 에너지를 얻고 카드 1장을 뽑습니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -337,6 +350,7 @@ namespace Cards
             power = 16;
             desc = $"손에 있는 모든 카드를 소멸시킵니다. 피해를 {power} 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -365,6 +379,7 @@ namespace Cards
             power = 13;
             desc = $"피해를 {power} 줍니다. 약화를 {_vulnerable} 부여합니다. 취약을 {_weakness} 부여합니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -387,6 +402,7 @@ namespace Cards
             power = 32;
             desc = $"피해를 {power} 줍니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -407,6 +423,7 @@ namespace Cards
             power = 5;
             desc = $"방어도를 {power} 얻습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -437,6 +454,7 @@ namespace Cards
             power = 8;
             desc = $"방어도를 {power} 얻습니다. 카드를 {_drawCard}장 뽑습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -465,6 +483,7 @@ namespace Cards
             power = 7;
             desc = $"방어도를 {power} 얻습니다. 무작위 카드를 1장 소멸시킵니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -486,6 +505,7 @@ namespace Cards
             power = 2;
             desc = $"방어도가 {power}배로 증가합니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -513,6 +533,7 @@ namespace Cards
             power = 5;
             desc = $"모든 카드를 소멸시키고 그 수만큼 방어도를 {power} 얻습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -538,6 +559,7 @@ namespace Cards
             power = 0;
             desc = "한칸을 선택해서 이동합니다.";
             type = CardType.Grid;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -558,6 +580,7 @@ namespace Cards
             power = 2;
             desc = $"체력을 {_loseHealth} 잃습니다. {power}에너지를 얻습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -579,6 +602,7 @@ namespace Cards
             power = 2;
             desc = $"적의 힘을 {power} 감소시킵니다.";
             type = CardType.One;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -599,6 +623,7 @@ namespace Cards
             power = 1;
             desc = $"적 전체에게 약화를 {power} 부여합니다.";
             type = CardType.All;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -622,6 +647,7 @@ namespace Cards
             power = 2;
             desc = $"힘이 {power}배로 증가합니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -644,6 +670,7 @@ namespace Cards
             power = 2;
             desc = $"체력을 {_loseHealth} 잃습니다. 에너지를 {power} 얻습니다. 카드를 2장 뽑습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -668,6 +695,7 @@ namespace Cards
             power = 2;
             desc = $"힘을 {power} 얻습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -688,6 +716,7 @@ namespace Cards
             power = 2;
             desc = $"카드를 1장 소멸시킵니다. 카드를 {power} 뽑습니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -711,6 +740,7 @@ namespace Cards
             power = 3;
             desc = $"체력을 {power} 회복합니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -731,6 +761,7 @@ namespace Cards
             power = 2;
             desc = $"약화를 {power} 부여합니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)
@@ -751,6 +782,7 @@ namespace Cards
             power = 2;
             desc = $"취약을 {power} 부여합니다.";
             type = CardType.None;
+            CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
 
         public override void Effect(Player caster, params Monster[] target)

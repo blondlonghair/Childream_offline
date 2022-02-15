@@ -15,6 +15,7 @@ namespace MonsterSkill
         
         public virtual void Effect(Monster caster, Player target)
         {
+            EffectManager.Instance.InitEffect("MonsterAtk", target.transform);
         }
     }
 

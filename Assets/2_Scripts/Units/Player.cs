@@ -25,6 +25,7 @@ public class Player : Unit
         {
             curHp = value;
             stateBar.HpValue = (float)curHp / (float)maxHp;
+            // GetHit();
         }
     }
 
@@ -69,7 +70,18 @@ public class Player : Unit
             case FootPos.Left: transform.position = Vector3.left * 3.5f; break;
             case FootPos.Middle: transform.position = Vector3.zero; break;
             case FootPos.Right: transform.position = Vector3.right * 3.5f; break;
-            default: break;
         }
+    }
+
+    public override void GetHit()
+    {
+        stateBar.HpValue = (float)curHp / (float)maxHp;
+
+        base.GetHit();
+    }
+
+    public override void OnDeath()
+    {
+        base.OnDeath();
     }
 }

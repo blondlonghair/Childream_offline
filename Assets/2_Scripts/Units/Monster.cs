@@ -10,23 +10,24 @@ public class Monster : Unit
     [SerializeField] protected List<Skill> skillBuffer = new List<Skill>();
     [SerializeField] protected List<Skill> useSkills = new List<Skill>();
     
-    public MonsterHpBar hpBar;
-    public AtkEffect atkEffect;
+    [HideInInspector] public MonsterHpBar hpBar;
+    [HideInInspector] public AtkEffect atkEffect;
+
+    public int CurHp
+    {
+        get => curHp;
+        set
+        {
+            curHp = value;
+            GetHit();
+        }
+    }
 
     protected virtual void Start()
     {
         GameManager.Instance.monsters.Add(this);
         
         SetupSkill();
-    }
-
-    public virtual void Destroy()
-    {
-        GameManager.Instance.monsters.Remove(this);
-        
-        Destroy(hpBar.gameObject);
-        Destroy(atkEffect.gameObject);
-        Destroy(gameObject);
     }
 
     public override void Attack()
@@ -40,13 +41,19 @@ public class Monster : Unit
     public override void GetHit()
     {
         hpBar.Value = (float)curHp / (float)maxHp;
-
-        if (curHp <= 0)
-        {
-            Destroy();
-        }
         
         base.GetHit();
+    }
+
+    public override void OnDeath()
+    {
+        GameManager.Instance.monsters.Remove(this);
+        
+        Destroy(hpBar.gameObject);
+        Destroy(atkEffect.gameObject);
+        Destroy(gameObject);
+        
+        base.OnDeath();
     }
 
     protected override IEnumerator Co_Attack()

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4710038115349013058}
   - component: {fileID: 2019028631571541212}
   - component: {fileID: 8253098883112871444}
+  - component: {fileID: 8410227367634834095}
   m_Layer: 0
   m_Name: monster8
   m_TagString: Monster
@@ -132,3 +133,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.23, y: 3.54}
   m_EdgeRadius: 0
+--- !u!114 &8410227367634834095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5388677510877773545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca45f90bf8d49e9bc3da5bc3a09e041, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 0
+  curHp: 0
+  armor: 0
+  strength: 0
+  agility: 0
+  vulnerable: 0
+  weakness: 0
+  skillBuffer: []
+  useSkills: []
+  hpBar: {fileID: 0}
+  atkEffect: {fileID: 0}

@@ -55,12 +55,22 @@ public class Unit : MonoBehaviour
 
     public virtual void GetHit()
     {
+        if (curHp <= 0)
+        {
+            OnDeath();
+        }
+        
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
         
         _coroutine = StartCoroutine(Co_GetHit());
+    }
+
+    public virtual void OnDeath()
+    {
+        
     }
 
     protected virtual IEnumerator Co_Attack()

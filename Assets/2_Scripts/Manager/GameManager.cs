@@ -158,9 +158,9 @@ public class GameManager : SingletonMono<GameManager>
             monster.hpBar.Lerp();
         }
 
-        foreach (var card in CardManager.Instance.cards)
+        for (int i = CardManager.Instance.cards.Count - 1; i >= 0; i--)
         {
-            CardManager.Instance.DestroyCard(card);
+            CardManager.Instance.DestroyCard(CardManager.Instance.cards[i]);
         }
         
         ChangeState(GameState.EnemyTurnStart);
@@ -213,7 +213,6 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnGameEnd()
     {
-        // cardSelectPanel.gameObject.SetActive(true);
         Instantiate(cardSelectPanel, canvas.transform);
         
         _saveCurHp = player.CurHp;
@@ -256,6 +255,7 @@ public class GameManager : SingletonMono<GameManager>
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
+        print(gameState.ToString());
         _gameState = gameState;
         yield return null;
     }
@@ -348,7 +348,6 @@ public class GameManager : SingletonMono<GameManager>
     public void NextStage()
     {
         loadingPanel.Close($"Stage{_curStage + 1}");
-        // SceneManager.LoadScene($"Stage{_curStage + 1}");
     }
 
     private bool TryCastRay<T>(string tag, out T component) where T : class?

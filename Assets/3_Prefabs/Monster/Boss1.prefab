@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1534978705284579363}
   - component: {fileID: 5080416988801750982}
   - component: {fileID: 8603584598085305228}
+  - component: {fileID: 3672728997599626886}
   m_Layer: 0
   m_Name: Boss1
   m_TagString: Monster
@@ -94,9 +95,9 @@ Animator:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 849361853965926557}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 530e02f377a9658429145f81541a4126, type: 2}
+  m_Controller: {fileID: 9100000, guid: b36436c2ad4d87a41be614cc110d48d0, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -132,3 +133,26 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.23, y: 3.54}
   m_EdgeRadius: 0
+--- !u!114 &3672728997599626886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 849361853965926557}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90b617a1846b4d24817a5f87fbe3d2de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHp: 0
+  curHp: 0
+  armor: 0
+  strength: 0
+  agility: 0
+  vulnerable: 0
+  weakness: 0
+  skillBuffer: []
+  useSkills: []
+  hpBar: {fileID: 0}
+  atkEffect: {fileID: 0}

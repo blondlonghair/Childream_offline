@@ -37,11 +37,6 @@ public class Card
 
         if (target != null)
         {
-            foreach (var monster in target)
-            {
-                monster.GetHit();
-            }
-
             EffectManager.Instance.InitEffect(/*this.GetType().Name*/"Strike", target[0]?.transform);
         }
     }
@@ -69,7 +64,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
 
             base.Effect(caster, target);
         }
@@ -99,7 +94,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             target[0].Weakness += _weakness;
 
             base.Effect(caster, target);
@@ -128,7 +123,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= caster.armor;
+            target[0].CurHp -= caster.armor;
 
             base.Effect(caster, target);
         }
@@ -151,7 +146,7 @@ namespace Cards
         {
             foreach (var monster in target)
             {
-                monster.curHp -= power;
+                monster.CurHp -= power;
             }
 
             base.Effect(caster, target);
@@ -175,7 +170,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             caster.curHp -= _loseHealth;
 
             base.Effect(caster, target);
@@ -199,7 +194,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power + caster.Strength * _powerUp;
+            target[0].CurHp -= power + caster.Strength * _powerUp;
 
             base.Effect(caster, target);
         }
@@ -222,7 +217,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             caster.armor += _armor;
 
             base.Effect(caster, target);
@@ -246,7 +241,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             CardManager.Instance.DrawCard();
             
             base.Effect(caster, target);
@@ -280,7 +275,7 @@ namespace Cards
         {
             foreach (var monster in target)
             {
-                monster.curHp -= power;
+                monster.CurHp -= power;
                 monster.Vulnerable -= _vulnerable;
             }
             
@@ -305,7 +300,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             
             base.Effect(caster, target);
         }
@@ -334,7 +329,7 @@ namespace Cards
                 CardManager.Instance.DrawCard();
             }
 
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             
             base.Effect(caster, target);
         }
@@ -360,7 +355,7 @@ namespace Cards
                 CardManager.Instance.DestroyCard(card);
             }
 
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             
             base.Effect(caster, target);
         }
@@ -384,7 +379,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             target[0].Vulnerable += _vulnerable;
             target[0].Weakness += _weakness;
             
@@ -407,7 +402,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].curHp -= power;
+            target[0].CurHp -= power;
             
             base.Effect(caster, target);
         }

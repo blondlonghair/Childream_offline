@@ -13,12 +13,12 @@ public class IntroScene : MonoBehaviour
         {
             if (PlayerPrefs.HasKey("Tutorial"))
             {
-                loadingPanel.Close("Lobby");
+                loadingPanel.Close(() => SceneManager.LoadScene("Lobby"));
             }
  
             else
             {
-                loadingPanel.Close("Tutorial");
+                loadingPanel.Close(() => SceneManager.LoadScene("Tutorial"));
                 PlayerPrefs.SetInt("Tutorial", 1);
             }    
         }

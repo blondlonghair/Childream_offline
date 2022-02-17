@@ -108,7 +108,8 @@ MonoBehaviour:
   weakness: 0
   skillBuffer: []
   useSkills: []
-  attackPos: 0
+  hpBar: {fileID: 0}
+  atkEffect: {fileID: 0}
 --- !u!95 &5023219784955698439
 Animator:
   serializedVersion: 4

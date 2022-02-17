@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,14 +27,14 @@ public class LoadingPanel : MonoBehaviour
         _coroutine = StartCoroutine(Co_OpenPanel());
     }
 
-    public void Close(string sceneName)
+    public void Close(Action action)
     {
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
 
-        _coroutine = StartCoroutine(Co_ClosePanel(sceneName));
+        _coroutine = StartCoroutine(Co_ClosePanel(action));
     }
 
     IEnumerator Co_OpenPanel()
@@ -45,7 +46,7 @@ public class LoadingPanel : MonoBehaviour
         }
     }
 
-    IEnumerator Co_ClosePanel(string sceneName)
+    IEnumerator Co_ClosePanel(Action action)
     {
         while (transform.position.y > 0.1f)
         {
@@ -53,6 +54,6 @@ public class LoadingPanel : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        SceneManager.LoadScene(sceneName);
+        action.Invoke();
     }
 }

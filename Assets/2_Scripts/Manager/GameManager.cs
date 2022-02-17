@@ -347,7 +347,7 @@ public class GameManager : SingletonMono<GameManager>
 
     public void NextStage()
     {
-        loadingPanel.Close($"Stage{_curStage + 1}");
+        loadingPanel.Close(() => SceneManager.LoadScene($"Stage{_curStage + 1}"));
     }
 
     private bool TryCastRay<T>(string tag, out T component) where T : class?

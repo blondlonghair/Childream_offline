@@ -21,4 +21,12 @@ public class Boss1 : Monster
 
         yield return null;
     }
+
+    protected override IEnumerator Co_OnDeath()
+    {
+        _animator.SetTrigger("isDie");
+        yield return YieldCache.WaitForSeconds(2f);
+        
+        yield return base.Co_OnDeath();
+    }
 }

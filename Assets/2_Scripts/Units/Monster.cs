@@ -47,11 +47,7 @@ public class Monster : Unit
 
     public override void OnDeath()
     {
-        GameManager.Instance.monsters.Remove(this);
-        
-        Destroy(hpBar.gameObject);
-        Destroy(atkEffect.gameObject);
-        Destroy(gameObject);
+        StartCoroutine(Co_OnDeath());
         
         base.OnDeath();
     }
@@ -98,6 +94,17 @@ public class Monster : Unit
             transform.position = Vector3.Lerp(transform.position, originPos, 0.9f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
+    }
+
+    protected virtual IEnumerator Co_OnDeath()
+    {
+        GameManager.Instance.monsters.Remove(this);
+        
+        Destroy(hpBar.gameObject);
+        Destroy(atkEffect.gameObject);
+        Destroy(gameObject);
+        
+        yield return null;
     }
 
     protected virtual void SetupSkill()

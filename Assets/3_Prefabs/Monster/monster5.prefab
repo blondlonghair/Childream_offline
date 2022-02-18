@@ -145,8 +145,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a99329fcf53244eea8da3fc6546359ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 0
-  curHp: 0
+  maxHp: 70
+  curHp: 70
   armor: 0
   strength: 0
   agility: 0

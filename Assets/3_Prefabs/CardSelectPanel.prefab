@@ -37,7 +37,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 265, y: 283}
+  m_AnchoredPosition: {x: 267, y: 290}
   m_SizeDelta: {x: 241, y: 401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8725444669771078420
@@ -202,7 +202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: a732bce6cb3c34d4da73f9010c780ff3, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b45f5181569e4a94b9a8bb7e5503bb35, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -305,7 +305,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 283}
+  m_AnchoredPosition: {x: 0, y: 290}
   m_SizeDelta: {x: 241, y: 401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8725444670173236855
@@ -440,7 +440,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -265, y: 283}
+  m_AnchoredPosition: {x: -267, y: 290}
   m_SizeDelta: {x: 241, y: 401}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8725444670537978657
@@ -550,6 +550,7 @@ GameObject:
   - component: {fileID: 8725444670574942086}
   - component: {fileID: 8725444670574942081}
   - component: {fileID: 8725444670574942087}
+  - component: {fileID: 23074080609301459}
   m_Layer: 5
   m_Name: CardSelectPanel
   m_TagString: CardSelectPanel
@@ -666,3 +667,23 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 961236f350ca9574a896737ddb360dca, type: 3}
   - {fileID: 21300000, guid: 16459aa13dc123b4d80fbccab9b0c9db, type: 3}
   - {fileID: 21300000, guid: 57dab95a70c2be44ba756035a4537ef2, type: 3}
+--- !u!95 &23074080609301459
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8725444670574942083}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 5f5cf4f0fcc6ec84da058a9a5510362b, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

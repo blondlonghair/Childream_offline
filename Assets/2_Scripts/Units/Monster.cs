@@ -12,6 +12,8 @@ public class Monster : Unit
     
     [HideInInspector] public MonsterHpBar hpBar;
     [HideInInspector] public AtkEffect atkEffect;
+    
+    protected Animator _animator;
 
     public int CurHp
     {
@@ -26,6 +28,8 @@ public class Monster : Unit
     protected virtual void Start()
     {
         GameManager.Instance.monsters.Add(this);
+
+        TryGetComponent(out _animator);
         
         SetupSkill();
     }
@@ -43,6 +47,26 @@ public class Monster : Unit
         hpBar.Value = (float)curHp / (float)maxHp;
         
         base.GetHit();
+    }
+    
+    public void GetDamage(int damage)
+    {
+        int getDamage = (int)((float)damage * (Vulnerable > 0 ? 1.5f : 1));
+        
+        for (int i = 0; i < getDamage; i++)
+        {
+            print("da");
+            if (armor > 0)
+            {
+                armor--;
+            }
+            else
+            {
+                curHp--;
+            }
+        }
+        
+        GetHit();
     }
 
     public override void OnDeath()
@@ -102,6 +126,10 @@ public class Monster : Unit
         
         Destroy(hpBar.gameObject);
         Destroy(atkEffect.gameObject);
+        
+        _animator.SetTrigger("isDie");
+        yield return YieldCache.WaitForSeconds(2f);
+
         Destroy(gameObject);
         
         yield return null;

@@ -99,8 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7cfd5877cfa4f3da2fb08a1208d5f50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
-  curHp: 10
+  maxHp: 50
+  curHp: 50
   armor: 0
   strength: 0
   agility: 0
@@ -108,7 +108,8 @@ MonoBehaviour:
   weakness: 0
   skillBuffer: []
   useSkills: []
-  attackPos: 0
+  hpBar: {fileID: 0}
+  atkEffect: {fileID: 0}
 --- !u!95 &1253920604970340979
 Animator:
   serializedVersion: 4

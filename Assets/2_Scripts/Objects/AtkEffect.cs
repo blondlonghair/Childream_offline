@@ -64,29 +64,37 @@ public class AtkEffect : MonoBehaviour
         switch (actType)
         {
             case Type.Left :
+                grid.gameObject.SetActive(true);
+                text.gameObject.SetActive(true);
                 act.transform.localPosition = new Vector3(0.75f, 0, 0);
                 text.transform.localPosition = new Vector3(0.91f, -0.2f, 0); 
                 act.sprite = knife;
                 text.text = damage.ToString();
                 break;
             case Type.Middle :
+                grid.gameObject.SetActive(true);
+                text.gameObject.SetActive(true);
                 act.transform.localPosition = new Vector3(0, 0, 0);
                 text.transform.localPosition = new Vector3(0.16f, -0.2f, 0); 
                 act.sprite = knife;
                 text.text = damage.ToString();
                 break;
             case Type.Right :
+                grid.gameObject.SetActive(true);
+                text.gameObject.SetActive(true);
                 act.transform.localPosition = new Vector3(-0.75f, 0, 0);
                 text.transform.localPosition = new Vector3(-0.59f, -0.2f, 0); 
                 text.text = damage.ToString();
                 break;
             case Type.Random : 
                 grid.gameObject.SetActive(false);
+                text.gameObject.SetActive(true);
                 act.sprite = randomAtk;
                 text.text = damage.ToString();
                 break;
             case Type.All : 
                 grid.gameObject.SetActive(false);
+                text.gameObject.SetActive(true);
                 act.sprite = knife;
                 text.text = damage.ToString();
                 break;

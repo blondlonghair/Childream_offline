@@ -20,25 +20,25 @@ public class Unit : MonoBehaviour
     public int Strength
     {
         get => strength;
-        set => strength = value < strength ? 0 : value;
+        set => strength = value < 0 ? 0 : value;
     }//힘
 
     public int Agility
     {
         get => agility;
-        set => agility = value < agility ? 0 : value;
+        set => agility = value < 0 ? 0 : value;
     }//민첩
 
     public int Vulnerable
     {
         get => vulnerable;
-        set => vulnerable = value < vulnerable ? 0 : value;
+        set => vulnerable = value < 0 ? 0 : value;
     }//취약
 
     public int Weakness
     {
         get => weakness;
-        set => weakness = value < weakness ? 0 : value;
+        set => weakness = value < 0 ? 0 : value;
     }//약화
 
     private Coroutine _coroutine;

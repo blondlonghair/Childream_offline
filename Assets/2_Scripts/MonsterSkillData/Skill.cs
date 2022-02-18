@@ -34,7 +34,7 @@ namespace MonsterSkill
         {
             if (target.curPos == attackPos)
             {
-                target.CurHp -= power;
+                target.GetDamage(power);
             }
 
             base.Effect(caster, target);
@@ -56,7 +56,7 @@ namespace MonsterSkill
         {
             if (target.curPos == attackPos)
             {
-                target.CurHp -= power;
+                target.GetDamage(power);
             }
 
             base.Effect(caster, target);
@@ -76,7 +76,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster,  Player target)
         {
-            target.CurHp -= power;
+            target.GetDamage(power);
             
             base.Effect(caster, target);
         }
@@ -95,7 +95,7 @@ namespace MonsterSkill
         {
             caster.armor += power;
             
-            base.Effect(caster, target);
+            EffectManager.Instance.InitEffect("Defence", caster.transform);
         }
     }
 
@@ -112,7 +112,7 @@ namespace MonsterSkill
         {
             caster.Strength += power;
             
-            base.Effect(caster, target);
+            EffectManager.Instance.InitEffect("Strength", caster.transform);
         }
     }
     
@@ -129,7 +129,7 @@ namespace MonsterSkill
         {
             caster.Agility += power;
             
-            base.Effect(caster, target);
+            EffectManager.Instance.InitEffect("Agility", caster.transform);
         }
     }
 
@@ -147,7 +147,7 @@ namespace MonsterSkill
         {
             target.Vulnerable += power;
             
-            base.Effect(caster, target);
+            EffectManager.Instance.InitEffect("Vulnerable", target.transform);
         }
     }
 
@@ -165,7 +165,8 @@ namespace MonsterSkill
         {
             target.Weakness += power;
             
-            base.Effect(caster, target);
+            EffectManager.Instance.InitEffect("Weakness", target.transform);
+
         }
     }
 }

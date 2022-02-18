@@ -30,7 +30,7 @@ public class GameManager : SingletonMono<GameManager>
     private int _saveCurMp = 3;
     private int _saveMaxMp = 3;
 
-    [SerializeField] private GameState _gameState = GameState.GameStart;
+    [SerializeField] private GameState _gameState;
     private Vector3 _mousePos;
     private CardObject _cardObject;
     private int _curMonster;
@@ -83,7 +83,7 @@ public class GameManager : SingletonMono<GameManager>
             monster.atkEffect = atkEft;
         }
 
-        _gameState = GameState.GameStart;
+        ChangeState(GameState.GameStart);
     }
         
 
@@ -122,7 +122,7 @@ public class GameManager : SingletonMono<GameManager>
         player.stateBar.HpLerp();
         player.stateBar.MpLerp();
 
-        ChangeState(GameState.PlayerTurnStart);
+        WaitChangeState(GameState.PlayerTurnStart);
     }
 
     private void OnPlayerTurnStart()
@@ -139,7 +139,7 @@ public class GameManager : SingletonMono<GameManager>
 
         player.CurMp = player.MaxMp;
 
-        ChangeState(GameState.PlayerTurn);
+        WaitChangeState(GameState.PlayerTurn);
     }
     
     private void OnPlayerTurn()
@@ -168,7 +168,7 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnEnemyTurnStart()
     {
-        ChangeState(GameState.EnemyTurn);
+        WaitChangeState(GameState.EnemyTurn);
     }
 
     private void OnEnemyTurn()
@@ -221,17 +221,27 @@ public class GameManager : SingletonMono<GameManager>
         _saveMaxMp = player.MaxMp;
         
         CardManager.Instance.ClearBuffer();
-        ChangeState(GameState.None);
+        WaitChangeState(GameState.None);
     }
 
+    // private GameState _curState;
+
     private void ChangeState(GameState gameState)
+    {
+        _gameState = gameState;
+    }
+    
+    private void WaitChangeState(GameState gameState)
     {
         if (_stateRoutine != null)
         {
             StopCoroutine(_stateRoutine);
-            _gameState = gameState;
+            _gameState = GameState.None;
+            // print(gameState.ToString());
         }
 
+        // _curState = gameState;
+        
         _stateRoutine = StartCoroutine(Co_ChangeState(gameState));
     }
 

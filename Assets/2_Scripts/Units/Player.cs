@@ -22,10 +22,9 @@ public class Player : Unit
     {
         get => curHp;
         set
-        {
+        { 
             curHp = value;
             stateBar.HpValue = (float)curHp / (float)maxHp;
-            // GetHit();
         }
     }
 
@@ -83,5 +82,20 @@ public class Player : Unit
     public override void OnDeath()
     {
         base.OnDeath();
+    }
+    
+    public void GetDamage(int damage)
+    {
+        for (int i = 0; i < damage; i++)
+        {
+            if (armor > 0)
+            {
+                armor--;
+            }
+            else
+            {
+                CurHp--;
+            }
+        }
     }
 }

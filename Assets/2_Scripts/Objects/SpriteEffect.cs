@@ -6,6 +6,15 @@ using Random = UnityEngine.Random;
 
 public class SpriteEffect : MonoBehaviour
 {
+    private enum EffectType
+    {
+        Normal,
+        GoUp,
+        GoDown
+    }
+
+    [SerializeField] private EffectType effectType;
+    
     private SpriteRenderer _spriteRenderer;
     private Vector3 _firstScale;
     
@@ -27,7 +36,22 @@ public class SpriteEffect : MonoBehaviour
         {
             color.a -= 0.1f;
             _spriteRenderer.color = color;
-            transform.localScale += Vector3.one * 0.1f;
+            
+            if (effectType == EffectType.Normal)
+            {
+                transform.localScale += Vector3.one * 0.1f;
+            }
+
+            if (effectType == EffectType.GoDown)
+            {
+                transform.position += Vector3.down * 0.1f;
+            }
+
+            if (effectType == EffectType.GoUp)
+            {
+                transform.position += Vector3.up * 0.1f;
+            }
+            
             yield return new WaitForSeconds(0.01f);
         }
         Destroy(gameObject);

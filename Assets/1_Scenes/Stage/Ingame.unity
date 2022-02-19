@@ -1955,6 +1955,10 @@ MonoBehaviour:
   - {fileID: 3710710035616321466, guid: 77b06306849f5ab4cbeb12d506ca739e, type: 3}
   - {fileID: 4088712970009430801, guid: e3c8b01881d7b3540823fda46aeb3910, type: 3}
   - {fileID: 4088712970009430801, guid: 56548167102cf3346b61bdc3be39104d, type: 3}
+  - {fileID: 4088712970009430801, guid: 700a36c09218c9448bca7e8cee887a99, type: 3}
+  - {fileID: 4088712970009430801, guid: d0e30c72674adc04cb4c40e385b7eb88, type: 3}
+  - {fileID: 4088712970009430801, guid: f8f6fae2a7c99884d914104cef25539d, type: 3}
+  - {fileID: 4088712970009430801, guid: ac4a0e6eecc0f504aa93b0389b0fc62e, type: 3}
   attackEffects: []
 --- !u!4 &1879323461
 Transform:
@@ -2597,6 +2601,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5023219784955698457, guid: eda11fd6e29838747864fee4b33612e8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5023219784955698459, guid: eda11fd6e29838747864fee4b33612e8, type: 3}
+      propertyPath: weakness
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -9,7 +9,7 @@ using UnityEngine.UI;
 
 public class GameManager : SingletonMono<GameManager>
 {
-    enum GameState
+    public enum GameState
     {
         None,
         GameStart,
@@ -54,6 +54,11 @@ public class GameManager : SingletonMono<GameManager>
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button turnEndButton;
 
+    public GameState GameStates
+    {
+        get => _gameState;
+    }
+
     private void Start()
     {
         OnChangeScene();
@@ -85,20 +90,13 @@ public class GameManager : SingletonMono<GameManager>
 
         ChangeState(GameState.GameStart);
     }
-        
 
     private void Update()
     {
         MouseInput();
-        
-        if (SceneManager.GetActiveScene().name.Contains("Stage") && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
-        {
-            string[] scene = SceneManager.GetActiveScene().name.Split("Stage");
-            _curStage = int.Parse(scene[1]);
-            
-            loadingPanel.Open();
-            OnChangeScene();
-        }
+        SceneCheck();
+
+        ItemManager.Instance.UseEffect();
 
         switch (_gameState)
         {
@@ -113,6 +111,18 @@ public class GameManager : SingletonMono<GameManager>
         }
     }
 
+    private void SceneCheck()
+    {
+        if (SceneManager.GetActiveScene().name.Contains("Stage") && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
+        {
+            string[] scene = SceneManager.GetActiveScene().name.Split("Stage");
+            _curStage = int.Parse(scene[1]);
+            
+            loadingPanel.Open();
+            OnChangeScene();
+        }
+    }
+
     private void OnGameStart()
     {
         player.CurHp = _saveCurHp;
@@ -121,7 +131,8 @@ public class GameManager : SingletonMono<GameManager>
         player.MaxMp = _saveMaxMp;
         player.stateBar.HpLerp();
         player.stateBar.MpLerp();
-
+        
+        print("gamestart");
         WaitChangeState(GameState.PlayerTurnStart);
     }
 
@@ -236,9 +247,9 @@ public class GameManager : SingletonMono<GameManager>
         if (_stateRoutine != null)
         {
             StopCoroutine(_stateRoutine);
-            _gameState = GameState.None;
             // print(gameState.ToString());
         }
+        _gameState = GameState.None;
 
         // _curState = gameState;
         

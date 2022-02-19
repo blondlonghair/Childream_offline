@@ -26,7 +26,13 @@ public class EditorSceneOpen
         OpenScene("Assets/1_Scenes/Tutorial.unity");
     }   
     
-    [MenuItem("Scenes/4.MapScene")]
+    [MenuItem("Scenes/4.ShopScene")]
+    public static void OpenScene_Shop()
+    {
+        OpenScene("Assets/1_Scenes/Shop.unity");
+    }
+    
+    [MenuItem("Scenes/5.MapScene")]
     public static void OpenScene_Map()
     {
         OpenScene("Assets/1_Scenes/Map.unity");

@@ -28,6 +28,13 @@ public class AtkEffect : MonoBehaviour
 
     private Type _actType;
 
+    private void Start()
+    {
+        grid.gameObject.SetActive(false);
+        act.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
+    }
+
     public void Effect(MonsterSkill.Skill skill)
     {
         int damage = 0;
@@ -61,13 +68,15 @@ public class AtkEffect : MonoBehaviour
                 break;
         }
         
+        act.gameObject.SetActive(true);
+
         switch (actType)
         {
             case Type.Left :
                 grid.gameObject.SetActive(true);
                 text.gameObject.SetActive(true);
                 act.transform.localPosition = new Vector3(0.75f, 0, 0);
-                text.transform.localPosition = new Vector3(0.91f, -0.2f, 0); 
+                text.transform.localPosition = new Vector3(0.91f, -0.2f, 0);
                 act.sprite = knife;
                 text.text = damage.ToString();
                 break;

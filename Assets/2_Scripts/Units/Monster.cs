@@ -15,16 +15,6 @@ public class Monster : Unit
     
     protected Animator _animator;
 
-    public int CurHp
-    {
-        get => curHp;
-        set
-        {
-            curHp = value;
-            GetHit();
-        }
-    }
-
     protected virtual void Start()
     {
         GameManager.Instance.monsters.Add(this);
@@ -55,7 +45,6 @@ public class Monster : Unit
         
         for (int i = 0; i < getDamage; i++)
         {
-            print("da");
             if (armor > 0)
             {
                 armor--;
@@ -78,7 +67,6 @@ public class Monster : Unit
 
     protected override IEnumerator Co_Attack()
     {
-        print("Attack");
         Vector3 originPos = transform.position;
         
         while (transform.position.y > originPos.y - 1.5)

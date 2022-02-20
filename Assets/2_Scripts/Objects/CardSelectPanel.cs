@@ -34,6 +34,7 @@ public class CardSelectPanel : MonoBehaviour
             entry1.callback.AddListener( (eventData) =>
             {
                 cardSelectButtons[i1].transform.localScale = new Vector3(2, 2, 2);
+                cardSelectButtons[i1].transform.SetAsFirstSibling();
             });
             
             EventTrigger.Entry entry2 = new EventTrigger.Entry();
@@ -53,33 +54,33 @@ public class CardSelectPanel : MonoBehaviour
         return Random.Range(0, 30) switch
         {
             0 => new Strike(),
-            1 => new Bash(),
-            2 => new BodySlam(),
-            3 => new Cleave(),
-            4 => new Hemokinesis(),
+            1 => new RepeatedHit(),
+            2 => new Squash(),
+            3 => new DeathFault(),
+            4 => new Brimstone(),
             5 => new HeavyBlade(),
-            6 => new IronWave(),
+            6 => new Wave(),
             7 => new PommelStrike(),
-            8 => new ThunderClap(),
+            8 => new Voltage(),
             9 => new Clothesline(),
             10 => new Dropkick(),
-            11 => new ServerSoul(),
+            11 => new SoulCutter(),
             12 => new Upercut(),
-            13 => new Bludgeon(),
+            13 => new Bash(),
             14 => new Defend(),
             15 => new ShrugItOff(),
-            16 => new TrueGrit(),
-            17 => new Entrench(),
-            18 => new SecondWind(),
+            16 => new Grit(),
+            17 => new Duplication(),
+            18 => new Sacrifice(),
             19 => new Move(),
             20 => new BloodLetting(),
             21 => new Disarm(),
-            22 => new Intimidate(),
-            23 => new LimitBreak(),
-            24 => new Offering(),
+            22 => new Fear(),
+            23 => new Adrenalin(),
+            24 => new Adjustment(),
             25 => new Inflame(),
-            26 => new BurningPact(),
-            27 => new BandageUp(),
+            26 => new Contract(),
+            27 => new Hemostasis(),
             28 => new Blind(),
             29 => new Trip()
         };

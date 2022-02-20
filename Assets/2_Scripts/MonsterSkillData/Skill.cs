@@ -34,7 +34,7 @@ namespace MonsterSkill
         {
             if (target.curPos == attackPos)
             {
-                target.GetDamage(power);
+                target.GetDamage((int)((float)(power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
             }
 
             base.Effect(caster, target);
@@ -56,7 +56,7 @@ namespace MonsterSkill
         {
             if (target.curPos == attackPos)
             {
-                target.GetDamage(power);
+                target.GetDamage((int)((float)(power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
             }
 
             base.Effect(caster, target);
@@ -76,7 +76,7 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster,  Player target)
         {
-            target.GetDamage(power);
+            target.GetDamage((int)((float)(power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
             
             base.Effect(caster, target);
         }

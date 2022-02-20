@@ -96,7 +96,7 @@ public class GameManager : SingletonMono<GameManager>
         MouseInput();
         SceneCheck();
 
-        ItemManager.Instance.UseEffect();
+        ItemManager.Instance.UseEffect(_gameState);
 
         switch (_gameState)
         {
@@ -132,7 +132,8 @@ public class GameManager : SingletonMono<GameManager>
         player.stateBar.HpLerp();
         player.stateBar.MpLerp();
         
-        print("gamestart");
+        ItemManager.Instance.ShowItem();
+
         WaitChangeState(GameState.PlayerTurnStart);
     }
 
@@ -158,7 +159,7 @@ public class GameManager : SingletonMono<GameManager>
         if (monsters.Count <= 0)
         {
             //게임 끝
-            ChangeState(GameState.GameEnd);
+            WaitChangeState(GameState.GameEnd);
         }
     }
     
@@ -206,6 +207,11 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnEnemyTurnEnd()
     {
+        if (player.CurHp < 0)
+        {
+            //클리어 실패
+        }
+        
         player.Vulnerable -= 1;
         player.Weakness -= 1;
         player.armor = 0;
@@ -232,6 +238,7 @@ public class GameManager : SingletonMono<GameManager>
         _saveMaxMp = player.MaxMp;
         
         CardManager.Instance.ClearBuffer();
+        ItemManager.Instance.HideItem();
         WaitChangeState(GameState.None);
     }
 
@@ -276,7 +283,6 @@ public class GameManager : SingletonMono<GameManager>
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
-        print(gameState.ToString());
         _gameState = gameState;
         yield return null;
     }
@@ -316,7 +322,7 @@ public class GameManager : SingletonMono<GameManager>
         //카드 효과 발동
         if (Input.GetMouseButtonUp(0))
         {
-            if (player.curMp < _cardObject?.cost)
+            if (player.CurMp < _cardObject?.cost)
             {
                 return;
             }
@@ -326,10 +332,25 @@ public class GameManager : SingletonMono<GameManager>
                 if (TryCastRay(out Monster monster))
                 {
                     _cardObject?.originCard.Effect(player, monster);
-
+                    
                     if (_cardObject == null)
                         return;
+
+                    CardManager.Instance.DestroyCard(_cardObject);
+                    _cardObject = null;
+                }
+            }
+            
+            else if (_cardObject?.originCard.type == Card.CardType.Grid)
+            {
+                if (TryCastRay(out Range range))
+                {
+                    _cardObject?.originCard.Effect(player, null);
+                    player.Move(range.rangeType);
                     
+                    if (_cardObject == null)
+                        return;
+
                     CardManager.Instance.DestroyCard(_cardObject);
                     _cardObject = null;
                 }
@@ -346,14 +367,14 @@ public class GameManager : SingletonMono<GameManager>
                 {
                     _cardObject?.originCard.Effect(player, null);
                 }
-                
+
                 if (_cardObject == null)
                     return;
-                
+
                 CardManager.Instance.DestroyCard(_cardObject);
                 _cardObject = null;
             }
-
+            
             CardManager.Instance.CardAlignment();
         }
     }

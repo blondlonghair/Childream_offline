@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -9,7 +10,6 @@ public enum FootPos
     Left = 1 << 0,
     Middle = 1 << 1,
     Right = 1 << 2,
-    All = 1 << 3
 }
 
 public class Player : Unit
@@ -64,11 +64,24 @@ public class Player : Unit
 
     public void Move(FootPos footPos)
     {
+        print(footPos);
+        
         switch (footPos)
         {
-            case FootPos.Left: transform.position = Vector3.left * 3.5f; break;
-            case FootPos.Middle: transform.position = Vector3.zero; break;
-            case FootPos.Right: transform.position = Vector3.right * 3.5f; break;
+            case FootPos.Left: StartCoroutine(Co_Move(new Vector3(-3.5f, -1, 0))); break;
+            case FootPos.Middle: StartCoroutine(Co_Move(new Vector3(0, -1, 0))); break;
+            case FootPos.Right: StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); break;
+        }
+
+    }
+
+    private IEnumerator Co_Move(Vector3 pos)
+    {
+        while (!Mathf.Approximately(transform.position.x, pos.x))
+        {
+            print('d');
+            transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
+            yield return YieldCache.WaitForSeconds(0.01f);
         }
     }
 
@@ -86,7 +99,9 @@ public class Player : Unit
     
     public void GetDamage(int damage)
     {
-        for (int i = 0; i < damage; i++)
+        int getDamage = (int)((float)damage * (Vulnerable > 0 ? 1.5f : 1));
+
+        for (int i = 0; i < getDamage; i++)
         {
             if (armor > 0)
             {

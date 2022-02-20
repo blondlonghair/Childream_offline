@@ -77,14 +77,14 @@ namespace Cards
         }
     }
 
-    public class Bash : Card
+    public class RepeatedHit : Card
     {
         private int _vulnerable = 2;
 
-        public Bash()
+        public RepeatedHit()
         {
             id = 2;
-            name = "강타";
+            name = "연타";
             cost = 2;
             power = 8;
             desc = $"피해를 {power} 줍니다.\n취약을 {_vulnerable} 부여합니다.";
@@ -109,12 +109,12 @@ namespace Cards
         }
     }
 
-    public class BodySlam : Card
+    public class Squash : Card
     {
-        public BodySlam()
+        public Squash()
         {
             id = 3;
-            name = "몸통박치기";
+            name = "짓누르기";
             cost = 1;
             desc = $"현재 방어도만큼 피해를 줍니다.";
             type = CardType.One;
@@ -129,12 +129,12 @@ namespace Cards
         }
     }
 
-    public class Cleave : Card
+    public class DeathFault : Card
     {
-        public Cleave()
+        public DeathFault()
         {
             id = 4;
-            name = "절단";
+            name = "데스폴트";
             cost = 1;
             power = 8;
             desc = $"적 전체에게 피해를 {power} 줍니다.";
@@ -153,14 +153,14 @@ namespace Cards
         }
     }
 
-    public class Hemokinesis : Card
+    public class Brimstone : Card
     {
         private int _loseHealth = 2;
         
-        public Hemokinesis()
+        public Brimstone()
         {
             id = 5;
-            name = "혈류";
+            name = "혈사포";
             cost = 1;
             power = 15;
             desc = $"체력을 {_loseHealth} 잃습니다. 피해를 {power} 줍니다.";
@@ -201,14 +201,14 @@ namespace Cards
         }
     }
 
-    public class IronWave : Card
+    public class Wave : Card
     {
         private int _armor;
 
-        public IronWave()
+        public Wave()
         {
             id = 7;
-            name = "철의 파동";
+            name = "파동";
             cost = 2;
             power = 5;
             desc = $"방어도를 {power} 얻습니다. 피해를 {_armor} 줍니다.";
@@ -259,14 +259,14 @@ namespace Cards
         }
     }
 
-    public class ThunderClap : Card
+    public class Voltage : Card
     {
         private int _vulnerable = 1;
 
-        public ThunderClap()
+        public Voltage()
         {
             id = 9;
-            name = "천둥";
+            name = "전류";
             cost = 1;
             power = 4;
             desc = $"적 전체에게 피해를 {power} 주고 취약을 {_vulnerable} 부여합니다.";
@@ -341,12 +341,12 @@ namespace Cards
         }
     }
 
-    public class ServerSoul : Card
+    public class SoulCutter : Card
     {
-        public ServerSoul()
+        public SoulCutter()
         {
             id = 12;
-            name = "영혼 절단";
+            name = "소울커터";
             cost = 2;
             power = 16;
             desc = $"손에 있는 모든 카드를 소멸시킵니다. 피해를 {power} 줍니다.";
@@ -395,12 +395,12 @@ namespace Cards
         }
     }
 
-    public class Bludgeon : Card
+    public class Bash : Card
     {
-        public Bludgeon()
+        public Bash()
         {
             id = 14;
-            name = "몽둥이질";
+            name = "강타";
             cost = 3;
             power = 32;
             desc = $"피해를 {power} 줍니다.";
@@ -476,12 +476,12 @@ namespace Cards
         }
     }
 
-    public class TrueGrit : Card
+    public class Grit : Card
     {
-        public TrueGrit()
+        public Grit()
         {
             id = 17;
-            name = "진정한 끈기";
+            name = "끈기";
             cost = 1;
             power = 7;
             desc = $"방어도를 {power} 얻습니다. 무작위 카드를 1장 소멸시킵니다.";
@@ -498,12 +498,12 @@ namespace Cards
         }
     }
 
-    public class Entrench : Card
+    public class Duplication : Card
     {
-        public Entrench()
+        public Duplication()
         {
             id = 18;
-            name = "참호";
+            name = "분신술";
             cost = 2;
             power = 2;
             desc = $"방어도가 {power}배로 증가합니다.";
@@ -526,12 +526,12 @@ namespace Cards
         }
     }
 
-    public class SecondWind : Card
+    public class Sacrifice : Card
     {
-        public SecondWind()
+        public Sacrifice()
         {
             id = 19;
-            name = "기사회생";
+            name = "희생";
             cost = 1;
             power = 5;
             desc = $"모든 카드를 소멸시키고 그 수만큼 방어도를 {power} 얻습니다.";
@@ -616,12 +616,12 @@ namespace Cards
         }
     }
 
-    public class Intimidate : Card
+    public class Fear : Card
     {
-        public Intimidate()
+        public Fear()
         {
             id = 23;
-            name = "위압";
+            name = "공포";
             cost = 0;
             power = 1;
             desc = $"적 전체에게 약화를 {power} 부여합니다.";
@@ -640,12 +640,12 @@ namespace Cards
         }
     }
 
-    public class LimitBreak : Card
+    public class Adrenalin : Card
     {
-        public LimitBreak()
+        public Adrenalin()
         {
             id = 24;
-            name = "한계돌파";
+            name = "아드레날린";
             cost = 2;
             power = 2;
             desc = $"힘이 {power}배로 증가합니다.";
@@ -661,14 +661,14 @@ namespace Cards
         }
     }
 
-    public class Offering : Card
+    public class Adjustment : Card
     {
         private int _loseHealth = 6;
         
-        public Offering()
+        public Adjustment()
         {
             id = 25;
-            name = "제물";
+            name = "조정";
             cost = 1;
             power = 2;
             desc = $"체력을 {_loseHealth} 잃습니다. 에너지를 {power} 얻습니다. 카드를 2장 뽑습니다.";
@@ -709,12 +709,12 @@ namespace Cards
         }
     }
 
-    public class BurningPact : Card
+    public class Contract : Card
     {
-        public BurningPact()
+        public Contract()
         {
             id = 27;
-            name = "불타는 조약";
+            name = "계약체결";
             cost = 1;
             power = 2;
             desc = $"카드를 1장 소멸시킵니다. 카드를 {power} 뽑습니다.";
@@ -733,12 +733,12 @@ namespace Cards
         }
     }
 
-    public class BandageUp : Card
+    public class Hemostasis : Card
     {
-        public BandageUp()
+        public Hemostasis()
         {
             id = 28;
-            name = "붕대 감기";
+            name = "지혈";
             cost = 0;
             power = 3;
             desc = $"체력을 {power} 회복합니다.";

@@ -15,7 +15,7 @@ public class ItemButton : MonoBehaviour
 
     public void Setup()
     {
-        button.image.sprite = originItem.inGameSprite;
+        button.image.sprite = originItem.shopSelectSprite;
         button.onClick.AddListener(() =>
         {
             if (ItemManager.Instance.Gold < originItem.cost || 

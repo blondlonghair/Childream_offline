@@ -8,12 +8,14 @@ using UnityEngine.SceneManagement;
 public class ItemManager : SingletonMono<ItemManager>
 {
     public List<Item> items = new List<Item>();
-
-    [SerializeField] private ItemUI[] itemUI;
-
     [SerializeField] private int gold = 100;
     private string _curScene;
 
+    [SerializeField] private ItemUI[] itemUI;
+    public List<Sprite> sprites = new List<Sprite>();
+
+    private TextMeshProUGUI goldText;
+    
     public int Gold
     {
         get => gold;
@@ -30,20 +32,20 @@ public class ItemManager : SingletonMono<ItemManager>
     {
         SceneCheck(() =>
         {
-            if (GameObject.Find("GoldText").TryGetComponent(out TextMeshProUGUI tmp))
+            if (GameObject.Find("GoldText").TryGetComponent(out goldText))
             {
-                tmp.text = gold.ToString();
+                goldText.text = gold.ToString();
             }
         }, "Lobby", "Shop");
     }
 
     private void Start()
     {
-        items.Add(new BloodPack());
-        items.Add(new MonsterBook());
-        items.Add(new Knuckle());
-        items.Add(new SmoothStone());
-        items.Add(new PlateArmor());
+        // items.Add(new BloodPack());
+        // items.Add(new MonsterBook());
+        // items.Add(new Knuckle());
+        // items.Add(new SmoothStone());
+        // items.Add(new PlateArmor());
     }
 
     private void SceneCheck(Action action, params string[] targetScene)
@@ -69,12 +71,10 @@ public class ItemManager : SingletonMono<ItemManager>
 
     public void ShowItem()
     {
-        print("showitem");
-
         for (int i = 0; i < items.Count; i++)
         {
             itemUI[i].gameObject.SetActive(true);
-            itemUI[i].SetItem(items[i].inGameSprite);
+            itemUI[i].SetItem(items[i].inGameIconSprite);
         }
     }
 
@@ -84,5 +84,10 @@ public class ItemManager : SingletonMono<ItemManager>
         {
             itemUI[i].gameObject.SetActive(false);
         }
+    }
+
+    public void UpdateGoldText()
+    {
+        goldText.text = gold.ToString();
     }
 }

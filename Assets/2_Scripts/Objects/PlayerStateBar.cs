@@ -25,7 +25,7 @@ public class PlayerStateBar : MonoBehaviour
         get => _hpFrontValue;
         set
         {
-            hpText.text = $"{GameManager.Instance.player.CurHp} / {GameManager.Instance.player.MaxHp}";
+            hpText.text = $"{GameManager.Instance.player.CurHp}<color=#00a8ff>{(GameManager.Instance.player.armor > 0 ? (" + " + GameManager.Instance.player.armor) : ' ')}</color>/ {GameManager.Instance.player.MaxHp}";
             hpFront.fillAmount = value;
             _hpFrontValue = value;
         }

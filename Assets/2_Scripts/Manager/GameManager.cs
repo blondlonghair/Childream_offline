@@ -47,6 +47,7 @@ public class GameManager : SingletonMono<GameManager>
     [SerializeField] private AtkEffect atkEffect;
     [SerializeField] private LoadingPanel loadingPanel;
     [SerializeField] private GameObject cardSelectPanel;
+    [SerializeField] private GameEndPanel gameEndPanel;
 
     //가지고 가지 않는거
     [Header("가지고 가지 않는거")]
@@ -80,9 +81,9 @@ public class GameManager : SingletonMono<GameManager>
         foreach (var monster in monsters)
         {
             var monsterTransform = monster.transform;
-            MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up,
+            MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up * 2,
                 quaternion.identity, canvas.transform);
-            AtkEffect atkEft = Instantiate(atkEffect, monsterTransform.position + Vector3.up * 2,
+            AtkEffect atkEft = Instantiate(atkEffect, monsterTransform.position + Vector3.up * 3,
                 quaternion.identity);
             monster.hpBar = hpBar;
             monster.atkEffect = atkEft;
@@ -120,6 +121,13 @@ public class GameManager : SingletonMono<GameManager>
             
             loadingPanel.Open();
             OnChangeScene();
+        }
+        
+        if (SceneManager.GetActiveScene().name == "Lobby" && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
+        {
+            Destroy(gameObject);
+            Destroy(EffectManager.Instance.gameObject);
+            Destroy(CardManager.Instance.gameObject);
         }
     }
 
@@ -207,14 +215,18 @@ public class GameManager : SingletonMono<GameManager>
 
     private void OnEnemyTurnEnd()
     {
-        if (player.CurHp < 0)
+        if (player.CurHp <= 0)
         {
-            //클리어 실패
+            //게임 클리어 실패시
+            Instantiate(gameEndPanel, canvas.transform).Lose(_curStage);
         }
         
         player.Vulnerable -= 1;
         player.Weakness -= 1;
-        player.armor = 0;
+        if (player.armor > 0)
+        {
+            player.Armor = 0;
+        }
 
         foreach (var monster in monsters)
         {
@@ -234,15 +246,13 @@ public class GameManager : SingletonMono<GameManager>
         
         _saveCurHp = player.CurHp;
         _saveMaxHp = player.MaxHp;
-        _saveCurMp = player.CurMp;
+        _saveCurMp = player.MaxMp;
         _saveMaxMp = player.MaxMp;
         
         CardManager.Instance.ClearBuffer();
         ItemManager.Instance.HideItem();
         WaitChangeState(GameState.None);
     }
-
-    // private GameState _curState;
 
     private void ChangeState(GameState gameState)
     {
@@ -254,12 +264,9 @@ public class GameManager : SingletonMono<GameManager>
         if (_stateRoutine != null)
         {
             StopCoroutine(_stateRoutine);
-            // print(gameState.ToString());
         }
         _gameState = GameState.None;
 
-        // _curState = gameState;
-        
         _stateRoutine = StartCoroutine(Co_ChangeState(gameState));
     }
 
@@ -390,6 +397,11 @@ public class GameManager : SingletonMono<GameManager>
     public void NextStage()
     {
         loadingPanel.Close(() => SceneManager.LoadScene($"Stage{_curStage + 1}"));
+    }
+
+    public void LoadScene(string scene)
+    {
+        loadingPanel.Close(() => SceneManager.LoadScene(scene));
     }
 
     private bool TryCastRay<T>(string tag, out T component) where T : class?

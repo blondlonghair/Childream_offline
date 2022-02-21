@@ -6,8 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class LoadingPanel : MonoBehaviour
 {
-    public bool isEnd;
-    
     private Coroutine _coroutine;
 
     private void Start()

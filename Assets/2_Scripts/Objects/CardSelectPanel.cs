@@ -34,7 +34,7 @@ public class CardSelectPanel : MonoBehaviour
             entry1.callback.AddListener( (eventData) =>
             {
                 cardSelectButtons[i1].transform.localScale = new Vector3(2, 2, 2);
-                cardSelectButtons[i1].transform.SetAsFirstSibling();
+                cardSelectButtons[i1].transform.SetAsLastSibling();
             });
             
             EventTrigger.Entry entry2 = new EventTrigger.Entry();

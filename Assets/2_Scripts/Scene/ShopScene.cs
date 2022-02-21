@@ -16,7 +16,7 @@ public class ShopScene : MonoBehaviour
 
     private Dictionary<int, Item> _itemDictionary = new Dictionary<int, Item>();
     private Coroutine _bubbleCoroutine;
-    private Item _curSelectedItem;
+    private ItemButton _curSelectedItem;
 
     private void Start()
     {
@@ -35,23 +35,35 @@ public class ShopScene : MonoBehaviour
             var i1 = i;
 
             itemButtons[i].originItem = _itemDictionary[i];
-            itemButtons[i].button.image.sprite = itemButtons[i].originItem.inGameSprite;
+            itemButtons[i].button.image.sprite = itemButtons[i].originItem.shopUnSelectSprite;
             itemButtons[i].button.onClick.AddListener(() =>
             {
-                _curSelectedItem = itemButtons[i1].originItem;
+                _curSelectedItem = itemButtons[i1];
                 SetBubble(itemButtons[i1].originItem.desc);
+
+                foreach (var itemButton in itemButtons)
+                {
+                    itemButton.button.image.sprite = itemButton.originItem.shopUnSelectSprite;
+                }
+
+                itemButtons[i1].button.image.sprite = itemButtons[i1].originItem.shopSelectSprite;
             });
         }
     }
 
     public void BuyItem()
     {
-        if (ItemManager.Instance.Gold < _curSelectedItem.cost ||
-            ItemManager.Instance.items.Any((x) => x.id == _curSelectedItem.id))
+        if (ItemManager.Instance.Gold < _curSelectedItem.originItem.cost ||
+            ItemManager.Instance.items.Any((x) => x.id == _curSelectedItem.originItem.id))
             return;
 
-        ItemManager.Instance.items.Add(_curSelectedItem);
-        ItemManager.Instance.Gold -= _curSelectedItem.cost;
+        print(_curSelectedItem);
+        SetBubble("구매해줘서 고맙다네");
+
+        _curSelectedItem.button.image.sprite = _curSelectedItem.originItem.shopUnSelectSprite;
+        ItemManager.Instance.items.Add(_curSelectedItem.originItem);
+        ItemManager.Instance.Gold -= _curSelectedItem.originItem.cost;
+        ItemManager.Instance.UpdateGoldText();
     }
 
     public void LobbyButton()
@@ -67,7 +79,7 @@ public class ShopScene : MonoBehaviour
         }
 
         bubbleText.text = desc;
-        StartCoroutine(Co_SetBubble());
+        _bubbleCoroutine = StartCoroutine(Co_SetBubble());
     }
 
     private IEnumerator Co_SetBubble()
@@ -76,15 +88,17 @@ public class ShopScene : MonoBehaviour
 
         while (color.a <= 1)
         {
-            color.a += 0.01f;
+            color.a += 0.05f;
             bubbleImage.color = color;
             bubbleText.color = color;
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
+        yield return YieldCache.WaitForSeconds(2); 
+
         while (color.a >= 0)
         {
-            color.a -= 0.01f;
+            color.a -= 0.05f;
             bubbleImage.color = color;
             bubbleText.color = color;
             yield return YieldCache.WaitForSeconds(0.01f);

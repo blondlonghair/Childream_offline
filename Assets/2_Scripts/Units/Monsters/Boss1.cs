@@ -17,4 +17,11 @@ public class Boss1 : Monster
 
         yield return null;
     }
+
+    public override void OnDeath()
+    {
+        
+        
+        base.OnDeath();
+    }
 }

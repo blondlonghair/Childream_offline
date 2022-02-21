@@ -37,6 +37,18 @@ public class Player : Unit
             stateBar.HpValue = (float)curHp / (float)maxHp;
         }
     }
+
+    public int Armor
+    {
+        get => armor;
+        set
+        {
+            armor = value;
+            stateBar.HpValue = (float)curHp / (float)maxHp;
+            if (value <= 0)
+                EffectManager.Instance.InitEffect("Defence_Broke", transform);
+        }
+    }
     
     public int CurMp
     {
@@ -64,13 +76,11 @@ public class Player : Unit
 
     public void Move(FootPos footPos)
     {
-        print(footPos);
-        
         switch (footPos)
         {
-            case FootPos.Left: StartCoroutine(Co_Move(new Vector3(-3.5f, -1, 0))); break;
-            case FootPos.Middle: StartCoroutine(Co_Move(new Vector3(0, -1, 0))); break;
-            case FootPos.Right: StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); break;
+            case FootPos.Left: StartCoroutine(Co_Move(new Vector3(-3.5f, -1, 0))); curPos = footPos; break;
+            case FootPos.Middle: StartCoroutine(Co_Move(new Vector3(0, -1, 0))); curPos = footPos;break;
+            case FootPos.Right: StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); curPos = footPos;break;
         }
 
     }
@@ -79,7 +89,6 @@ public class Player : Unit
     {
         while (!Mathf.Approximately(transform.position.x, pos.x))
         {
-            print('d');
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
@@ -103,9 +112,9 @@ public class Player : Unit
 
         for (int i = 0; i < getDamage; i++)
         {
-            if (armor > 0)
+            if (Armor > 0)
             {
-                armor--;
+                Armor--;
             }
             else
             {

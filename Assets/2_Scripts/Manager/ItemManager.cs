@@ -36,7 +36,7 @@ public class ItemManager : SingletonMono<ItemManager>
             {
                 goldText.text = gold.ToString();
             }
-        }, "Lobby", "Shop");
+        }, "Lobby", "Shop", "Map", "Ingame");
     }
 
     private void Start()

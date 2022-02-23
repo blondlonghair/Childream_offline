@@ -20,27 +20,18 @@ public class PlayerStateBar : MonoBehaviour
     [SerializeField, Range(0, 1)] private float _mpBackValue = 1;
     [SerializeField, Range(0, 1)] private float _mpFrontValue = 1;
 
-    public float HpValue
+    public void SetHpValue(int armor, int curHp, int maxHp)
     {
-        get => _hpFrontValue;
-        set
-        {
-            hpText.text = $"{GameManager.Instance.player.CurHp}<color=#00a8ff>{(GameManager.Instance.player.armor > 0 ? (" + " + GameManager.Instance.player.armor) : ' ')}</color>/ {GameManager.Instance.player.MaxHp}";
-            hpFront.fillAmount = value;
-            _hpFrontValue = value;
-        }
+        hpText.text = $"{curHp}<color=#00a8ff>{(armor > 0 ? " +" + armor : "")}</color> / {maxHp}";
+        hpFront.fillAmount = (float)curHp / (float)maxHp;
+        _hpFrontValue = (float)curHp / (float)maxHp;
     }
-    
-    
-    public float MpValue
+
+    public void SetMpValue(int armor, int curMp, int maxMp)
     {
-        get => _mpFrontValue;
-        set 
-        { 
-            mpText.text = $"{GameManager.Instance.player.CurMp} / {GameManager.Instance.player.MaxMp}";
-            mpFront.fillAmount = value;
-            _mpFrontValue = value;
-        }
+        mpText.text = $"{curMp} / {maxMp}";
+        mpFront.fillAmount = (float)curMp / (float)maxMp;
+        _mpFrontValue = (float)curMp / (float)maxMp;
     }
 
     public void HpLerp()

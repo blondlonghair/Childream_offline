@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Mono.CompilerServices.SymbolWriter;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -28,11 +29,12 @@ public class Card
 
     public virtual void Effect(Player caster, params Monster[] target)
     {
-        if (caster.curMp < cost)
+        if (caster.CurMp < cost)
         {
             return;
         }
 
+        caster.CurHp = caster.CurHp;
         caster.CurMp -= cost;
     }
 
@@ -170,7 +172,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-            caster.curHp -= _loseHealth;
+            caster.CurHp -= _loseHealth;
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
 
             base.Effect(caster, target);
@@ -359,9 +361,11 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            foreach (var card in CardManager.Instance.cards)
+            int cardCount = CardManager.Instance.cards.Count;
+            
+            for (int i = cardCount - 1; i >= 0; i--)
             {
-                CardManager.Instance.DestroyCard(card);
+                CardManager.Instance.DestroyCard(CardManager.Instance.cards[i]);
             }
 
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
@@ -553,11 +557,13 @@ namespace Cards
             caster.Armor += power * CardManager.Instance.cards.Count;
             EffectManager.Instance.InitEffect("Defence", caster.transform);
 
-            foreach (var card in CardManager.Instance.cards)
-            {
-                CardManager.Instance.DestroyCard(card);
-            }
+            int cardCount = CardManager.Instance.cards.Count;
             
+            for (int i = cardCount - 1; i >= 0; i--)
+            {
+                CardManager.Instance.DestroyCard(CardManager.Instance.cards[i]);
+            }
+
             base.Effect(caster, target);
         }
     }
@@ -598,7 +604,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            caster.curHp -= _loseHealth;
+            caster.CurHp -= _loseHealth;
             caster.CurMp += power;
             
             base.Effect(caster, target);
@@ -690,7 +696,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            caster.curHp -= _loseHealth;
+            caster.CurHp -= _loseHealth;
             caster.CurMp += power;
             
             CardManager.Instance.DrawCard();
@@ -730,7 +736,7 @@ namespace Cards
             name = "계약체결";
             cost = 1;
             power = 2;
-            desc = $"카드를 1장 소멸시킵니다. 카드를 {power} 뽑습니다.";
+            desc = $"무작위 카드를 1장 소멸시킵니다. 카드를 {power} 뽑습니다.";
             type = CardType.None;
             CardManager.Instance.GetSprite(id, out sprite, out backGround);
         }
@@ -761,7 +767,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            caster.curHp += power;
+            caster.CurHp += power;
             EffectManager.Instance.InitEffect("Heal", caster.transform);
 
             base.Effect(caster, target);

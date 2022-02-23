@@ -67,8 +67,8 @@ namespace Items
             {
                 foreach (var monster in GameManager.Instance.monsters)
                 {
-                    monster.curHp -= (int) ((float) monster.maxHp * 0.25);
-                    monster.maxHp -= (int) ((float) monster.maxHp * 0.25);
+                    monster.CurHp -= (int) ((float) monster.MaxHp * 0.25);
+                    monster.MaxHp -= (int) ((float) monster.MaxHp * 0.25);
                 }
             }
             

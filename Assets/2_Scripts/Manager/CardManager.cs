@@ -31,7 +31,7 @@ public class CardManager : SingletonMono<CardManager>
     {
         deck.Add(new Cards.Strike());
         deck.Add(new Cards.Strike());
-        deck.Add(new Cards.Strike());
+        deck.Add(new Cards.SoulCutter());
         deck.Add(new Cards.RepeatedHit());
         deck.Add(new Cards.Defend());
         deck.Add(new Cards.Defend());

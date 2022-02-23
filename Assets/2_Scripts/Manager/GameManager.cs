@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -238,7 +240,7 @@ public class GameManager : SingletonMono<GameManager>
         
         player.Vulnerable -= 1;
         player.Weakness -= 1;
-        if (player.armor > 0)
+        if (player.Armor > 0)
         {
             player.Armor = 0;
         }
@@ -247,7 +249,7 @@ public class GameManager : SingletonMono<GameManager>
         {
             monster.Vulnerable -= 1;
             monster.Weakness -= 1;
-            monster.armor = 0;
+            monster.Armor = 0;
         }
 
         player.stateBar.HpLerp();
@@ -266,7 +268,7 @@ public class GameManager : SingletonMono<GameManager>
         
         CardManager.Instance.ClearBuffer();
         ItemManager.Instance.HideItem();
-        WaitChangeState(GameState.None);
+        ChangeState(GameState.None);
     }
 
     private void ChangeState(GameState gameState)
@@ -288,19 +290,31 @@ public class GameManager : SingletonMono<GameManager>
     private IEnumerator Co_ChangeState(GameState gameState)
     {
         Color statePanelColor = statePanel.color;
-            
+        TextMeshProUGUI stateText = statePanel.GetComponentInChildren<TextMeshProUGUI>();
+        stateText.text = gameState switch
+        {
+            GameState.PlayerTurnStart => $"스테이지 {_curStage}",
+            GameState.PlayerTurn => "플레이어 턴",
+            GameState.EnemyTurn => "적 턴",
+            GameState.GameEnd => "끝"
+        };
+        
         while (statePanelColor.a < 1)
         {
-            statePanelColor.a += 0.02f;
+            statePanelColor.a += 0.03f;
             statePanel.color = statePanelColor;
+            stateText.color = statePanelColor;
 
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
+        yield return YieldCache.WaitForSeconds(1);
+        
         while (statePanelColor.a > 0)
         {
-            statePanelColor.a -= 0.02f;
+            statePanelColor.a -= 0.03f;
             statePanel.color = statePanelColor;
+            stateText.color = statePanelColor;
 
             yield return YieldCache.WaitForSeconds(0.01f);
         }
@@ -313,6 +327,13 @@ public class GameManager : SingletonMono<GameManager>
     {
         if (_curScene != "Ingame")
             return;
+
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            _cardObject?.CardZoomOut();
+            _cardObject = null;
+            return;
+        }
         
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _mousePos.z = 0;
@@ -321,7 +342,6 @@ public class GameManager : SingletonMono<GameManager>
         {
             if (TryCastRay(out CardObject cardObj))
             {
-                // cardObj.CardZoomOut();
                 cardObj.transform.position = _mousePos;
             }
         }
@@ -432,8 +452,6 @@ public class GameManager : SingletonMono<GameManager>
 
     public void LoadMonster(int pattern)
     {
-        print(pattern);
-        
         Monster monster = Instantiate(monsterObject[pattern - 1], new Vector3(0, 5, 0), Quaternion.identity);
         monsters.Add(monster);
     }

@@ -12,8 +12,9 @@ public class Monster1 : Monster
         // FootPos randomValue = (FootPos) values[Random.Range(0, values.Length)];
         
         useSkills.Add(new Strike(5, FootPos.Middle));
-        useSkills.Add(new Weakness(2));
-        useSkills.Add(new Strength(2));
+        useSkills.Add(new Armor(5));
+        // useSkills.Add(new Weakness(2));
+        // useSkills.Add(new Strength(2));
         
         base.Start();
     }

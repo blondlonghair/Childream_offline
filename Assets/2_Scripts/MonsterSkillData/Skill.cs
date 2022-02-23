@@ -15,6 +15,7 @@ namespace MonsterSkill
         
         public virtual void Effect(Monster caster, Player target)
         {
+            caster.hpBar.SetValue(caster.Armor, caster.CurHp, caster.MaxHp);
         }
     }
 
@@ -95,9 +96,11 @@ namespace MonsterSkill
 
         public override void Effect(Monster caster, Player target)
         {
-            caster.armor += power;
+            caster.Armor += power;
             
             EffectManager.Instance.InitEffect("Defence", caster.transform);
+        
+            base.Effect(caster, target);
         }
     }
 
@@ -115,6 +118,8 @@ namespace MonsterSkill
             caster.Strength += power;
             
             EffectManager.Instance.InitEffect("Strength", caster.transform);
+
+            base.Effect(caster, target);
         }
     }
     
@@ -132,6 +137,8 @@ namespace MonsterSkill
             caster.Agility += power;
             
             EffectManager.Instance.InitEffect("Agility", caster.transform);
+        
+            base.Effect(caster, target);
         }
     }
 
@@ -150,6 +157,8 @@ namespace MonsterSkill
             target.Vulnerable += power;
             
             EffectManager.Instance.InitEffect("Vulnerable", target.transform);
+        
+            base.Effect(caster, target);
         }
     }
 
@@ -169,6 +178,7 @@ namespace MonsterSkill
             
             EffectManager.Instance.InitEffect("Weakness", target.transform);
 
+            base.Effect(caster, target);
         }
     }
 }

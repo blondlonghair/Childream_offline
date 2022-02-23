@@ -15,12 +15,44 @@ public class Monster : Unit
     
     protected Animator _animator;
 
+    public int CurHp
+    {
+        get => curHp;
+        set
+        { 
+            curHp = value;
+            hpBar.SetValue(armor, curHp, maxHp);
+        }
+    }
+
+    public int MaxHp
+    {
+        get => maxHp;
+        set
+        {
+            maxHp = value; 
+            hpBar.SetValue(armor, curHp, maxHp);
+        }
+    }
+
+    public int Armor
+    {
+        get => armor;
+        set
+        {
+            armor = value;
+            hpBar.SetValue(armor, curHp, maxHp);
+            if (value <= 0)
+                EffectManager.Instance.InitEffect("Defence_Broke", transform);
+        }
+    }
+    
     protected virtual void Start()
     {
-        // GameManager.Instance.monsters.Add(this);
-
         TryGetComponent(out _animator);
-        
+
+        hpBar.SetValue(armor, curHp, maxHp);
+
         SetupSkill();
     }
 
@@ -34,7 +66,7 @@ public class Monster : Unit
 
     public override void GetHit()
     {
-        hpBar.Value = (float)curHp / (float)maxHp;
+        hpBar.SetValue(armor, curHp, maxHp);
         
         base.GetHit();
     }

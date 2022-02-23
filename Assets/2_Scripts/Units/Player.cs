@@ -15,8 +15,8 @@ public enum FootPos
 public class Player : Unit
 {
     [Header("Mp")]
-    public int maxMp;
-    public int curMp;
+    protected int maxMp;
+    protected int curMp;
 
     public int CurHp
     {
@@ -24,7 +24,7 @@ public class Player : Unit
         set
         { 
             curHp = value;
-            stateBar.HpValue = (float)curHp / (float)maxHp;
+            stateBar.SetHpValue(armor, curHp, maxHp);
         }
     }
 
@@ -34,7 +34,7 @@ public class Player : Unit
         set
         {
             maxHp = value; 
-            stateBar.HpValue = (float)curHp / (float)maxHp;
+            stateBar.SetHpValue(armor, curHp, maxHp);
         }
     }
 
@@ -44,7 +44,7 @@ public class Player : Unit
         set
         {
             armor = value;
-            stateBar.HpValue = (float)curHp / (float)maxHp;
+            stateBar.SetHpValue(armor, curHp, maxHp);
             if (value <= 0)
                 EffectManager.Instance.InitEffect("Defence_Broke", transform);
         }
@@ -56,7 +56,7 @@ public class Player : Unit
         set
         {
             curMp = value; 
-            stateBar.MpValue = (float)curMp / (float)maxMp;
+            stateBar.SetMpValue(armor, curMp, maxMp);
         }
     }
 
@@ -66,7 +66,7 @@ public class Player : Unit
         set
         {
             maxMp = value; 
-            stateBar.MpValue = (float)curMp / (float)maxMp;
+            stateBar.SetMpValue(armor, curMp, maxMp);
         }
     }
 
@@ -96,7 +96,8 @@ public class Player : Unit
 
     public override void GetHit()
     {
-        stateBar.HpValue = (float)curHp / (float)maxHp;
+        // stateBar.HpValue = (float)curHp / (float)maxHp;
+        stateBar.SetHpValue(armor, curHp, maxHp);
 
         base.GetHit();
     }

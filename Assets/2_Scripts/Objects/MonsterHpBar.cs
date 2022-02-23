@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,18 +7,16 @@ public class MonsterHpBar : MonoBehaviour
 {
     [SerializeField] private Image back;
     [SerializeField] private Image front;
+    [SerializeField] private TextMeshProUGUI text;
 
-    [SerializeField] private float _backValue = 1;
-    [SerializeField] private float _frontValue = 1;
+    [SerializeField] private float backValue = 1;
+    [SerializeField] private float frontValue = 1;
 
-    public float Value
+    public void SetValue(int armor, int curHp, int maxHp)
     {
-        get => _frontValue;
-        set 
-        { 
-            front.fillAmount = value;
-            _frontValue = value;
-        }
+        front.fillAmount = (float)curHp / (float)maxHp;
+        frontValue = (float)curHp / (float)maxHp;
+        text.text = $"{curHp}<color=#00a8ff>{(armor > 0 ? " +" + armor : "")}</color> / {maxHp}";
     }
 
     public void Lerp()
@@ -29,7 +28,7 @@ public class MonsterHpBar : MonoBehaviour
     {
         while (!Mathf.Approximately(back.fillAmount, front.fillAmount))
         {
-            back.fillAmount = Mathf.Lerp(back.fillAmount, _frontValue, 0.1f);
+            back.fillAmount = Mathf.Lerp(back.fillAmount, frontValue, 0.1f);
             yield return YieldCache.WaitForSeconds(0.02f);
         }
     }

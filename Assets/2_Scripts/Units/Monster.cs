@@ -17,7 +17,7 @@ public class Monster : Unit
 
     protected virtual void Start()
     {
-        GameManager.Instance.monsters.Add(this);
+        // GameManager.Instance.monsters.Add(this);
 
         TryGetComponent(out _animator);
         

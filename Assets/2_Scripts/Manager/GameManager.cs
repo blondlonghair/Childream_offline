@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Mail;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -22,62 +21,61 @@ public class GameManager : SingletonMono<GameManager>
         GameEnd
     }
 
-    //내부
-    private int _curStage = 1;
-    private int _curTurn;
+    [Header("내부")]
     [SerializeField] private int _saveCurHp = 80;
     [SerializeField] private int _saveMaxHp = 80;
-    private int _saveCurMp = 3;
-    private int _saveMaxMp = 3;
-
+    [SerializeField] private int _saveCurMp = 3;
+    [SerializeField] private int _saveMaxMp = 3;
+    [SerializeField] private float attackTime;
+    [SerializeField] private float attackInterval;
+    
     [SerializeField] private GameState _gameState;
+    private int _curStage = 0;
+    private string _curScene;
+    private int _curTurn;
     private Vector3 _mousePos;
     private CardObject _cardObject;
     private int _curMonster;
     private Coroutine _stateRoutine;
-
-    public Player player;
-    public List<Monster> monsters = new List<Monster>();
-
-    //가지고 가는거
+    
     [Header("가지고 가는거")]
-    [SerializeField] private float attackTime;
-    [SerializeField] private float attackInterval;
     [SerializeField] private MonsterHpBar monsterHpBar;
     [SerializeField] private AtkEffect atkEffect;
     [SerializeField] private LoadingPanel loadingPanel;
     [SerializeField] private GameObject cardSelectPanel;
     [SerializeField] private GameEndPanel gameEndPanel;
 
-    //가지고 가지 않는거
     [Header("가지고 가지 않는거")]
+    public Player player;
+    public List<Monster> monsters = new List<Monster>();
     [SerializeField] private Image statePanel;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button turnEndButton;
+    [SerializeField] private List<Monster> monsterObject;
 
+    public int CurStage
+    {
+        get => _curStage;
+    }
+    
     public GameState GameStates
     {
         get => _gameState;
     }
 
-    private void Start()
-    {
-        OnChangeScene();
-    }
-
-    private void OnChangeScene()
+    private void OnChangeStage()
     {
         CardManager.Instance.OnChangeScene();
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
-        canvas = GameObject.FindWithTag("Canvas");
-        // GameObject.FindWithTag("CardSelectPanel").TryGetComponent(out cardSelectPanel);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
-        turnEndButton.onClick.AddListener(TurnEndButton);
         
-        // cardSelectPanel.gameObject.SetActive(false);
+        canvas = GameObject.FindWithTag("Canvas");
+        turnEndButton.onClick.AddListener(TurnEndButton);
 
+        LoadMonster(_curStage);
+        
         foreach (var monster in monsters)
         {
             var monsterTransform = monster.transform;
@@ -114,16 +112,33 @@ public class GameManager : SingletonMono<GameManager>
 
     private void SceneCheck()
     {
-        if (SceneManager.GetActiveScene().name.Contains("Stage") && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
+        //TODO 씬 변경방법 변경
+        // if (SceneManager.GetActiveScene().name.Contains("Stage") && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
+        // {
+        //     string[] scene = SceneManager.GetActiveScene().name.Split("Stage");
+        //     _curStage = int.Parse(scene[1]);
+        //     
+        //     loadingPanel.Open();
+        //     OnChangeScene();
+        // }
+
+        if (SceneManager.GetActiveScene().name == "Ingame" && _curScene != SceneManager.GetActiveScene().name)
         {
-            string[] scene = SceneManager.GetActiveScene().name.Split("Stage");
-            _curStage = int.Parse(scene[1]);
-            
+            _curStage++;
             loadingPanel.Open();
-            OnChangeScene();
+            OnChangeStage();
+
+            _curScene = SceneManager.GetActiveScene().name;
+        }
+
+        if (SceneManager.GetActiveScene().name == "Map" && _curScene != SceneManager.GetActiveScene().name)
+        {
+            loadingPanel.Open();
+
+            _curScene = SceneManager.GetActiveScene().name;
         }
         
-        if (SceneManager.GetActiveScene().name == "Lobby" && $"Stage{_curStage}" != SceneManager.GetActiveScene().name)
+        if (SceneManager.GetActiveScene().name != "Ingame" && SceneManager.GetActiveScene().name != "Map")
         {
             Destroy(gameObject);
             Destroy(EffectManager.Instance.gameObject);
@@ -296,6 +311,9 @@ public class GameManager : SingletonMono<GameManager>
     
     private void MouseInput()
     {
+        if (_curScene != "Ingame")
+            return;
+        
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _mousePos.z = 0;
         
@@ -396,12 +414,28 @@ public class GameManager : SingletonMono<GameManager>
 
     public void NextStage()
     {
-        loadingPanel.Close(() => SceneManager.LoadScene($"Stage{_curStage + 1}"));
+        //TODO 씬 변경
+        loadingPanel.Close(() =>
+        {
+            SceneManager.LoadScene("Map");
+            // _curStage++;
+            // OnChangeStage();
+
+            // loadingPanel.Open();
+        });
     }
 
     public void LoadScene(string scene)
     {
         loadingPanel.Close(() => SceneManager.LoadScene(scene));
+    }
+
+    public void LoadMonster(int pattern)
+    {
+        print(pattern);
+        
+        Monster monster = Instantiate(monsterObject[pattern - 1], new Vector3(0, 5, 0), Quaternion.identity);
+        monsters.Add(monster);
     }
 
     private bool TryCastRay<T>(string tag, out T component) where T : class?

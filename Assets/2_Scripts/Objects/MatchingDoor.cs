@@ -7,60 +7,72 @@ using UnityEngine.UI;
 
 public class MatchingDoor : MonoBehaviour
 {
-    public bool isCloseOver { get; set; }
-    public bool isOpenOver { get; set; }
-    private Animator animator;
+    private Animator _animator;
+    private Coroutine _doorCoroutine;
+
+    private bool _isCloseOver;
+    private bool _isOpenOver;
+    
+    private void Start()
+    {
+        _animator = GetComponent<Animator>();
+    }
 
     public void IsCloseOver()
     {
-        isCloseOver = true;
+        _isCloseOver = true;
     }
 
     public void IsOpenOver()
     {
-        isOpenOver = true;
+        _isOpenOver = true;
     }
-
-    private void Start()
+    
+    public void OpenDoor(Action action)
     {
-        animator = GetComponent<Animator>();
-
-        if (SceneManager.GetActiveScene().name == "Ingame")
+        if (_doorCoroutine != null)
         {
-            animator.SetTrigger("DoorOpen");
+            StopCoroutine(_doorCoroutine);
         }
-    }
-
-    private void Update()
-    {
-        if (isOpenOver)
-        {
-            gameObject.SetActive(false);
-        }
-    }
-
-    public void OpenDoor()
-    {
-        animator.SetTrigger("DoorOpen");
-        gameObject.SetActive(false);
+        
+        _doorCoroutine = StartCoroutine(Co_OpenDoor(action));
     }
 
     public void CloseDoor(Action action)
     {
-        StartCoroutine(Co_CloseDoor(action));
+        if (_doorCoroutine != null)
+        {
+            StopCoroutine(_doorCoroutine);
+        }
+        
+        _doorCoroutine = StartCoroutine(Co_CloseDoor(action));
+    }
+
+    private IEnumerator Co_OpenDoor(Action action)
+    {
+        gameObject.SetActive(true);
+        _animator.SetTrigger("DoorOpen");
+        yield return null;
+
+        while (!_isOpenOver)
+        {
+            yield return YieldCache.WaitForSeconds(0.1f);
+        }
+
+        action?.Invoke();
     }
 
     private IEnumerator Co_CloseDoor(Action action)
     {
         gameObject.SetActive(true);
-        animator.SetTrigger("DoorClose");
+        _animator.SetTrigger("DoorClose");
         yield return null;
 
-        while (!isCloseOver)
+        while (!_isCloseOver)
         {
             yield return YieldCache.WaitForSeconds(0.1f);
         }
 
-        action.Invoke();
+        action?.Invoke();
     }
 }

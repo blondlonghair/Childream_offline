@@ -20,8 +20,6 @@ public class Boss1 : Monster
 
     public override void OnDeath()
     {
-        
-        
         base.OnDeath();
     }
 }

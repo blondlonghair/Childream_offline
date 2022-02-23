@@ -129,7 +129,7 @@ AnimationClip:
   - time: 0.7
     functionName: IsCloseOver
     data: 
-    objectReferenceParameter: {fileID: 11500000, guid: 1096a5a7e761cca4286242d983dbd343, type: 3}
+    objectReferenceParameter: {fileID: 11500000, guid: ef50361ed122402d9c72371f64748f41, type: 3}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0

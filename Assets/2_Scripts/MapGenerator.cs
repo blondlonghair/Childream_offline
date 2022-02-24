@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MapGenerator : SingletonMono<MapGenerator>
+public class MapGenerator : SingletonMonoDestroy<MapGenerator>
 {
     //7*15
     private const int Width = 7;

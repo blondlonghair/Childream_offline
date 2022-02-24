@@ -20,7 +20,7 @@ public class GameEndPanel : MonoBehaviour
         winPanel.SetActive(true);
         losePanel.SetActive(false);
         goldText.text = gold.ToString();
-        descText.text = $"클리어한 스테이지({stage}) = {(stage - 1) * stageClearGold}\n클리어 보상(1) = " +
+        descText.text = $"클리어한 스테이지({stage - 1}) = {(stage - 1) * stageClearGold}\n클리어 보상(1) = " +
                         $"{gameClearGold}{(ItemManager.Instance.items.Any((x) => x.id == 6) ? $"\n유물:돈봉투 = {((stage - 1) * stageClearGold + gameClearGold) / 2}" : ' ')}";
         
         ItemManager.Instance.Gold += gold;
@@ -33,7 +33,7 @@ public class GameEndPanel : MonoBehaviour
         winPanel.SetActive(false);
         losePanel.SetActive(true);
         goldText.text = gold.ToString();
-        descText.text = $"클리어한 스테이지({stage}) = {(stage - 1) * stageClearGold}" +
+        descText.text = $"클리어한 스테이지({stage - 1}) = {(stage - 1) * stageClearGold}" +
                         $"{(ItemManager.Instance.items.Any((x) => x.id == 6) ? $"\n유물:돈봉투 = {(stage - 1) * stageClearGold / 2}" : ' ')}";
 
         ItemManager.Instance.Gold += gold;

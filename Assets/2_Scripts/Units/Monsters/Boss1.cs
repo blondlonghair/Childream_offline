@@ -14,12 +14,6 @@ public class Boss1 : Monster
     protected override IEnumerator Co_Attack()
     {
         _animator.SetTrigger("isAttack");
-
-        yield return null;
-    }
-
-    public override void OnDeath()
-    {
-        base.OnDeath();
+        yield return YieldCache.WaitForSeconds(2f);
     }
 }

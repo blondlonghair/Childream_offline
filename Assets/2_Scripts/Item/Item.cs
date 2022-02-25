@@ -13,10 +13,10 @@ public class Item
     public string name;
     public int cost;
     public string desc;
-    public Sprite shopUnSelectSprite;
-    public Sprite shopSelectSprite;
-    public Sprite shopSoldSprite;
-    public Sprite inGameIconSprite;
+    [HideInInspector] public Sprite shopUnSelectSprite;
+    [HideInInspector] public Sprite shopSelectSprite;
+    [HideInInspector] public Sprite shopSoldSprite;
+    [HideInInspector] public Sprite inGameIconSprite;
     
     public virtual void Effect(GameManager.GameState gameState)
     {

@@ -35,22 +35,17 @@ public class ShopScene : MonoBehaviour
         {
             var i1 = i;
 
-            itemButtons[i].originItem = _itemDictionary[i];
-            itemButtons[i].button.image.sprite = ItemManager.Instance.items.Exists(x => x.id == itemButtons[i].originItem.id)
-                ? itemButtons[i].originItem.shopSoldSprite
-                : itemButtons[i].originItem.shopUnSelectSprite;
-            
-            itemButtons[i].button.onClick.AddListener(() =>
+            itemButtons[i].Setup(_itemDictionary[i], () =>
             {
                 _curSelectedItem = itemButtons[i1];
                 SetBubble(itemButtons[i1].originItem.desc);
 
                 foreach (var itemButton in itemButtons)
                 {
-                    itemButton.button.image.sprite = itemButton.originItem.shopUnSelectSprite;
+                    itemButton.SetSprite(itemButton.originItem.shopUnSelectSprite);
                 }
 
-                itemButtons[i1].button.image.sprite = itemButtons[i1].originItem.shopSelectSprite;
+                itemButtons[i1].SetSprite(itemButtons[i1].originItem.shopSelectSprite);
             });
         }
     }
@@ -70,7 +65,7 @@ public class ShopScene : MonoBehaviour
         }
 
         SetBubble("구매해줘서 고맙다네");
-        _curSelectedItem.button.image.sprite = _curSelectedItem.originItem.shopSoldSprite;
+        _curSelectedItem.SetSprite(_curSelectedItem.originItem.shopSoldSprite);
         ItemManager.Instance.items.Add(_curSelectedItem.originItem);
         ItemManager.Instance.Gold -= _curSelectedItem.originItem.cost;
         ItemManager.Instance.UpdateGoldText();

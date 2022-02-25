@@ -1230,7 +1230,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: []
-  gold: 100
+  sprites:
+  - {fileID: 21300000, guid: 768363bb491d0294284866c9258a1cf2, type: 3}
+  - {fileID: 21300000, guid: 0cb7a1f677edd2f45b2d9ca3ba738494, type: 3}
+  - {fileID: 21300000, guid: 487f573b0aae25b46b07f15a99cbbe92, type: 3}
+  - {fileID: 21300000, guid: 04326d2cc0d1dcc4f984b463c3704f44, type: 3}
+  - {fileID: 21300000, guid: 3535dd8a8250a4c42a782ca8f7ff5928, type: 3}
+  - {fileID: 21300000, guid: 652af26198b79cc429353c5bb47b0570, type: 3}
+  - {fileID: 21300000, guid: 8c5d0b7847ef88c44ac9d035e75d5772, type: 3}
+  - {fileID: 21300000, guid: a81cbc93c402dbe4580b74263fe57d1f, type: 3}
+  - {fileID: 21300000, guid: abe4feacada79fd4184cfa41b3ce5883, type: 3}
+  - {fileID: 21300000, guid: 191da8132e5c94943a0c9cce12b0834f, type: 3}
+  - {fileID: 21300000, guid: 66f5494f29374c64f989fb262a8547ad, type: 3}
+  - {fileID: 21300000, guid: 4ccd68934afb6454d97e521ba8169991, type: 3}
+  - {fileID: 21300000, guid: c4c502faaf67d304693986526b84bcb7, type: 3}
+  - {fileID: 21300000, guid: a902540aa49c59c4999299caf51368f7, type: 3}
+  - {fileID: 21300000, guid: f9a76bee5eb26b346a340a6892aaba61, type: 3}
+  - {fileID: 21300000, guid: f27507cbd78b95a4f85410a6855ed677, type: 3}
+  - {fileID: 21300000, guid: f5c0d44dca359e34bbf6ce279b53dd81, type: 3}
+  - {fileID: 21300000, guid: 0f7138646332ac446be4361a988fab61, type: 3}
+  - {fileID: 21300000, guid: a6f0791512d15d446bb5a4f4f9b8c257, type: 3}
+  - {fileID: 21300000, guid: 02aeafc37199ab94fabf51a3ba0fab3b, type: 3}
+  - {fileID: 21300000, guid: 4412be8da3bb8574689907d33405ddb5, type: 3}
+  - {fileID: 21300000, guid: bf6d39db1fc09f14db031b7b8f1205d4, type: 3}
+  - {fileID: 21300000, guid: f3e5d31ac6a31f24aa6a8f5f333f68f7, type: 3}
+  - {fileID: 21300000, guid: e4ad21df3de029b4a82f608cf6112ca1, type: 3}
   itemUI:
   - {fileID: 1338473696}
   - {fileID: 687196452}
@@ -1238,25 +1262,7 @@ MonoBehaviour:
   - {fileID: 820415487}
   - {fileID: 564447645}
   - {fileID: 1805876065}
-  sprites:
-  - {fileID: 21300000, guid: 768363bb491d0294284866c9258a1cf2, type: 3}
-  - {fileID: 21300000, guid: 0cb7a1f677edd2f45b2d9ca3ba738494, type: 3}
-  - {fileID: 21300000, guid: 04326d2cc0d1dcc4f984b463c3704f44, type: 3}
-  - {fileID: 21300000, guid: 3535dd8a8250a4c42a782ca8f7ff5928, type: 3}
-  - {fileID: 21300000, guid: 652af26198b79cc429353c5bb47b0570, type: 3}
-  - {fileID: 21300000, guid: a81cbc93c402dbe4580b74263fe57d1f, type: 3}
-  - {fileID: 21300000, guid: abe4feacada79fd4184cfa41b3ce5883, type: 3}
-  - {fileID: 21300000, guid: 191da8132e5c94943a0c9cce12b0834f, type: 3}
-  - {fileID: 21300000, guid: 4ccd68934afb6454d97e521ba8169991, type: 3}
-  - {fileID: 21300000, guid: c4c502faaf67d304693986526b84bcb7, type: 3}
-  - {fileID: 21300000, guid: a902540aa49c59c4999299caf51368f7, type: 3}
-  - {fileID: 21300000, guid: f27507cbd78b95a4f85410a6855ed677, type: 3}
-  - {fileID: 21300000, guid: f5c0d44dca359e34bbf6ce279b53dd81, type: 3}
-  - {fileID: 21300000, guid: 0f7138646332ac446be4361a988fab61, type: 3}
-  - {fileID: 21300000, guid: 02aeafc37199ab94fabf51a3ba0fab3b, type: 3}
-  - {fileID: 21300000, guid: 4412be8da3bb8574689907d33405ddb5, type: 3}
-  - {fileID: 21300000, guid: bf6d39db1fc09f14db031b7b8f1205d4, type: 3}
-  - {fileID: 21300000, guid: e4ad21df3de029b4a82f608cf6112ca1, type: 3}
+  gold: 100
 --- !u!4 &935821918
 Transform:
   m_ObjectHideFlags: 0
@@ -1514,6 +1520,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   matchingDoor: {fileID: 1373424227}
   loadingPanel: {fileID: 40659688}
+  backGround: {fileID: 165268200}
+  backGroundSprite:
+  - {fileID: 21300000, guid: 6a27068a95381fd4b82deb7355f14582, type: 3}
+  - {fileID: 21300000, guid: 36b5f21d02bb29a4b9969997cb1ba4e7, type: 3}
 --- !u!4 &1257439850
 Transform:
   m_ObjectHideFlags: 0

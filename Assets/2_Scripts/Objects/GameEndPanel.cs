@@ -1,12 +1,15 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Video;
 
 public class GameEndPanel : MonoBehaviour
 {
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private VideoPlayer videoPlayer;
     [SerializeField] private TextMeshProUGUI goldText;
     [SerializeField] private TextMeshProUGUI descText;
 
@@ -28,7 +31,7 @@ public class GameEndPanel : MonoBehaviour
 
     public void Lose(int stage)
     {
-        int gold = (stage - 1) * stageClearGold +  + (ItemManager.Instance.items.Any((x) => x.id == 6) ? ((stage - 1) * stageClearGold + gameClearGold) / 2 : 0);
+        int gold = (stage - 1) * stageClearGold + (ItemManager.Instance.items.Any((x) => x.id == 6) ? ((stage - 1) * stageClearGold + gameClearGold) / 2 : 0);
         
         winPanel.SetActive(false);
         losePanel.SetActive(true);
@@ -42,5 +45,25 @@ public class GameEndPanel : MonoBehaviour
     public void LobbyButton()
     {
         GameManager.Instance.LoadScene("Lobby");
+    }
+
+    public void CutScene()
+    {
+        videoPlayer.gameObject.SetActive(true);
+        videoPlayer.targetCamera = Camera.main;
+
+        StartCoroutine(Co_PlayCutScene());
+    }
+
+    private IEnumerator Co_PlayCutScene()
+    {
+        while (videoPlayer.isPlaying)
+        {
+            yield return null;
+        }
+
+        print("Rmx");
+        GameManager.Instance.LoadScene("Lobby");
+        yield return null;
     }
 }

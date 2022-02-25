@@ -257,6 +257,7 @@ public class GameManager : SingletonMono<GameManager>
         if (_curStage == 10)
         {
             GameEndPanelWin();
+            PlayerPrefs.SetInt("ClearOnce", 1);
             return;
         }
         

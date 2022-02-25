@@ -8,13 +8,12 @@ using UnityEngine.SceneManagement;
 public class ItemManager : SingletonMono<ItemManager>
 {
     public List<Item> items = new List<Item>();
+    public List<Sprite> sprites = new List<Sprite>();
+    [SerializeField] private ItemUI[] itemUI;
+
     [SerializeField] private int gold = 100;
     private string _curScene;
-
-    [SerializeField] private ItemUI[] itemUI;
-    public List<Sprite> sprites = new List<Sprite>();
-
-    private TextMeshProUGUI goldText;
+    private TextMeshProUGUI _goldText;
     
     public int Gold
     {
@@ -32,20 +31,11 @@ public class ItemManager : SingletonMono<ItemManager>
     {
         SceneCheck(() =>
         {
-            if (GameObject.Find("GoldText").TryGetComponent(out goldText))
+            if (GameObject.Find("GoldText").TryGetComponent(out _goldText))
             {
-                goldText.text = gold.ToString();
+                _goldText.text = gold.ToString();
             }
         }, "Lobby", "Shop", "Map", "Ingame");
-    }
-
-    private void Start()
-    {
-        // items.Add(new BloodPack());
-        // items.Add(new MonsterBook());
-        // items.Add(new Knuckle());
-        // items.Add(new SmoothStone());
-        // items.Add(new PlateArmor());
     }
 
     private void SceneCheck(Action action, params string[] targetScene)
@@ -88,6 +78,6 @@ public class ItemManager : SingletonMono<ItemManager>
 
     public void UpdateGoldText()
     {
-        goldText.text = gold.ToString();
+        _goldText.text = gold.ToString();
     }
 }

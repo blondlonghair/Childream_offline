@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Items;
@@ -35,7 +36,10 @@ public class ShopScene : MonoBehaviour
             var i1 = i;
 
             itemButtons[i].originItem = _itemDictionary[i];
-            itemButtons[i].button.image.sprite = itemButtons[i].originItem.shopUnSelectSprite;
+            itemButtons[i].button.image.sprite = ItemManager.Instance.items.Exists(x => x.id == itemButtons[i].originItem.id)
+                ? itemButtons[i].originItem.shopSoldSprite
+                : itemButtons[i].originItem.shopUnSelectSprite;
+            
             itemButtons[i].button.onClick.AddListener(() =>
             {
                 _curSelectedItem = itemButtons[i1];
@@ -53,14 +57,20 @@ public class ShopScene : MonoBehaviour
 
     public void BuyItem()
     {
-        if (ItemManager.Instance.Gold < _curSelectedItem.originItem.cost ||
-            ItemManager.Instance.items.Any((x) => x.id == _curSelectedItem.originItem.id))
+        if (ItemManager.Instance.items.Any((x) => x.id == _curSelectedItem.originItem.id))
+        {
+            SetBubble("이미 가지고 있는 아이템인지 않은가..?");
             return;
+        }
+        
+        if (ItemManager.Instance.Gold < _curSelectedItem.originItem.cost)
+        {
+            SetBubble("돈이 부족한지 않은지 생각해보게...");
+            return;
+        }
 
-        print(_curSelectedItem);
         SetBubble("구매해줘서 고맙다네");
-
-        _curSelectedItem.button.image.sprite = _curSelectedItem.originItem.shopUnSelectSprite;
+        _curSelectedItem.button.image.sprite = _curSelectedItem.originItem.shopSoldSprite;
         ItemManager.Instance.items.Add(_curSelectedItem.originItem);
         ItemManager.Instance.Gold -= _curSelectedItem.originItem.cost;
         ItemManager.Instance.UpdateGoldText();
@@ -94,7 +104,7 @@ public class ShopScene : MonoBehaviour
             yield return YieldCache.WaitForSeconds(0.01f);
         }
 
-        yield return YieldCache.WaitForSeconds(2); 
+        yield return YieldCache.WaitForSeconds(2);
 
         while (color.a >= 0)
         {

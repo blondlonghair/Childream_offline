@@ -1229,7 +1229,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 127df67a849349edba8855905b9fb9cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gold: 100
   items: []
+  itemUI:
+  - {fileID: 1338473696}
+  - {fileID: 687196452}
+  - {fileID: 1484640568}
+  - {fileID: 820415487}
+  - {fileID: 564447645}
+  - {fileID: 1805876065}
   sprites:
   - {fileID: 21300000, guid: 768363bb491d0294284866c9258a1cf2, type: 3}
   - {fileID: 21300000, guid: 0cb7a1f677edd2f45b2d9ca3ba738494, type: 3}
@@ -1255,14 +1263,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: bf6d39db1fc09f14db031b7b8f1205d4, type: 3}
   - {fileID: 21300000, guid: f3e5d31ac6a31f24aa6a8f5f333f68f7, type: 3}
   - {fileID: 21300000, guid: e4ad21df3de029b4a82f608cf6112ca1, type: 3}
-  itemUI:
-  - {fileID: 1338473696}
-  - {fileID: 687196452}
-  - {fileID: 1484640568}
-  - {fileID: 820415487}
-  - {fileID: 564447645}
-  - {fileID: 1805876065}
-  gold: 100
 --- !u!4 &935821918
 Transform:
   m_ObjectHideFlags: 0

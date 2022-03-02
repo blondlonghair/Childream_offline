@@ -8,7 +8,7 @@ public class MapScene : MonoBehaviour
     
     private void Start()
     {
-        if (GameManager.Instance.CurStage == 0)
+        if (InGameManager.Instance.CurStage == 0)
         {
             matchingDoor.OpenDoor(null);
         }
@@ -16,6 +16,6 @@ public class MapScene : MonoBehaviour
 
     public void LoadScene()
     {
-        GameManager.Instance.LoadScene("Ingame");
+        InGameManager.Instance.LoadScene("Ingame");
     }
 }

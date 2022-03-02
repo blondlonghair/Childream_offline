@@ -44,7 +44,7 @@ public class GameEndPanel : MonoBehaviour
 
     public void LobbyButton()
     {
-        GameManager.Instance.LoadScene("Lobby");
+        InGameManager.Instance.LoadScene("Lobby");
     }
 
     public void CutScene()
@@ -63,7 +63,7 @@ public class GameEndPanel : MonoBehaviour
         }
 
         print("Rmx");
-        GameManager.Instance.LoadScene("Lobby");
+        InGameManager.Instance.LoadScene("Lobby");
         yield return null;
     }
 }

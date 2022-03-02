@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class AtkEffect : MonoBehaviour
 {
-    [SerializeField] private SpriteRenderer grid;
+    // [SerializeField] private SpriteRenderer grid;
     [SerializeField] private SpriteRenderer act;
     [SerializeField] private TextMeshPro text;
     
@@ -17,9 +17,9 @@ public class AtkEffect : MonoBehaviour
 
     public enum Type
     {
-        Left,
-        Middle,
-        Right,
+        // Left,
+        // Middle,
+        // Right,
         Random,
         All,
         Shield,
@@ -30,7 +30,7 @@ public class AtkEffect : MonoBehaviour
 
     private void Start()
     {
-        grid.gameObject.SetActive(false);
+        // grid.gameObject.SetActive(false);
         act.gameObject.SetActive(false);
         text.gameObject.SetActive(false);
     }
@@ -43,13 +43,13 @@ public class AtkEffect : MonoBehaviour
         switch (skill.id)
         {
             case 1:
-                if (skill.attackPos == FootPos.Left)
-                    actType = Type.Left;
-                else if (skill.attackPos == FootPos.Middle)
-                    actType = Type.Middle;
-                else if (skill.attackPos == FootPos.Right)
-                    actType = Type.Right;
-
+                // if (skill.attackPos == FootPos.Left)
+                //     actType = Type.Left;
+                // else if (skill.attackPos == FootPos.Middle)
+                //     actType = Type.Middle;
+                // else if (skill.attackPos == FootPos.Right)
+                //     actType = Type.Right;
+                actType = Type.Random;
                 damage = skill.power;
                 break;
             case 2 :
@@ -72,48 +72,48 @@ public class AtkEffect : MonoBehaviour
 
         switch (actType)
         {
-            case Type.Left :
-                grid.gameObject.SetActive(true);
-                text.gameObject.SetActive(true);
-                act.transform.localPosition = new Vector3(0.75f, 0, 0);
-                text.transform.localPosition = new Vector3(0.91f, -0.2f, 0);
-                act.sprite = knife;
-                text.text = damage.ToString();
-                break;
-            case Type.Middle :
-                grid.gameObject.SetActive(true);
-                text.gameObject.SetActive(true);
-                act.transform.localPosition = new Vector3(0, 0, 0);
-                text.transform.localPosition = new Vector3(0.16f, -0.2f, 0); 
-                act.sprite = knife;
-                text.text = damage.ToString();
-                break;
-            case Type.Right :
-                grid.gameObject.SetActive(true);
-                text.gameObject.SetActive(true);
-                act.transform.localPosition = new Vector3(-0.75f, 0, 0);
-                text.transform.localPosition = new Vector3(-0.59f, -0.2f, 0); 
-                text.text = damage.ToString();
-                break;
+            // case Type.Left :
+            //     // grid.gameObject.SetActive(true);
+            //     text.gameObject.SetActive(true);
+            //     act.transform.localPosition = new Vector3(0.75f, 0, 0);
+            //     text.transform.localPosition = new Vector3(0.91f, -0.2f, 0);
+            //     act.sprite = knife;
+            //     text.text = damage.ToString();
+            //     break;
+            // case Type.Middle :
+            //     // grid.gameObject.SetActive(true);
+            //     text.gameObject.SetActive(true);
+            //     act.transform.localPosition = new Vector3(0, 0, 0);
+            //     text.transform.localPosition = new Vector3(0.16f, -0.2f, 0); 
+            //     act.sprite = knife;
+            //     text.text = damage.ToString();
+            //     break;
+            // case Type.Right :
+            //     // grid.gameObject.SetActive(true);
+            //     text.gameObject.SetActive(true);
+            //     act.transform.localPosition = new Vector3(-0.75f, 0, 0);
+            //     text.transform.localPosition = new Vector3(-0.59f, -0.2f, 0); 
+            //     text.text = damage.ToString();
+            //     break;
             case Type.Random : 
-                grid.gameObject.SetActive(false);
+                // grid.gameObject.SetActive(false);
                 text.gameObject.SetActive(true);
                 act.sprite = randomAtk;
                 text.text = damage.ToString();
                 break;
             case Type.All : 
-                grid.gameObject.SetActive(false);
+                // grid.gameObject.SetActive(false);
                 text.gameObject.SetActive(true);
                 act.sprite = knife;
                 text.text = damage.ToString();
                 break;
             case Type.Shield : 
-                grid.gameObject.SetActive(false);
+                // grid.gameObject.SetActive(false);
                 text.gameObject.SetActive(false);
                 act.sprite = shield;
                 break;
             case Type.Buff : 
-                grid.gameObject.SetActive(false);
+                // grid.gameObject.SetActive(false);
                 text.gameObject.SetActive(false);
                 act.sprite = randomAct;
                 break;

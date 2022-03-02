@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameManager : SingletonMono<GameManager>
+public class InGameManager : SingletonMono<InGameManager>
 {
     public enum GameState
     {
@@ -32,7 +32,7 @@ public class GameManager : SingletonMono<GameManager>
     [SerializeField] private float attackInterval;
     
     [SerializeField] private GameState _gameState;
-    private int _curStage = 0;
+    private int _curStage;
     private string _curScene;
     private int _curTurn;
     private Vector3 _mousePos;
@@ -70,10 +70,9 @@ public class GameManager : SingletonMono<GameManager>
         CardManager.Instance.OnChangeScene();
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
+        canvas = GameObject.FindWithTag("Canvas");
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
-        
-        canvas = GameObject.FindWithTag("Canvas");
         turnEndButton.onClick.AddListener(TurnEndButton);
 
         LoadMonster(_curStage);

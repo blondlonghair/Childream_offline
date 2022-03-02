@@ -18,7 +18,7 @@ public class Item
     [HideInInspector] public Sprite shopSoldSprite;
     [HideInInspector] public Sprite inGameIconSprite;
     
-    public virtual void Effect(GameManager.GameState gameState)
+    public virtual void Effect(InGameManager.GameState gameState)
     {
         
     }
@@ -53,11 +53,11 @@ namespace Items
             GetSprite();
         }
 
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameEnd)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameEnd)
             {
-                GameManager.Instance.player.CurHp += 6;
+                InGameManager.Instance.player.CurHp += 6;
             }
             
             base.Effect(gameState);
@@ -75,11 +75,11 @@ namespace Items
             GetSprite();
         }
         
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameStart)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameStart)
             {
-                foreach (var monster in GameManager.Instance.monsters)
+                foreach (var monster in InGameManager.Instance.monsters)
                 {
                     monster.CurHp -= (int) ((float) monster.MaxHp * 0.25);
                     monster.MaxHp -= (int) ((float) monster.MaxHp * 0.25);
@@ -101,11 +101,11 @@ namespace Items
             GetSprite();
         }
         
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameStart)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameStart)
             {
-                GameManager.Instance.player.Strength += 1;
+                InGameManager.Instance.player.Strength += 1;
             }
             
             base.Effect(gameState);
@@ -123,11 +123,11 @@ namespace Items
             GetSprite();
         }
         
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameStart)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameStart)
             {
-                GameManager.Instance.player.Agility += 1;
+                InGameManager.Instance.player.Agility += 1;
             }
             
             base.Effect(gameState);
@@ -145,11 +145,11 @@ namespace Items
             GetSprite();
         }
         
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameStart)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameStart)
             {
-                GameManager.Instance.player.Armor += 10;
+                InGameManager.Instance.player.Armor += 10;
             }
             
             base.Effect(gameState);
@@ -167,9 +167,9 @@ namespace Items
             GetSprite();
         }
         
-        public override void Effect(GameManager.GameState gameState)
+        public override void Effect(InGameManager.GameState gameState)
         {
-            if (GameManager.Instance.GameStates == GameManager.GameState.GameEnd)
+            if (InGameManager.Instance.GameStates == InGameManager.GameState.GameEnd)
             {
                 // GameManager.Instance.;
             }

@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class ItemManager : SingletonMono<ItemManager>
 {
+    [Header("Data")]
+    [SerializeField] private int gold = 100;
     public List<Item> items = new List<Item>();
-    public List<Sprite> sprites = new List<Sprite>();
     [SerializeField] private ItemUI[] itemUI;
 
-    [SerializeField] private int gold = 100;
+    [Header("Sprite")]
+    public List<Sprite> sprites = new List<Sprite>();
+    
     private string _curScene;
     private TextMeshProUGUI _goldText;
     
@@ -25,6 +28,11 @@ public class ItemManager : SingletonMono<ItemManager>
 
             gold = value;
         }
+    }
+
+    private void Start()
+    {
+        // items.Add(new Knuckle());
     }
 
     private void Update()
@@ -51,7 +59,7 @@ public class ItemManager : SingletonMono<ItemManager>
         _curScene = SceneManager.GetActiveScene().name;
     }
 
-    public void UseEffect(GameManager.GameState gameState)
+    public void UseEffect(InGameManager.GameState gameState)
     {
         foreach (var item in items)
         {

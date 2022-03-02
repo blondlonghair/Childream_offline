@@ -26,7 +26,7 @@ public class CardSelectPanel : MonoBehaviour
             {
                 // cardSelectButtons.ForEach(button1 => button1.gameObject.SetActive(false));
                 CardManager.Instance.AddCard(cardInfo[i1]);
-                GameManager.Instance.NextStage();
+                InGameManager.Instance.NextStage();
             });
 
             EventTrigger.Entry entry1 = new EventTrigger.Entry();
@@ -88,7 +88,7 @@ public class CardSelectPanel : MonoBehaviour
 
     public void NextStage()
     {
-        GameManager.Instance.NextStage();
+        InGameManager.Instance.NextStage();
     }
 
     public void SizeUp()

@@ -58,7 +58,7 @@ public class Monster : Unit
 
     public override void Attack()
     {
-        skillBuffer[0].Effect(this, GameManager.Instance.player);
+        skillBuffer[0].Effect(this, InGameManager.Instance.player);
         skillBuffer.RemoveAt(0);
         
         base.Attack();
@@ -142,7 +142,7 @@ public class Monster : Unit
 
     protected virtual IEnumerator Co_OnDeath()
     {
-        GameManager.Instance.monsters.Remove(this);
+        InGameManager.Instance.monsters.Remove(this);
         
         Destroy(hpBar.gameObject);
         Destroy(atkEffect.gameObject);

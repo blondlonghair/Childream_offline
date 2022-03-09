@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Items;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.U2D.IK;
 using UnityEngine.UI;
 
 [Serializable]

@@ -11,16 +11,16 @@ public class IntroScene : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (PlayerPrefs.HasKey("Tutorial"))
-            {
+            // if (PlayerPrefs.HasKey("Tutorial"))
+            // {
                 loadingPanel.Close(() => SceneManager.LoadScene("Lobby"));
-            }
- 
-            else
-            {
-                loadingPanel.Close(() => SceneManager.LoadScene("Tutorial"));
-                PlayerPrefs.SetInt("Tutorial", 1);
-            }    
+            // }
+            //
+            // else
+            // {
+            //     loadingPanel.Close(() => SceneManager.LoadScene("Tutorial"));
+            //     PlayerPrefs.SetInt("Tutorial", 1);
+            // }    
         }
     }
 }

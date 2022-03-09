@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Mono.CompilerServices.SymbolWriter;
 using Unity.VisualScripting;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -123,7 +122,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-            EffectManager.Instance.InitEffect("Bash", target[0]?.transform);
+            EffectManager.Instance.InitEffect("Squash", target[0]?.transform);
 
             base.Effect(caster, target);
         }
@@ -147,7 +146,7 @@ namespace Cards
             foreach (var monster in target)
             {
                 monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-                EffectManager.Instance.InitEffect("Strike", monster.transform);
+                EffectManager.Instance.InitEffect("DeathFault", monster.transform);
             }
 
             base.Effect(caster, target);
@@ -172,7 +171,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-            caster.CurHp -= _loseHealth;
+            caster.GetDamage(_loseHealth);
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
 
             base.Effect(caster, target);
@@ -197,7 +196,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-            EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            EffectManager.Instance.InitEffect("Bash", target[0]?.transform);
 
             base.Effect(caster, target);
         }
@@ -283,7 +282,7 @@ namespace Cards
             foreach (var monster in target)
             {
                 monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-                EffectManager.Instance.InitEffect("Strike", monster.transform);
+                EffectManager.Instance.InitEffect("Voltage", monster.transform);
 
                 monster.Vulnerable -= _vulnerable;
             }
@@ -419,7 +418,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
-            EffectManager.Instance.InitEffect("Bash", target[0].transform);
+            EffectManager.Instance.InitEffect("Squash", target[0].transform);
 
             base.Effect(caster, target);
         }
@@ -627,6 +626,7 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             target[0].Strength -= 2;
+            EffectManager.Instance.InitEffect("StrengthDown", target[0].transform);
 
             base.Effect(caster, target);
         }

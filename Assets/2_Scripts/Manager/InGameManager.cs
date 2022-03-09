@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -39,6 +39,7 @@ public class InGameManager : SingletonMono<InGameManager>
     private CardObject _cardObject;
     private int _curMonster;
     private Coroutine _stateRoutine;
+    private CardObject _mouseOnCard;
     
     [Header("가지고 가는거")]
     [SerializeField] private MonsterHpBar monsterHpBar;
@@ -70,9 +71,9 @@ public class InGameManager : SingletonMono<InGameManager>
         CardManager.Instance.OnChangeScene();
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
-        canvas = GameObject.FindWithTag("Canvas");
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
+        canvas = GameObject.FindWithTag("Canvas");
         turnEndButton.onClick.AddListener(TurnEndButton);
 
         LoadMonster(_curStage);
@@ -81,9 +82,9 @@ public class InGameManager : SingletonMono<InGameManager>
         {
             var monsterTransform = monster.transform;
             MonsterHpBar hpBar = Instantiate(monsterHpBar, monsterTransform.position + Vector3.up * 2,
-                quaternion.identity, canvas.transform);
+                Quaternion.identity, canvas.transform);
             AtkEffect atkEft = Instantiate(atkEffect, monsterTransform.position + Vector3.up * 3,
-                quaternion.identity);
+                Quaternion.identity);
             monster.hpBar = hpBar;
             monster.atkEffect = atkEft;
         }
@@ -334,13 +335,18 @@ public class InGameManager : SingletonMono<InGameManager>
         
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _mousePos.z = 0;
-        
-        if (Input.GetMouseButton(0))
+
+        if (Input.GetMouseButtonDown(0))
         {
             if (TryCastRay(out CardObject cardObj))
             {
-                cardObj.transform.position = _mousePos;
+                _mouseOnCard = cardObj;
             }
+        }
+        
+        else if (Input.GetMouseButton(0))
+        {
+            _mouseOnCard.transform.position = _mousePos;
         }
 
         else
@@ -472,6 +478,12 @@ public class InGameManager : SingletonMono<InGameManager>
         return false;
     }
     
+    /// <summary>
+    /// raycast를 해서 오브젝트의 컴포넌트를 가져온다
+    /// </summary>
+    /// <param name="component">out될 컴포넌트</param>
+    /// <typeparam name="T">컴포넌트 타입</typeparam>
+    /// <returns></returns>
     private bool TryCastRay<T>(out T component) where T : class?
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);
@@ -487,5 +499,10 @@ public class InGameManager : SingletonMono<InGameManager>
 
         component = null;
         return false;
+    }
+
+    void OnApplicationQuit()
+    {
+        
     }
 }

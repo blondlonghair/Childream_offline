@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6747223455347323674}
   - component: {fileID: 5954562858966038077}
   m_Layer: 0
-  m_Name: Attack2
+  m_Name: Voltage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -74,7 +74,7 @@ SpriteRenderer:
   m_SortingLayerID: 1009188207
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: b293fed3c6b531640933ffaec6b9c727, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ac6596c2c0b8ffa4fba66a7810299f76, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 036d506aba824d7abd4bc18101fd11a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  effectType: 0

@@ -178,12 +178,5 @@ public class Monster : Unit
         }
         
         atkEffect.Effect(skillBuffer[0]);
-        
-        // if (TryGetComponent(out SpriteRenderer spriteRenderer))
-        // {
-            // EffectManager.Instance.MonsterEffect(skillBuffer[0], transform);
-        // }
-        
-        // 다음 공격할곳 보여주기
     }
 }

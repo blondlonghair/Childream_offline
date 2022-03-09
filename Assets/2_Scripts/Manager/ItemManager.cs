@@ -44,6 +44,9 @@ public class ItemManager : SingletonMono<ItemManager>
                 _goldText.text = gold.ToString();
             }
         }, "Lobby", "Shop", "Map", "Ingame");
+        
+        SceneCheck(ShowItem, "Lobby", "Map", "Ingame");
+        SceneCheck(HideItem, "Shop", "Tutorial");
     }
 
     private void SceneCheck(Action action, params string[] targetScene)

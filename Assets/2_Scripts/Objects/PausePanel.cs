@@ -17,6 +17,16 @@ public class PausePanel : MonoBehaviour
 
     private void Start()
     {
+        if (TryGetComponent(out Image image))
+        {
+            image.rectTransform.SetAsLastSibling();
+        }
+        
+        if (checkPanel.transform.GetChild(0).TryGetComponent(out Button button))
+        {
+            button.onClick.AddListener(() => InGameManager.Instance.LoadScene("Lobby"));
+        }
+        
         mainMenuButton.onClick.AddListener(() => checkPanel.SetActive(true));
         okButton.onClick.AddListener(() => gameObject.SetActive(false));
         masterBar.onValueChanged.AddListener((x) => SoundManager.Instance.masterVolume = x);

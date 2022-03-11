@@ -82,21 +82,37 @@ public class Player : Unit
             case FootPos.Middle: StartCoroutine(Co_Move(new Vector3(0, -1, 0))); curPos = footPos;break;
             case FootPos.Right: StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); curPos = footPos;break;
         }
-
     }
 
     private IEnumerator Co_Move(Vector3 pos)
     {
         while (!Mathf.Approximately(transform.position.x, pos.x))
         {
+            print("wtf?");
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+    }
+    
+    protected override IEnumerator Co_Attack()
+    {
+        Vector3 originPos = transform.position;
+        
+        while (transform.position.y < originPos.y + 1.5)
+        {
+            transform.position = Vector3.Lerp(transform.position, originPos + Vector3.up * 2, 0.1f);
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+
+        while (!Mathf.Approximately(transform.position.y, originPos.y))
+        {
+            transform.position = Vector3.Lerp(transform.position, originPos, 0.1f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
     }
 
     public override void GetHit()
     {
-        // stateBar.HpValue = (float)curHp / (float)maxHp;
         stateBar.SetHpValue(armor, curHp, maxHp);
 
         base.GetHit();
@@ -105,6 +121,32 @@ public class Player : Unit
     public override void OnDeath()
     {
         base.OnDeath();
+    }
+    
+    protected override IEnumerator Co_GetHit()
+    {
+        Vector3 originPos = transform.position;
+
+        for (int i = 0; i < 2; i++)
+        {
+            while (!Mathf.Approximately(transform.position.x, originPos.x - 0.5f))
+            {
+                transform.position = Vector3.Lerp(transform.position, originPos + Vector3.left * 0.5f, 0.9f);
+                yield return YieldCache.WaitForSeconds(0.01f);
+            }
+
+            while (!Mathf.Approximately(transform.position.x, originPos.x + 0.5f))
+            {
+                transform.position = Vector3.Lerp(transform.position, originPos + Vector3.right * 0.5f, 0.9f);
+                yield return YieldCache.WaitForSeconds(0.01f);
+            }
+        }
+
+        while (!Mathf.Approximately(transform.position.x, originPos.x))
+        {
+            transform.position = Vector3.Lerp(transform.position, originPos, 0.9f);
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
     }
     
     public void GetDamage(int damage)
@@ -123,6 +165,6 @@ public class Player : Unit
             }
         }
         
-        
+        GetHit();
     }
 }

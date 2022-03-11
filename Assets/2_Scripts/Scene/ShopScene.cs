@@ -54,7 +54,7 @@ public class ShopScene : MonoBehaviour
     {
         if (ItemManager.Instance.items.Any((x) => x.id == _curSelectedItem.originItem.id))
         {
-            SetBubble("이미 가지고 있는 아이템인지 않은가..?");
+            SetBubble("이미 가지고 있는 아이템이지 않은가..?");
             return;
         }
         

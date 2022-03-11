@@ -21,7 +21,7 @@ public class LobbyScene : MonoBehaviour
 
     public void GameStartButton()
     {
-        matchingDoor.CloseDoor(() => SceneManager.LoadScene("Map"));
+        matchingDoor.CloseDoor(() => SceneManager.LoadScene("Ingame"));
     }
 
     public void ShopButton()

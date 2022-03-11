@@ -32,14 +32,14 @@ public class InGameManager : SingletonMono<InGameManager>
     [SerializeField] private float attackInterval;
     
     [SerializeField] private GameState _gameState;
-    private int _curStage;
-    private string _curScene;
+    private int _curStage = 1;
     private int _curTurn;
     private Vector3 _mousePos;
     private CardObject _cardObject;
     private int _curMonster;
     private Coroutine _stateRoutine;
     private CardObject _mouseOnCard;
+    private bool _firstCall = true;
     
     [Header("가지고 가는거")]
     [SerializeField] private MonsterHpBar monsterHpBar;
@@ -55,6 +55,8 @@ public class InGameManager : SingletonMono<InGameManager>
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button turnEndButton;
     [SerializeField] private List<Monster> monsterObject;
+    [SerializeField] private Collider2D cardRange;
+    [SerializeField] private MatchingDoor matchingDoor;
 
     public int CurStage
     {
@@ -73,6 +75,11 @@ public class InGameManager : SingletonMono<InGameManager>
         GameObject.FindWithTag("Player").TryGetComponent(out player);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
+        GameObject.Find("CardRange").TryGetComponent(out cardRange);
+        if (GameObject.Find("StageText").TryGetComponent(out TextMeshProUGUI stageText))
+        {
+            stageText.text = $"{_curStage} 스테이지";
+        }
         canvas = GameObject.FindWithTag("Canvas");
         turnEndButton.onClick.AddListener(TurnEndButton);
 
@@ -114,28 +121,44 @@ public class InGameManager : SingletonMono<InGameManager>
 
     private void SceneCheck()
     {
-        if (SceneManager.GetActiveScene().name == "Ingame" && _curScene != SceneManager.GetActiveScene().name)
-        {
-            _curStage++;
-            loadingPanel.Open();
-            OnChangeStage();
-
-            _curScene = SceneManager.GetActiveScene().name;
-        }
-
-        if (SceneManager.GetActiveScene().name == "Map" && _curScene != SceneManager.GetActiveScene().name)
-        {
-            loadingPanel.Open();
-
-            _curScene = SceneManager.GetActiveScene().name;
-        }
-        
-        if (SceneManager.GetActiveScene().name != "Ingame" && SceneManager.GetActiveScene().name != "Map")
+        if (SceneManager.GetActiveScene().name != "Ingame")
         {
             Destroy(gameObject);
             Destroy(EffectManager.Instance.gameObject);
             Destroy(CardManager.Instance.gameObject);
         }
+
+        if (_firstCall)
+        {
+            if (_curStage == 1)
+            {
+                matchingDoor.OpenDoor(null);
+            }
+
+            loadingPanel.Open();
+            OnChangeStage();
+
+            _firstCall = false;
+        }
+        
+        // if (_curScene != SceneManager.GetActiveScene().name)
+        // {
+        //     if (SceneManager.GetActiveScene().name == "Ingame")
+        //     {
+        //         _curStage++;
+        //         loadingPanel.Open();
+        //         OnChangeStage();
+        //
+        //         _curScene = SceneManager.GetActiveScene().name;
+        //     }
+        //
+        //     if (SceneManager.GetActiveScene().name == "Map")
+        //     {
+        //         loadingPanel.Open();
+        //
+        //         _curScene = SceneManager.GetActiveScene().name;
+        //     }
+        // }
     }
 
     private void OnGameStart()
@@ -147,8 +170,6 @@ public class InGameManager : SingletonMono<InGameManager>
         player.stateBar.HpLerp();
         player.stateBar.MpLerp();
         
-        ItemManager.Instance.ShowItem();
-
         WaitChangeState(GameState.PlayerTurnStart);
     }
 
@@ -321,10 +342,13 @@ public class InGameManager : SingletonMono<InGameManager>
         yield return null;
     }
     
+    /// <summary>
+    /// 마우스 인풋을 잡아주는 함수
+    /// </summary>
     private void MouseInput()
     {
-        if (_curScene != "Ingame")
-            return;
+        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        _mousePos.z = 0;
 
         if (EventSystem.current.IsPointerOverGameObject())
         {
@@ -333,9 +357,6 @@ public class InGameManager : SingletonMono<InGameManager>
             return;
         }
         
-        _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        _mousePos.z = 0;
-
         if (Input.GetMouseButtonDown(0))
         {
             if (TryCastRay(out CardObject cardObj))
@@ -346,9 +367,17 @@ public class InGameManager : SingletonMono<InGameManager>
         
         else if (Input.GetMouseButton(0))
         {
-            _mouseOnCard.transform.position = _mousePos;
+            if (_mouseOnCard != null)
+            {
+                if (TryCastRay("CardRange"))
+                {
+                    _mouseOnCard.StopCoroutine();
+                    _mouseOnCard.transform.position = _mousePos;
+                }
+            }
         }
 
+        //마우스 위에 있을때
         else
         {
             if (TryCastRay(out CardObject cardObj))
@@ -366,7 +395,7 @@ public class InGameManager : SingletonMono<InGameManager>
                 _cardObject = null;
             }
         }
-
+        
         //카드 효과 발동
         if (Input.GetMouseButtonUp(0))
         {
@@ -395,6 +424,7 @@ public class InGameManager : SingletonMono<InGameManager>
                 {
                     _cardObject?.originCard.Effect(player, null);
                     player.Move(range.rangeType);
+                    print(range);
                     
                     if (_cardObject == null)
                         return;
@@ -437,7 +467,12 @@ public class InGameManager : SingletonMono<InGameManager>
 
     public void NextStage()
     {
-        loadingPanel.Close(() => SceneManager.LoadScene("Map"));
+        loadingPanel.Close(() =>
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            _firstCall = true;
+            _curStage++;
+        });
     }
 
     public void LoadScene(string scene)
@@ -461,6 +496,21 @@ public class InGameManager : SingletonMono<InGameManager>
         Instantiate(gameEndPanel, canvas.transform).Win(_curStage);
     }
 
+    private bool TryCastRay(string tag)
+    {
+        RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);
+        
+        foreach (var hit2D in hits)
+        {
+            if (hit2D.collider.gameObject.CompareTag(tag))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
     private bool TryCastRay<T>(string tag, out T component) where T : class?
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);

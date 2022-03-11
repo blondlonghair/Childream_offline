@@ -37,29 +37,37 @@ public class ItemManager : SingletonMono<ItemManager>
 
     private void Update()
     {
-        SceneCheck(() =>
+        if (SceneCheck("Lobby", "Shop", "Map", "Ingame"))
         {
             if (GameObject.Find("GoldText").TryGetComponent(out _goldText))
             {
                 _goldText.text = gold.ToString();
             }
-        }, "Lobby", "Shop", "Map", "Ingame");
-        
-        SceneCheck(ShowItem, "Lobby", "Map", "Ingame");
-        SceneCheck(HideItem, "Shop", "Tutorial");
+        }
+
+        if (SceneCheck("Lobby", "Map", "Ingame"))
+        {
+            ShowItem();
+        }
+
+        if (SceneCheck("Shop", "Tutorial"))
+        {
+            HideItem();
+        }
     }
 
-    private void SceneCheck(Action action, params string[] targetScene)
+    private bool SceneCheck( params string[] targetScene)
     {
         foreach (var s in targetScene)
         {
             if (SceneManager.GetActiveScene().name.Contains(s) && _curScene != SceneManager.GetActiveScene().name)
             {
-                action.Invoke();
+                return true;
             }
         }
 
         _curScene = SceneManager.GetActiveScene().name;
+        return false;
     }
 
     public void UseEffect(InGameManager.GameState gameState)
@@ -74,7 +82,6 @@ public class ItemManager : SingletonMono<ItemManager>
     {
         for (int i = 0; i < items.Count; i++)
         {
-            itemUI[i].gameObject.SetActive(true);
             itemUI[i].SetItem(items[i].inGameIconSprite);
         }
     }

@@ -33,6 +33,7 @@ public class Card
             return;
         }
 
+        caster.Attack();
         caster.CurHp = caster.CurHp;
         caster.CurMp -= cost;
     }

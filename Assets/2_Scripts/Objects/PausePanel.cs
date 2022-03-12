@@ -24,7 +24,11 @@ public class PausePanel : MonoBehaviour
         
         if (checkPanel.transform.GetChild(0).TryGetComponent(out Button button))
         {
-            button.onClick.AddListener(() => InGameManager.Instance.LoadScene("Lobby"));
+            button.onClick.AddListener(() =>
+            {
+                InGameManager.Instance.LoadScene("Lobby");
+                ItemManager.Instance.ClearItem();
+            });
         }
         
         mainMenuButton.onClick.AddListener(() => checkPanel.SetActive(true));

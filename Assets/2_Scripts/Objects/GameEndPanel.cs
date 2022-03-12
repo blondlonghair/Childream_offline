@@ -47,6 +47,7 @@ public class GameEndPanel : MonoBehaviour
         panelButton.onClick.AddListener(CutScene);
         
         ItemManager.Instance.Gold += gold;
+        ItemManager.Instance.ClearItem();
     }
 
     public void Lose()
@@ -58,6 +59,8 @@ public class GameEndPanel : MonoBehaviour
         descText.text = "게임 클리어 실패";
         
         panelButton.onClick.AddListener(() => InGameManager.Instance.LoadScene("Lobby"));
+        
+        ItemManager.Instance.ClearItem();
     }
 
     public void StageClear()

@@ -27,24 +27,18 @@ public class ItemManager : SingletonMono<ItemManager>
                 return;
 
             gold = value;
+            UpdateGoldText();
         }
     }
 
-    private void Update()
+    private void Start()
     {
+        if (SceneCheck("Lobby", "Shop", "Map", "Ingame") && GameObject.Find("GoldText").TryGetComponent(out _goldText))
+        { 
+            _goldText.text = gold.ToString();
+            print("goldUpdate");
+        }
         
-    }
-
-    public void OnSceneLoaded()
-    {
-        if (SceneCheck("Lobby", "Shop", "Map", "Ingame"))
-        {
-            if (GameObject.Find("GoldText").TryGetComponent(out _goldText))
-            {
-                _goldText.text = gold.ToString();
-            }
-        }
-
         if (SceneCheck("Lobby", "Map", "Ingame"))
         {
             ShowItem();
@@ -54,6 +48,38 @@ public class ItemManager : SingletonMono<ItemManager>
         {
             HideItem();
         }
+        
+        SceneManager.sceneLoaded += (arg0, mode) =>
+        {
+            if (SceneCheck("Lobby", "Shop", "Map", "Ingame") && GameObject.Find("GoldText").TryGetComponent(out _goldText))
+            { 
+                _goldText.text = gold.ToString();
+                print("goldUpdate");
+            }
+            
+            if (SceneCheck("Lobby", "Map", "Ingame"))
+            {
+                ShowItem();
+            }
+
+            if (SceneCheck("Shop", "Tutorial"))
+            {
+                HideItem();
+            }
+        };
+    }
+    
+    public void OnSceneLoaded()
+    {
+        // if (SceneCheck("Lobby", "Map", "Ingame"))
+        // {
+        //     ShowItem();
+        // }
+        //
+        // if (SceneCheck("Shop", "Tutorial"))
+        // {
+        //     HideItem();
+        // }
     }
 
     private bool SceneCheck(params string[] targetScene)
@@ -82,6 +108,7 @@ public class ItemManager : SingletonMono<ItemManager>
     {
         for (int i = 0; i < items.Count; i++)
         {
+            itemUI[i].gameObject.SetActive(true);
             itemUI[i].SetItem(items[i].inGameIconSprite);
         }
     }
@@ -97,5 +124,15 @@ public class ItemManager : SingletonMono<ItemManager>
     public void UpdateGoldText()
     {
         _goldText.text = gold.ToString();
+    }
+
+    public void ClearItem()
+    {
+        items.Clear();
+        for (int i = 0; i < 6; i++)
+        {
+            itemUI[i].gameObject.SetActive(false);
+            itemUI[i].SetItem(null);
+        }
     }
 }

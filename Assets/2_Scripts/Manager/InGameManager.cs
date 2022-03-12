@@ -71,7 +71,7 @@ public class InGameManager : SingletonMono<InGameManager>
     private void OnChangeStage()
     {
         CardManager.Instance.OnChangeScene();
-        ItemManager.Instance.OnSceneLoaded();
+        // ItemManager.Instance.OnSceneLoaded();
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
@@ -274,7 +274,7 @@ public class InGameManager : SingletonMono<InGameManager>
     private void OnGameEnd()
     {
         CardManager.Instance.ClearBuffer();
-        ItemManager.Instance.HideItem();
+        // ItemManager.Instance.HideItem();
         ChangeState(GameState.None);
         
         if (_curStage == 10)

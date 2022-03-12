@@ -71,6 +71,7 @@ public class InGameManager : SingletonMono<InGameManager>
     private void OnChangeStage()
     {
         CardManager.Instance.OnChangeScene();
+        ItemManager.Instance.OnSceneLoaded();
         
         GameObject.FindWithTag("Player").TryGetComponent(out player);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
@@ -254,7 +255,8 @@ public class InGameManager : SingletonMono<InGameManager>
         if (player.CurHp <= 0)
         {
             //게임 클리어 실패시
-            GameEndPanelLose();
+            Instantiate(gameEndPanel, canvas.transform).Lose();
+            // GameEndPanelLose();
         }
         
         player.Vulnerable -= 1;
@@ -277,12 +279,14 @@ public class InGameManager : SingletonMono<InGameManager>
         
         if (_curStage == 10)
         {
-            GameEndPanelWin();
+            Instantiate(gameEndPanel, canvas.transform).Win();
+            // GameEndPanelWin();
             PlayerPrefs.SetInt("ClearOnce", 1);
             return;
         }
         
-        Instantiate(cardSelectPanel, canvas.transform);
+        Instantiate(gameEndPanel, canvas.transform).StageClear();
+        // Instantiate(cardSelectPanel, canvas.transform);
         
         _saveCurHp = player.CurHp;
         _saveMaxHp = player.MaxHp;
@@ -486,16 +490,6 @@ public class InGameManager : SingletonMono<InGameManager>
         monsters.Add(monster);
     }
 
-    public void GameEndPanelLose()
-    {
-        Instantiate(gameEndPanel, canvas.transform).Lose(_curStage);
-    }
-    
-    public void GameEndPanelWin()
-    {
-        Instantiate(gameEndPanel, canvas.transform).Win(_curStage);
-    }
-
     private bool TryCastRay(string tag)
     {
         RaycastHit2D[] hits = Physics2D.RaycastAll(_mousePos, Vector2.zero, 0f);
@@ -549,10 +543,5 @@ public class InGameManager : SingletonMono<InGameManager>
 
         component = null;
         return false;
-    }
-
-    void OnApplicationQuit()
-    {
-        
     }
 }

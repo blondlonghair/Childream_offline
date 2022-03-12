@@ -15,6 +15,8 @@ public class Unit : MonoBehaviour
     [SerializeField] protected int agility;   // 민첩   카드로 얻는 방어도가 민첩 수치만큼 증가
     [SerializeField] protected int vulnerable;// 취약   공격 피해를 입을때 50%의 피해를 추가로 입는다
     [SerializeField] protected int weakness;  // 약화   공격 피해량이 25% 줄어든다
+
+    [SerializeField] protected DamageText damageText;
     
     public int Strength
     {

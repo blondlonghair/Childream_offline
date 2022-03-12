@@ -17,6 +17,8 @@ public class LobbyScene : MonoBehaviour
 
         loadingPanel.gameObject.transform.position = Vector3.zero;
         loadingPanel.Open();
+
+        ItemManager.Instance.ShowItem();
     }
 
     public void GameStartButton()

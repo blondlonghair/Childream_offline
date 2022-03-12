@@ -153,6 +153,8 @@ public class Player : Unit
     {
         int getDamage = (int)((float)damage * (Vulnerable > 0 ? 1.5f : 1));
 
+        Instantiate(damageText, transform.position, Quaternion.identity).TextOn(getDamage);
+
         for (int i = 0; i < getDamage; i++)
         {
             if (Armor > 0)

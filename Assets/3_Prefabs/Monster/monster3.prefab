@@ -142,13 +142,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c629292b5c04498bbcc27ed71be28a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 100
-  curHp: 100
+  maxHp: 1
+  curHp: 1
   armor: 0
   strength: 0
   agility: 0
   vulnerable: 0
   weakness: 0
+  damageText: {fileID: 4732524670224023, guid: d84203036c8713549b1b0453b8a1bdac, type: 3}
   skillBuffer: []
   useSkills: []
   hpBar: {fileID: 0}

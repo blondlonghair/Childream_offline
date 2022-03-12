@@ -30,12 +30,12 @@ public class ItemManager : SingletonMono<ItemManager>
         }
     }
 
-    private void Start()
+    private void Update()
     {
-        // items.Add(new Knuckle());
+        
     }
 
-    private void Update()
+    public void OnSceneLoaded()
     {
         if (SceneCheck("Lobby", "Shop", "Map", "Ingame"))
         {
@@ -56,11 +56,11 @@ public class ItemManager : SingletonMono<ItemManager>
         }
     }
 
-    private bool SceneCheck( params string[] targetScene)
+    private bool SceneCheck(params string[] targetScene)
     {
         foreach (var s in targetScene)
         {
-            if (SceneManager.GetActiveScene().name.Contains(s) && _curScene != SceneManager.GetActiveScene().name)
+            if (s == SceneManager.GetActiveScene().name)
             {
                 return true;
             }

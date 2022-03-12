@@ -12,7 +12,7 @@ public class AtkEffect : MonoBehaviour
     [Header("Sprite")]
     [SerializeField] private Sprite knife;
     [SerializeField] private Sprite shield;
-    [SerializeField] private Sprite randomAtk;
+    // [SerializeField] private Sprite randomAtk;
     [SerializeField] private Sprite randomAct;
 
     public enum Type
@@ -98,7 +98,7 @@ public class AtkEffect : MonoBehaviour
             case Type.Random : 
                 // grid.gameObject.SetActive(false);
                 text.gameObject.SetActive(true);
-                act.sprite = randomAtk;
+                act.sprite = knife;
                 text.text = damage.ToString();
                 break;
             case Type.All : 

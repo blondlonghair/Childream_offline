@@ -48,6 +48,8 @@ public class ShopScene : MonoBehaviour
                 itemButtons[i1].SetSprite(itemButtons[i1].originItem.shopSelectSprite);
             });
         }
+        
+        ItemManager.Instance.ShowItem();
     }
 
     public void BuyItem()

@@ -3432,6 +3432,7 @@ MonoBehaviour:
   agility: 0
   vulnerable: 0
   weakness: 0
+  damageText: {fileID: 4732524670224023, guid: d84203036c8713549b1b0453b8a1bdac, type: 3}
   curPos: 2
   stateBar: {fileID: 1900695449}
 --- !u!1 &2099857430

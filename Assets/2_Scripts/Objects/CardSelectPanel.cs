@@ -12,6 +12,9 @@ public class CardSelectPanel : MonoBehaviour
 {
     [SerializeField] private List<Button> cardSelectButtons;
     [SerializeField] private Sprite[] cardSprite;
+
+    [SerializeField] private GameEndPanel gameEndPanel;
+    
     private Card[] cardInfo = new Card[3];
 
     private void Start()
@@ -88,6 +91,7 @@ public class CardSelectPanel : MonoBehaviour
 
     public void NextStage()
     {
+        // gameEndPanel.StageClear();
         InGameManager.Instance.NextStage();
     }
 

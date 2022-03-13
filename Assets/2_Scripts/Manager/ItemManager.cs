@@ -36,7 +36,6 @@ public class ItemManager : SingletonMono<ItemManager>
         if (SceneCheck("Lobby", "Shop", "Map", "Ingame") && GameObject.Find("GoldText").TryGetComponent(out _goldText))
         { 
             _goldText.text = gold.ToString();
-            print("goldUpdate");
         }
         
         if (SceneCheck("Lobby", "Map", "Ingame"))
@@ -54,7 +53,6 @@ public class ItemManager : SingletonMono<ItemManager>
             if (SceneCheck("Lobby", "Shop", "Map", "Ingame") && GameObject.Find("GoldText").TryGetComponent(out _goldText))
             { 
                 _goldText.text = gold.ToString();
-                print("goldUpdate");
             }
             
             if (SceneCheck("Lobby", "Map", "Ingame"))

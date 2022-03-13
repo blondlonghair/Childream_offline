@@ -45,17 +45,19 @@ public class InGameManager : SingletonMono<InGameManager>
     [SerializeField] private MonsterHpBar monsterHpBar;
     [SerializeField] private AtkEffect atkEffect;
     [SerializeField] private LoadingPanel loadingPanel;
-    [SerializeField] private GameObject cardSelectPanel;
     [SerializeField] private GameEndPanel gameEndPanel;
 
     [Header("가지고 가지 않는거")]
     public Player player;
     public List<Monster> monsters = new List<Monster>();
+    public Range leftGrid;
+    public Range middleGrid;
+    public Range rightGrid;
+    
     [SerializeField] private Image statePanel;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Button turnEndButton;
     [SerializeField] private List<Monster> monsterObject;
-    [SerializeField] private Collider2D cardRange;
     [SerializeField] private MatchingDoor matchingDoor;
 
     public int CurStage
@@ -76,7 +78,9 @@ public class InGameManager : SingletonMono<InGameManager>
         GameObject.FindWithTag("Player").TryGetComponent(out player);
         GameObject.Find("TurnPanel").TryGetComponent(out statePanel);
         GameObject.Find("TurnEndButton").TryGetComponent(out turnEndButton);
-        GameObject.Find("CardRange").TryGetComponent(out cardRange);
+        GameObject.Find("LeftRange").TryGetComponent(out leftGrid);
+        GameObject.Find("MiddleRange").TryGetComponent(out middleGrid);
+        GameObject.Find("RightRange").TryGetComponent(out rightGrid);
         if (GameObject.Find("StageText").TryGetComponent(out TextMeshProUGUI stageText))
         {
             stageText.text = $"{_curStage} 스테이지";
@@ -178,7 +182,7 @@ public class InGameManager : SingletonMono<InGameManager>
     {
         foreach (var monster in monsters)
         {
-            monster.ShowAttackPos();
+            monster.ShowNextAction();
         }
 
         for (int i = 0; i < 4; i++)
@@ -228,9 +232,15 @@ public class InGameManager : SingletonMono<InGameManager>
         WaitChangeState(GameState.EnemyTurn);
     }
 
+    private bool isShowAttackGrid = true;
+    
     private void OnEnemyTurn()
     {
-        attackTime += Time.deltaTime;
+        if (isShowAttackGrid && monsters.Count > _curMonster)
+        {
+            monsters[_curMonster].ShowAttackGrid();
+            isShowAttackGrid = false;
+        }
         
         if (attackTime > attackInterval)
         {
@@ -240,14 +250,17 @@ public class InGameManager : SingletonMono<InGameManager>
                 _curMonster++;
             }
             
-            else
+            else if (_curMonster >= monsters.Count)
             {
                 ChangeState(GameState.EnemyTurnEnd);
                 _curMonster = 0;
             }
 
+            isShowAttackGrid = true;
             attackTime = 0;
         }
+        
+        attackTime += Time.deltaTime;
     }
 
     private void OnEnemyTurnEnd()

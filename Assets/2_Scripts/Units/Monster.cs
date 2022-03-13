@@ -172,7 +172,7 @@ public class Monster : Unit
         }
     }
     
-    public virtual void ShowAttackPos()
+    public virtual void ShowNextAction()
     {
         if (skillBuffer.Count <= 0)
         {
@@ -180,5 +180,18 @@ public class Monster : Unit
         }
         
         atkEffect.Effect(skillBuffer[0]);
+    }
+
+    public void ShowAttackGrid()
+    {
+        if (skillBuffer.Count <= 0)
+        {
+            SetupSkill();
+        }
+
+        if (skillBuffer[0].attackPos != FootPos.None)
+        {
+            EffectManager.Instance.InitGridEffect(skillBuffer[0].attackPos);
+        }
     }
 }

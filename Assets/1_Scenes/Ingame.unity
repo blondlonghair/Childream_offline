@@ -271,16 +271,18 @@ MonoBehaviour:
   _saveMaxHp: 80
   _saveCurMp: 3
   _saveMaxMp: 3
-  attackTime: 1
+  attackTime: 0
   attackInterval: 1
   _gameState: 0
   monsterHpBar: {fileID: 8811835208148069770, guid: 2841f6e3aa97e174d9a6b8758fa7b133, type: 3}
   atkEffect: {fileID: 2684964372651304997, guid: e37a4fdfe058b0b42bb9b63f8bec6235, type: 3}
   loadingPanel: {fileID: 850354025}
-  cardSelectPanel: {fileID: 8725444670574942083, guid: 8782a3960f0e07a449ed42c7382804e3, type: 3}
   gameEndPanel: {fileID: 3832349880651222937, guid: ed85f7dbc793c8e48a2e19f6b1105d35, type: 3}
   player: {fileID: 0}
   monsters: []
+  leftGrid: {fileID: 0}
+  middleGrid: {fileID: 0}
+  rightGrid: {fileID: 0}
   statePanel: {fileID: 0}
   canvas: {fileID: 0}
   turnEndButton: {fileID: 0}
@@ -295,7 +297,6 @@ MonoBehaviour:
   - {fileID: 8410227367634834095, guid: 323614fdba7d81f4a86cede3245a0bfa, type: 3}
   - {fileID: 74141683762671856, guid: a6dd3ff2fc6df684f97e820efa3be8d8, type: 3}
   - {fileID: 3672728997599626886, guid: 500a2bd174d55394ead5a079baf7e50e, type: 3}
-  cardRange: {fileID: 0}
   matchingDoor: {fileID: 101777874}
 --- !u!4 &238748014
 Transform:
@@ -1066,7 +1067,7 @@ GameObject:
   - component: {fileID: 674811922}
   - component: {fileID: 674811923}
   m_Layer: 0
-  m_Name: f_R
+  m_Name: RightRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1885,7 +1886,7 @@ GameObject:
   - component: {fileID: 1071243484}
   - component: {fileID: 1071243485}
   m_Layer: 0
-  m_Name: f_L
+  m_Name: LeftRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2258,7 +2259,7 @@ GameObject:
   - component: {fileID: 1440493431}
   - component: {fileID: 1440493432}
   m_Layer: 0
-  m_Name: f_M
+  m_Name: MiddleRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3480,6 +3481,10 @@ MonoBehaviour:
   - {fileID: 4088712970009430801, guid: d0e30c72674adc04cb4c40e385b7eb88, type: 3}
   - {fileID: 4088712970009430801, guid: f8f6fae2a7c99884d914104cef25539d, type: 3}
   - {fileID: 4088712970009430801, guid: ac4a0e6eecc0f504aa93b0389b0fc62e, type: 3}
+  gridEffects:
+  - {fileID: 4709896913525989813, guid: 96b350b9dded735459ab6d944a6d90c6, type: 3}
+  - {fileID: 4795355419958966460, guid: 0ccbe1c5fcbc65642aedf735efcbdbdc, type: 3}
+  - {fileID: 1021977730383035252, guid: 5c48095217785614db3284ed2c1415cb, type: 3}
 --- !u!4 &2099857432
 Transform:
   m_ObjectHideFlags: 0

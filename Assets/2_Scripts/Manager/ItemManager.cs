@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using Items;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,9 +12,11 @@ public class ItemManager : SingletonMono<ItemManager>
     [Header("Data")]
     [SerializeField] private int gold = 100;
     public List<Item> items = new List<Item>();
-    [SerializeField] private ItemUI[] itemUI;
 
+    // [SerializeField] private string filePath = $"{Application.dataPath}/Data.json";
+    
     [Header("Sprite")]
+    [SerializeField] private ItemUI[] itemUI;
     public List<Sprite> sprites = new List<Sprite>();
     
     private string _curScene;
@@ -32,6 +36,13 @@ public class ItemManager : SingletonMono<ItemManager>
     }
 
     private void Start()
+    {
+        // gold = JsonUtility.FromJson<int>(File.ReadAllText(filePath));
+        
+        SetScene();
+    }
+
+    private void SetScene()
     {
         if (SceneCheck("Lobby", "Shop", "Map", "Ingame") && GameObject.Find("GoldText").TryGetComponent(out _goldText))
         { 
@@ -66,18 +77,12 @@ public class ItemManager : SingletonMono<ItemManager>
             }
         };
     }
-    
-    public void OnSceneLoaded()
+
+    protected void OnApplicationQuit()
     {
-        // if (SceneCheck("Lobby", "Map", "Ingame"))
-        // {
-        //     ShowItem();
-        // }
-        //
-        // if (SceneCheck("Shop", "Tutorial"))
-        // {
-        //     HideItem();
-        // }
+        PlayerPrefs.SetInt("Gold", gold);
+        
+        // File.WriteAllText(filePath, JsonUtility.ToJson(gold));
     }
 
     private bool SceneCheck(params string[] targetScene)

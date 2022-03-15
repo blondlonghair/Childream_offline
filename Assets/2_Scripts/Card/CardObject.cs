@@ -150,14 +150,15 @@ public class CardObject : MonoBehaviour
         Vector3 pos = new Vector3(transform.position.x, mousePos.y, 0);
 
         lineRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+        int lineCount = lineRenderer.positionCount - 1;
 
-        for (int i = 1; i < 10; i++)
+        for (int i = 1; i <= lineCount; i++)
         {
-            var position = transform.position;
-            Vector3 p1 = Vector3.Lerp(position - position, pos - position, (float) i / 10);
-            Vector3 p2 = Vector3.Lerp(pos - position, mousePos - position, (float) i / 10);
+            Vector3 position = transform.position;
+            Vector3 p1 = Vector3.Lerp(position - position, pos - position, (float) i / lineCount);
+            Vector3 p2 = Vector3.Lerp(pos - position, mousePos - position, (float) i / lineCount);
 
-            lineRenderer.SetPosition(i, Vector3.Lerp(p1, p2, (float) i / 10));
+            lineRenderer.SetPosition(i, Vector3.Lerp(p1, p2, (float) i / lineCount));
         }
     }
 

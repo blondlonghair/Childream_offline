@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using TMPro;
-using Unity.PlasticSCM.Editor.WebApi;
 using UnityEngine;
 using Random = UnityEngine.Random;
 

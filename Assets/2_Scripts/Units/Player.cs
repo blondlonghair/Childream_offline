@@ -88,7 +88,7 @@ public class Player : Unit
     {
         while (!Mathf.Approximately(transform.position.x, pos.x))
         {
-            print("wtf?");
+            print($"{pos} {transform.position}");
             transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
             yield return YieldCache.WaitForSeconds(0.01f);
         }

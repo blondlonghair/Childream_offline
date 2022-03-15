@@ -360,118 +360,144 @@ public class InGameManager : SingletonMono<InGameManager>
     }
     
     /// <summary>
-    /// 마우스 인풋을 잡아주는 함수
+    /// 마우스 인풋에 대한 모든것을 처리해주는 함수
     /// </summary>
     private void MouseInput()
     {
         _mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         _mousePos.z = 0;
 
-        if (EventSystem.current.IsPointerOverGameObject())
-        {
-            _cardObject?.CardZoomOut();
-            _cardObject = null;
-            return;
-        }
+        // if (EventSystem.current.IsPointerOverGameObject())
+        // {
+        //     _cardObject?.CardZoomOut();
+        //     _cardObject = null;
+        //     return;
+        // }
         
         if (Input.GetMouseButtonDown(0))
         {
-            if (TryCastRay(out CardObject cardObj))
-            {
-                _mouseOnCard = cardObj;
-            }
+            TryCastRay(out _cardObject);
         }
         
         else if (Input.GetMouseButton(0))
         {
-            if (_mouseOnCard != null)
+            if (_cardObject == null)
             {
-                if (TryCastRay("CardRange"))
-                {
-                    _mouseOnCard.StopCoroutine();
-                    _mouseOnCard.transform.position = _mousePos;
-                }
+                return;
+            }
+
+            switch (_cardObject.originCard.type)
+            {
+                case Card.CardType.One:
+                case Card.CardType.Grid:
+                    if (TryCastRay("CardRange"))
+                    {
+                        _cardObject.CardZoomOut();
+                        _cardObject.UpdateLine(_mousePos);
+                    }
+                    else
+                    {
+                        _cardObject.CardZoomIn();
+                        _cardObject.CloseLine();
+                    }
+                    break;
+                case Card.CardType.All:
+                case Card.CardType.None:
+                    if (TryCastRay("CardRange"))
+                    {
+                        _cardObject.StopCoroutine();
+                        _cardObject.transform.rotation = Quaternion.Euler(0,0,0);
+                        _cardObject.transform.position = _mousePos;
+                    }
+                    else
+                    {
+                        _cardObject.CardZoomIn();
+                    }
+                    break;
             }
         }
 
-        //마우스 위에 있을때
-        else
-        {
-            if (TryCastRay(out CardObject cardObj))
-            {
-                if (_cardObject != cardObj)
-                {
-                    _cardObject?.CardZoomOut();
-                    _cardObject = cardObj;
-                    _cardObject?.CardZoomIn();
-                }
-            }
-            else
-            {
-                _cardObject?.CardZoomOut();
-                _cardObject = null;
-            }
-        }
+        #region OnMouseOver
+        // //마우스 위에 있을때
+        // else
+        // {
+        //     if (TryCastRay(out CardObject cardObj))
+        //     {
+        //         if (_cardObject != cardObj)
+        //         {
+        //             _cardObject?.CardZoomOut();
+        //             _cardObject = cardObj;
+        //             _cardObject?.CardZoomIn();
+        //         }
+        //     }
+        //     else
+        //     {
+        //         _cardObject?.CardZoomOut();
+        //         // _cardObject = null;
+        //     }
+        // }
+        #endregion
         
         //카드 효과 발동
-        if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButtonUp(0))
         {
             if (player.CurMp < _cardObject?.cost)
             {
                 return;
             }
 
-            if (_cardObject?.originCard.type == Card.CardType.One)
+            switch (_cardObject?.originCard.type)
             {
-                if (TryCastRay(out Monster monster))
-                {
-                    _cardObject?.originCard.Effect(player, monster);
+                case Card.CardType.One:
+                    if (TryCastRay(out Monster monster))
+                    {
+                        _cardObject?.originCard.Effect(player, monster);
                     
-                    if (_cardObject == null)
-                        return;
-
-                    CardManager.Instance.DestroyCard(_cardObject);
-                    _cardObject = null;
-                }
+                        goto default;
+                    }
+                    break;
+                case Card.CardType.Grid:
+                    if (TryCastRay(out Range range))
+                    {
+                        _cardObject?.originCard.Effect(player, null);
+                        player.Move(range.rangeType);
+                        goto default;
+                    }
+                    break;
+                case Card.CardType.All:
+                    if (TryCastRay("CardRange"))
+                    {
+                        _cardObject?.originCard.Effect(player, monsters.ToArray());
+                        goto default;
+                    }
+                    break;
+                case Card.CardType.None:
+                    if (TryCastRay("CardRange"))
+                    {
+                        _cardObject?.originCard.Effect(player, null);
+                        goto default;
+                    }
+                    break;
+                default:
+                    CardDestroy(_cardObject);
+                    break;
             }
             
-            else if (_cardObject?.originCard.type == Card.CardType.Grid)
-            {
-                if (TryCastRay(out Range range))
-                {
-                    _cardObject?.originCard.Effect(player, null);
-                    player.Move(range.rangeType);
-                    print(range);
-                    
-                    if (_cardObject == null)
-                        return;
-
-                    CardManager.Instance.DestroyCard(_cardObject);
-                    _cardObject = null;
-                }
-            }
-
-            else
-            {
-                if (_cardObject?.originCard.type == Card.CardType.All)
-                {
-                    _cardObject?.originCard.Effect(player, monsters.ToArray());
-                }
-
-                else if (_cardObject?.originCard.type == Card.CardType.None)
-                {
-                    _cardObject?.originCard.Effect(player, null);
-                }
-
-                if (_cardObject == null)
-                    return;
-
-                CardManager.Instance.DestroyCard(_cardObject);
-                _cardObject = null;
-            }
-            
-            CardManager.Instance.CardAlignment();
+            _cardObject?.CardZoomOut();
+            _cardObject?.CloseLine();
         }
+    }
+
+    private void CardDestroy(CardObject cardObject)
+    {
+        if (cardObject == null)
+            return;
+        
+        CardManager.Instance.DestroyCard(cardObject);
+        cardObject?.CloseLine();
+        cardObject?.CardZoomOut();
+        cardObject = null;
+        CardManager.Instance.CardAlignment();
     }
 
     public void TurnEndButton()

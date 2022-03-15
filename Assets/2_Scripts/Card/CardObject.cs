@@ -10,28 +10,27 @@ public class CardObject : MonoBehaviour
     public Card originCard;
 
     private Coroutine _coroutine;
-    private Action listener;
 
-    [Header("카드 정보")] 
-    public int id;
+    [Header("카드 정보")] public int id;
     public string cardName;
     public int cost;
     [TextArea(5, 10)] public string cardDesc;
     public Sprite cardImage;
     public Sprite cardBG;
 
-    [Header("카드 요소")] 
-    [SerializeField] private GameObject cardRenderer;
-    [SerializeField] TextMeshPro nameText;
-    [SerializeField] TextMeshPro costText;
-    [SerializeField] TextMeshPro descText;
-    [SerializeField] SpriteRenderer CardImage;
-    [SerializeField] SpriteRenderer CardImageBG;
-    
+    [Header("카드 요소")] [SerializeField] private GameObject cardRenderer;
+    [SerializeField] private TextMeshPro nameText;
+    [SerializeField] private TextMeshPro costText;
+    [SerializeField] private TextMeshPro descText;
+    [SerializeField] private SpriteRenderer CardImage;
+    [SerializeField] private SpriteRenderer CardImageBG;
+
+    [Header("등등")] [SerializeField] private LineRenderer lineRenderer;
+
     public void Setup(Card card)
     {
         originCard = card;
-        
+
         id = card.id;
         cardName = card.name;
         cost = card.cost;
@@ -78,19 +77,16 @@ public class CardObject : MonoBehaviour
         // cardRenderer.transform.localScale = Vector3.one;
         // yield return null;
     }
-    
+
     public void CardZoomIn()
     {
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
-        
-        OrderInLayer(100);
-        _coroutine = StartCoroutine(Co_Zoom(new Vector3(0, -3, -9), Quaternion.Euler(0, 0, 0), new Vector3(2, 2, 1)));
 
-        // var hashCode = Animator.StringToHash("SizeUp");
-        // _animator.SetTrigger(hashCode);
+        OrderInLayer(100);
+        _coroutine = StartCoroutine(Co_Zoom(new Vector3(0, -1, -9), Quaternion.Euler(0, 0, 0), new Vector3(2, 2, 1)));
     }
 
     public void CardZoomOut()
@@ -99,13 +95,9 @@ public class CardObject : MonoBehaviour
         {
             StopCoroutine(_coroutine);
         }
-        
+
         OrderInLayer(originRPS.index);
         _coroutine = StartCoroutine(Co_Zoom(originRPS.pos, originRPS.rot, originRPS.scale));
-
-        // transform.position = cardRenderer.transform.position;
-        // transform.rotation = cardRenderer.transform.rotation;
-        // transform.localScale = cardRenderer.transform.localScale;
     }
 
     private IEnumerator Co_Zoom(Vector3 position, Quaternion rotation, Vector3 scale)
@@ -113,15 +105,15 @@ public class CardObject : MonoBehaviour
         Vector3 pos = cardRenderer.transform.position;
         Quaternion rot = cardRenderer.transform.rotation;
         Vector3 sca = cardRenderer.transform.localScale;
-        
+
         transform.position = originRPS.pos;
         transform.rotation = originRPS.rot;
         transform.localScale = originRPS.scale;
-        
+
         cardRenderer.transform.position = pos;
         cardRenderer.transform.rotation = rot;
         cardRenderer.transform.localScale = sca;
-        
+
         while (!Helper.Approximately(cardRenderer.transform, new PRS(position, rotation, scale, 0)))
         {
             cardRenderer.transform.position = Vector3.Lerp(cardRenderer.transform.position, position, 0.2f);
@@ -140,10 +132,10 @@ public class CardObject : MonoBehaviour
         }
 
         cardRenderer.transform.localPosition = Vector3.zero;
-        cardRenderer.transform.localRotation = Quaternion.Euler(0,0,0);
+        cardRenderer.transform.localRotation = Quaternion.Euler(0, 0, 0);
         cardRenderer.transform.localScale = Vector3.one;
     }
-    
+
     private void OrderInLayer(int index)
     {
         nameText.sortingOrder = index * 2;
@@ -153,13 +145,57 @@ public class CardObject : MonoBehaviour
         CardImageBG.sortingOrder = index * 2 - 1;
     }
 
-    private void OnCollisionEnter2D(Collision2D col)
+    public void UpdateLine(Vector3 mousePos)
     {
-        listener?.Invoke();
+        Vector3 pos = new Vector3(transform.position.x, mousePos.y, 0);
+
+        lineRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        for (int i = 1; i < 10; i++)
+        {
+            var position = transform.position;
+            Vector3 p1 = Vector3.Lerp(position - position, pos - position, (float) i / 10);
+            Vector3 p2 = Vector3.Lerp(pos - position, mousePos - position, (float) i / 10);
+
+            lineRenderer.SetPosition(i, Vector3.Lerp(p1, p2, (float) i / 10));
+        }
     }
 
-    public void AddCollisionListener(Action action)
+    public void CloseLine()
     {
-        listener = action;
+        for (int i = 0; i < lineRenderer.positionCount; i++)
+        {
+            lineRenderer.SetPosition(i, Vector3.zero);
+        }
+        
+        // StartCoroutine(Co_CloseLine(mousePos));
+    }
+
+    private IEnumerator Co_CloseLine(Vector3 mousePos)
+    {
+        lineRenderer.transform.rotation = Quaternion.Euler(0, 0, 0);
+
+        for (int i = 10; i >= 1; i--)
+        {
+            var position = Vector3.Lerp(transform.position, mousePos, (float)i / 10);
+
+            for (int j = 1; j < 10; j++)
+            {
+                Vector3 pos = new Vector3(position.x, position.y, 0);
+                Vector3 p1 = Vector3.Lerp(position - position, pos - position, (float) j / 10);
+                Vector3 p2 = Vector3.Lerp(pos - position, mousePos - position, (float) j / 10);
+
+                lineRenderer.SetPosition(j, Vector3.Lerp(p1, p2, (float) j / 10));
+            }
+
+            yield return YieldCache.WaitForSeconds(0.01f);
+        }
+        
+        for (int i = 0; i < lineRenderer.positionCount; i++)
+        {
+            lineRenderer.SetPosition(i, Vector3.zero);
+        }
+
+        yield return null;
     }
 }

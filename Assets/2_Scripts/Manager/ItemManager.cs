@@ -17,6 +17,7 @@ public class ItemManager : SingletonMono<ItemManager>
     
     [Header("Sprite")]
     [SerializeField] private ItemUI[] itemUI;
+    public ItemDesc itemDesc;
     public List<Sprite> sprites = new List<Sprite>();
     
     private string _curScene;
@@ -112,7 +113,7 @@ public class ItemManager : SingletonMono<ItemManager>
         for (int i = 0; i < items.Count; i++)
         {
             itemUI[i].gameObject.SetActive(true);
-            itemUI[i].SetItem(items[i].inGameIconSprite);
+            itemUI[i].SetItem(items[i].inGameIconSprite, items[i].desc);
         }
     }
 
@@ -135,7 +136,7 @@ public class ItemManager : SingletonMono<ItemManager>
         for (int i = 0; i < 6; i++)
         {
             itemUI[i].gameObject.SetActive(false);
-            itemUI[i].SetItem(null);
+            itemUI[i].SetItem(null, items[i].desc);
         }
     }
 }

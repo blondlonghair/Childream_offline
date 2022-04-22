@@ -1399,10 +1399,12 @@ MonoBehaviour:
   monsterHpBar: {fileID: 8811835208148069770, guid: 2841f6e3aa97e174d9a6b8758fa7b133, type: 3}
   atkEffect: {fileID: 2684964372651304997, guid: e37a4fdfe058b0b42bb9b63f8bec6235, type: 3}
   loadingPanel: {fileID: 325958222}
-  cardSelectPanel: {fileID: 8725444670574942083, guid: 8782a3960f0e07a449ed42c7382804e3, type: 3}
   gameEndPanel: {fileID: 3832349880651222937, guid: ed85f7dbc793c8e48a2e19f6b1105d35, type: 3}
   player: {fileID: 0}
   monsters: []
+  leftGrid: {fileID: 0}
+  middleGrid: {fileID: 0}
+  rightGrid: {fileID: 0}
   statePanel: {fileID: 0}
   canvas: {fileID: 0}
   turnEndButton: {fileID: 0}
@@ -1417,7 +1419,7 @@ MonoBehaviour:
   - {fileID: 8410227367634834095, guid: 323614fdba7d81f4a86cede3245a0bfa, type: 3}
   - {fileID: 74141683762671856, guid: a6dd3ff2fc6df684f97e820efa3be8d8, type: 3}
   - {fileID: 3672728997599626886, guid: 500a2bd174d55394ead5a079baf7e50e, type: 3}
-  cardRange: {fileID: 0}
+  matchingDoor: {fileID: 0}
 --- !u!4 &915282212
 Transform:
   m_ObjectHideFlags: 0
@@ -1478,6 +1480,7 @@ MonoBehaviour:
   - {fileID: 4088712970009430801, guid: d0e30c72674adc04cb4c40e385b7eb88, type: 3}
   - {fileID: 4088712970009430801, guid: f8f6fae2a7c99884d914104cef25539d, type: 3}
   - {fileID: 4088712970009430801, guid: ac4a0e6eecc0f504aa93b0389b0fc62e, type: 3}
+  gridEffects: []
 --- !u!4 &998554872
 Transform:
   m_ObjectHideFlags: 0
@@ -1729,7 +1732,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 0
+  m_PresetInfoIsWorld: 1
 --- !u!223 &1174895409
 Canvas:
   m_ObjectHideFlags: 0
@@ -1739,7 +1742,7 @@ Canvas:
   m_GameObject: {fileID: 1174895406}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 1
+  m_RenderMode: 2
   m_Camera: {fileID: 452437392}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
@@ -1759,8 +1762,8 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1174895406}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 0.01, y: 0.01, z: 0.01}
   m_Children:
   - {fileID: 507538614}
   - {fileID: 1406951984}
@@ -1770,8 +1773,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 0}
+  m_SizeDelta: {x: 1080, y: 2400}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1250186864
 GameObject:
   m_ObjectHideFlags: 0

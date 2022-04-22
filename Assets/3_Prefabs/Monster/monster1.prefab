@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHp: 20
-  curHp: 20
+  curHp: 1
   armor: 0
   strength: 0
   agility: 0

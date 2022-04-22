@@ -22,7 +22,7 @@ public class ShopScene : MonoBehaviour
     private void Start()
     {
         loadingPanel.gameObject.transform.position = Vector3.zero;
-        loadingPanel.Open();
+        loadingPanel.Open(null);
 
         _itemDictionary.Add(0, new BloodPack());
         _itemDictionary.Add(1, new MonsterBook());

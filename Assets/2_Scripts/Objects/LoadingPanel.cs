@@ -10,19 +10,19 @@ public class LoadingPanel : MonoBehaviour
 
     private void Start()
     {
-        Open();
+        Open(null);
         if (TryGetComponent(out SpriteRenderer spriteRenderer))
             spriteRenderer.enabled = true;
     }
 
-    public void Open()
+    public void Open(Action action)
     {
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);
         }
         
-        _coroutine = StartCoroutine(Co_OpenPanel());
+        _coroutine = StartCoroutine(Co_OpenPanel(action));
     }
 
     public void Close(Action action)
@@ -35,13 +35,15 @@ public class LoadingPanel : MonoBehaviour
         _coroutine = StartCoroutine(Co_ClosePanel(action));
     }
 
-    IEnumerator Co_OpenPanel()
+    IEnumerator Co_OpenPanel(Action action)
     {
         while (transform.position.y < 39.9f)
         {
             transform.position = Vector3.Lerp(transform.position, new Vector3(0, 40, 0), 0.05f);
             yield return new WaitForSeconds(0.01f);
         }
+        
+        action?.Invoke();
     }
 
     IEnumerator Co_ClosePanel(Action action)
@@ -52,6 +54,6 @@ public class LoadingPanel : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
 
-        action.Invoke();
+        action?.Invoke();
     }
 }

@@ -16,7 +16,7 @@ public class LobbyScene : MonoBehaviour
         backGround.sprite = PlayerPrefs.HasKey("ClearOnce") ? backGroundSprite[0] : backGroundSprite[1];
 
         loadingPanel.gameObject.transform.position = Vector3.zero;
-        loadingPanel.Open();
+        loadingPanel.Open(null);
 
         ItemManager.Instance.ShowItem();
     }

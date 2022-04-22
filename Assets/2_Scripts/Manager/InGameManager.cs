@@ -140,7 +140,7 @@ public class InGameManager : SingletonMono<InGameManager>
                 matchingDoor.OpenDoor(null);
             }
 
-            loadingPanel.Open();
+            loadingPanel.Open(null);
             OnChangeStage();
 
             _firstCall = false;

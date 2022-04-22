@@ -103,7 +103,7 @@ public class GameEndPanel : MonoBehaviour
             yield return null;
         }
 
-        print("Rmx");
+        ADDManager.Instance.PlayAdd();
         InGameManager.Instance.LoadScene("Lobby");
         yield return null;
     }

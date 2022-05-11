@@ -298,6 +298,25 @@ MonoBehaviour:
   - {fileID: 74141683762671856, guid: a6dd3ff2fc6df684f97e820efa3be8d8, type: 3}
   - {fileID: 3672728997599626886, guid: 500a2bd174d55394ead5a079baf7e50e, type: 3}
   matchingDoor: {fileID: 101777874}
+  backGround: {fileID: 1182736480}
+  ranges:
+  - {fileID: 1071243483}
+  - {fileID: 1440493430}
+  - {fileID: 674811921}
+  backGroundSprite:
+  - {fileID: 21300000, guid: 3dfa16fc5e6c0c04e96af4e82ab97d95, type: 3}
+  - {fileID: 21300000, guid: b3cf6ba843ca2aa44b697908e97fd62e, type: 3}
+  - {fileID: 21300000, guid: 6b0fc828408399e4fb518e417615c391, type: 3}
+  rangeSprites:
+  - {fileID: 21300000, guid: 573936ba44e1e484d86715addf9cca75, type: 3}
+  - {fileID: 21300000, guid: a013d0d17f2a45f43a97aa5d10a2af89, type: 3}
+  - {fileID: 21300000, guid: e3021f264e802dc47884cd6794d3786f, type: 3}
+  - {fileID: 21300000, guid: a56828f9ad3ab06448288a94607d7a51, type: 3}
+  - {fileID: 21300000, guid: c2d3284cc3c9a744f9dc77e6cc6186e2, type: 3}
+  - {fileID: 21300000, guid: 64c0fc153ba49984d88e6ccf2a5f67f3, type: 3}
+  - {fileID: 21300000, guid: fe2b1a79dd1ea074e9cd9e817bda3b90, type: 3}
+  - {fileID: 21300000, guid: c0934466e234da44ba2b28aa558435a8, type: 3}
+  - {fileID: 21300000, guid: 1b290b2620c494c479850c0df071fdfd, type: 3}
 --- !u!4 &238748014
 Transform:
   m_ObjectHideFlags: 0

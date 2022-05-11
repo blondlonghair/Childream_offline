@@ -59,6 +59,11 @@ public class InGameManager : SingletonMono<InGameManager>
     [SerializeField] private Button turnEndButton;
     [SerializeField] private List<Monster> monsterObject;
     [SerializeField] private MatchingDoor matchingDoor;
+    [SerializeField] private SpriteRenderer backGround;
+    [SerializeField] private SpriteRenderer[] ranges;
+
+    [SerializeField] private Sprite[] backGroundSprite;
+    [SerializeField] private Sprite[] rangeSprites;
 
     public int CurStage
     {
@@ -86,8 +91,8 @@ public class InGameManager : SingletonMono<InGameManager>
             stageText.text = $"{_curStage} 스테이지";
         }
         canvas = GameObject.FindWithTag("Canvas");
+        
         turnEndButton.onClick.AddListener(TurnEndButton);
-
         LoadMonster(_curStage);
         
         foreach (var monster in monsters)
@@ -133,8 +138,14 @@ public class InGameManager : SingletonMono<InGameManager>
             Destroy(CardManager.Instance.gameObject);
         }
 
+        GameObject.Find("BackGround").TryGetComponent(out backGround);
+        GameObject.Find("LeftRange").TryGetComponent(out ranges[0]);
+        GameObject.Find("MiddleRange").TryGetComponent(out ranges[1]);
+        GameObject.Find("RightRange").TryGetComponent(out ranges[2]);
+        
         if (_firstCall)
         {
+            //배경음
             if (_curStage == 1)
             {
                 matchingDoor.OpenDoor(null);
@@ -155,31 +166,41 @@ public class InGameManager : SingletonMono<InGameManager>
             {
                 SoundManager.Instance.PlayBGMSound("BossStage");
             }
-            
+
+            //배경이미지
+            if (_curStage >= 1 && _curStage <= 3)
+            {
+                backGround.sprite = backGroundSprite[0];
+                for (int i = 0; i < 3; i++)
+                {
+                    ranges[i].sprite = rangeSprites[i];
+                }
+            }
+
+            if (_curStage >= 4 && _curStage <= 6)
+            {
+                backGround.sprite = backGroundSprite[1];
+                for (int i = 0; i < 3; i++)
+                {
+                    ranges[i].sprite = rangeSprites[i + 3];
+                }
+            }
+
+            if (_curStage >= 7 && _curStage <= 10)
+            {
+                backGround.sprite = backGroundSprite[2];
+                for (int i = 0; i < 3; i++)
+                {
+                    ranges[i].sprite = rangeSprites[i + 6];
+                }
+            }
+
+            //로직
             loadingPanel.Open(null);
             OnChangeStage();
 
             _firstCall = false;
         }
-        
-        // if (_curScene != SceneManager.GetActiveScene().name)
-        // {
-        //     if (SceneManager.GetActiveScene().name == "Ingame")
-        //     {
-        //         _curStage++;
-        //         loadingPanel.Open();
-        //         OnChangeStage();
-        //
-        //         _curScene = SceneManager.GetActiveScene().name;
-        //     }
-        //
-        //     if (SceneManager.GetActiveScene().name == "Map")
-        //     {
-        //         loadingPanel.Open();
-        //
-        //         _curScene = SceneManager.GetActiveScene().name;
-        //     }
-        // }
     }
 
     private void OnGameStart()

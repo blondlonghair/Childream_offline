@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,8 @@ public class TutorialScene : MonoBehaviour
     private Coroutine _coroutine;
     private int _curCount;
     private Vector3 _playerPos;
+
+    private StringBuilder _stringBuilder = new StringBuilder();
     
     void Start()
     {
@@ -102,7 +105,6 @@ public class TutorialScene : MonoBehaviour
 
     private void OnIngame()
     {
-        //dmddo
         switch (_curCount)
         {
             case 1:
@@ -122,7 +124,6 @@ public class TutorialScene : MonoBehaviour
                 InitBubble("행운을 빌어!");
                 break;
             case 6:
-                //튜토리얼 끝난거 처리
                 loadingPanel.Close(() => SceneManager.LoadScene("Lobby"));
                 _curCount = 0;
                 break;
@@ -143,18 +144,22 @@ public class TutorialScene : MonoBehaviour
     {
         _isWriting = true;
         bubbleImage.gameObject.SetActive(true);
-        bubbleText.text = "";
+        _stringBuilder.Clear();
         
         for (int i = 0; i < str.Length; i++)
         {
             if (_isSkip)
             {
-                bubbleText.text = str;
+                _stringBuilder.Clear();
+                _stringBuilder.Append(str);
+                
+                bubbleText.text = _stringBuilder.ToString();
                 _isSkip = false;
                 break;
             }
-            
-            bubbleText.text += str[i];
+
+            _stringBuilder.Append(str[i]);
+            bubbleText.text = _stringBuilder.ToString();
             yield return YieldCache.WaitForSeconds(nextTextTime);
         }
 

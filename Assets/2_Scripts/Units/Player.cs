@@ -101,13 +101,10 @@ public class Player : Unit
     {
         while (!Helper.Approximately(transform.position, pos))
         {
-            var position = transform.position;
-            position = Vector3.Lerp(position, pos, 0.1f);
-            transform.position = position;
+            transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
+            
             yield return YieldCache.WaitForSeconds(0.01f);
         }
-        
-        print("end");
     }
     
     protected override IEnumerator Co_Attack()

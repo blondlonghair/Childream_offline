@@ -15,6 +15,7 @@ public class Card
         Grid = 2,
         All = 4
     }
+
     public int id;
     public string name;
     public int cost;
@@ -61,7 +62,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((int)((float)(power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
+            target[0].GetDamage((int) ((float) (power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
             SoundManager.Instance.PlaySFXSound("Strike");
 
@@ -71,7 +72,7 @@ namespace Cards
         public override void Upgrade()
         {
             power = 8;
-        
+
             base.Upgrade();
         }
     }
@@ -93,7 +94,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             target[0].Vulnerable += _vulnerable;
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
             SoundManager.Instance.PlaySFXSound("Strike");
@@ -105,7 +106,7 @@ namespace Cards
         {
             power = 10;
             _vulnerable = 3;
-            
+
             base.Upgrade();
         }
     }
@@ -124,7 +125,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Squash", target[0]?.transform);
             SoundManager.Instance.PlaySFXSound("Squash");
 
@@ -149,7 +150,7 @@ namespace Cards
         {
             foreach (var monster in target)
             {
-                monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+                monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
                 EffectManager.Instance.InitEffect("DeathFault", monster.transform);
                 SoundManager.Instance.PlaySFXSound("DeathFault");
             }
@@ -161,7 +162,7 @@ namespace Cards
     public class Brimstone : Card
     {
         private int _loseHealth = 2;
-        
+
         public Brimstone()
         {
             id = 5;
@@ -175,7 +176,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             caster.GetDamage(_loseHealth);
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
             SoundManager.Instance.PlaySFXSound("Strike");
@@ -187,7 +188,7 @@ namespace Cards
     public class HeavyBlade : Card
     {
         private int _powerUp;
-        
+
         public HeavyBlade()
         {
             id = 6;
@@ -201,7 +202,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Bash", target[0]?.transform);
             SoundManager.Instance.PlaySFXSound("Bash");
 
@@ -226,7 +227,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
 
             caster.Armor += _armor;
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
@@ -253,7 +254,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
 
             CardManager.Instance.DrawCard();
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
@@ -266,7 +267,7 @@ namespace Cards
         {
             power = 10;
             _drawCard = 2;
-        
+
             base.Upgrade();
         }
     }
@@ -290,13 +291,13 @@ namespace Cards
         {
             foreach (var monster in target)
             {
-                monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+                monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
                 EffectManager.Instance.InitEffect("Voltage", monster.transform);
                 SoundManager.Instance.PlaySFXSound("Voltage");
 
                 monster.Vulnerable -= _vulnerable;
             }
-            
+
             base.Effect(caster, target);
         }
     }
@@ -318,7 +319,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
             SoundManager.Instance.PlaySFXSound("Strike");
 
@@ -349,7 +350,7 @@ namespace Cards
                 CardManager.Instance.DrawCard();
             }
 
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
             SoundManager.Instance.PlaySFXSound("Strike");
 
@@ -373,13 +374,13 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             int cardCount = CardManager.Instance.cards.Count;
-            
+
             for (int i = cardCount - 1; i >= 0; i--)
             {
                 CardManager.Instance.DestroyCard(CardManager.Instance.cards[i]);
             }
 
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
             SoundManager.Instance.PlaySFXSound("Strike");
 
@@ -405,7 +406,7 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
 
             target[0].Vulnerable += _vulnerable;
             target[0].Weakness += _weakness;
@@ -431,14 +432,14 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
+            target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3 / 4 : 1));
             EffectManager.Instance.InitEffect("Squash", target[0].transform);
             SoundManager.Instance.PlaySFXSound("Squash");
 
             base.Effect(caster, target);
         }
     }
-    
+
     public class Defend : Card
     {
         public Defend()
@@ -464,11 +465,11 @@ namespace Cards
         public override void Upgrade()
         {
             power = 8;
-            
+
             base.Upgrade();
         }
     }
-    
+
 
     public class ShrugItOff : Card
     {
@@ -498,7 +499,7 @@ namespace Cards
         public override void Upgrade()
         {
             power = 11;
-            
+
             base.Upgrade();
         }
     }
@@ -519,7 +520,8 @@ namespace Cards
         public override void Effect(Player caster, params Monster[] target)
         {
             caster.Armor += power;
-            CardManager.Instance.DestroyCard(CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
+            CardManager.Instance.DestroyCard(
+                CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
             EffectManager.Instance.InitEffect("Defence", caster.transform);
             SoundManager.Instance.PlaySFXSound("Defence");
 
@@ -552,7 +554,7 @@ namespace Cards
         public override void Upgrade()
         {
             cost = 1;
-            
+
             base.Upgrade();
         }
     }
@@ -577,7 +579,7 @@ namespace Cards
             SoundManager.Instance.PlaySFXSound("Defence");
 
             int cardCount = CardManager.Instance.cards.Count;
-            
+
             for (int i = cardCount - 1; i >= 0; i--)
             {
                 CardManager.Instance.DestroyCard(CardManager.Instance.cards[i]);
@@ -602,14 +604,17 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            base.Effect(caster, target);
+            if (caster.CurMp < cost)
+            {
+                return;
+            }
         }
     }
 
     public class BloodLetting : Card
     {
         private int _loseHealth = 3;
-        
+
         public BloodLetting()
         {
             id = 21;
@@ -625,7 +630,7 @@ namespace Cards
         {
             caster.CurHp -= _loseHealth;
             caster.CurMp += power;
-            
+
             base.Effect(caster, target);
         }
     }
@@ -705,7 +710,7 @@ namespace Cards
     public class Adjustment : Card
     {
         private int _loseHealth = 6;
-        
+
         public Adjustment()
         {
             id = 25;
@@ -721,10 +726,10 @@ namespace Cards
         {
             caster.CurHp -= _loseHealth;
             caster.CurMp += power;
-            
+
             CardManager.Instance.DrawCard();
             CardManager.Instance.DrawCard();
-            
+
             base.Effect(caster, target);
         }
     }
@@ -767,11 +772,12 @@ namespace Cards
 
         public override void Effect(Player caster, params Monster[] target)
         {
-            CardManager.Instance.DestroyCard(CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
-            
+            CardManager.Instance.DestroyCard(
+                CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
+
             CardManager.Instance.DrawCard();
             CardManager.Instance.DrawCard();
-            
+
             base.Effect(caster, target);
         }
     }
@@ -798,7 +804,7 @@ namespace Cards
             base.Effect(caster, target);
         }
     }
-    
+
     public class Blind : Card
     {
         public Blind()
@@ -821,7 +827,7 @@ namespace Cards
             base.Effect(caster, target);
         }
     }
-    
+
     public class Trip : Card
     {
         public Trip()
@@ -845,5 +851,3 @@ namespace Cards
         }
     }
 }
-
-

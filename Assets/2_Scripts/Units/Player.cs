@@ -97,17 +97,13 @@ public class Player : Unit
         }
     }
 
-    private Vector3 _testPos;
-    
     private IEnumerator Co_Move(Vector3 pos)
     {
-        _testPos = transform.position;
-        
-        while (!Helper.Approximately(_testPos, pos))
+        while (!Helper.Approximately(transform.position, pos))
         {
-            print($"{pos} {_testPos}");
-            _testPos = Vector3.Lerp(_testPos, pos, 0.1f);
-            transform.position = _testPos;
+            var position = transform.position;
+            position = Vector3.Lerp(position, pos, 0.1f);
+            transform.position = position;
             yield return YieldCache.WaitForSeconds(0.01f);
         }
         

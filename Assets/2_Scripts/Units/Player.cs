@@ -74,24 +74,44 @@ public class Player : Unit
 
     public PlayerStateBar stateBar;
 
+    private Coroutine _moveCoroutine;
+
     public void Move(FootPos footPos)
     {
+        if (_moveCoroutine != null)
+        {
+            StopCoroutine(_moveCoroutine);
+        }
+        
         switch (footPos)
         {
-            case FootPos.Left: StartCoroutine(Co_Move(new Vector3(-3.5f, -1, 0))); curPos = footPos; break;
-            case FootPos.Middle: StartCoroutine(Co_Move(new Vector3(0, -1, 0))); curPos = footPos;break;
-            case FootPos.Right: StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); curPos = footPos;break;
+            case FootPos.Left: 
+                _moveCoroutine = StartCoroutine(Co_Move(new Vector3(-3.5f, -1, 0))); curPos = footPos; 
+                break;
+            case FootPos.Middle: 
+                _moveCoroutine = StartCoroutine(Co_Move(new Vector3(0, -1, 0))); curPos = footPos;
+                break;
+            case FootPos.Right: 
+                _moveCoroutine = StartCoroutine(Co_Move(new Vector3(3.5f, -1, 0))); curPos = footPos;
+                break;
         }
     }
 
+    private Vector3 _testPos;
+    
     private IEnumerator Co_Move(Vector3 pos)
     {
-        while (!Mathf.Approximately(transform.position.x, pos.x))
+        _testPos = transform.position;
+        
+        while (!Helper.Approximately(_testPos, pos))
         {
-            print($"{pos} {transform.position}");
-            transform.position = Vector3.Lerp(transform.position, pos, 0.1f);
+            print($"{pos} {_testPos}");
+            _testPos = Vector3.Lerp(_testPos, pos, 0.1f);
+            transform.position = _testPos;
             yield return YieldCache.WaitForSeconds(0.01f);
         }
+        
+        print("end");
     }
     
     protected override IEnumerator Co_Attack()
@@ -114,12 +134,15 @@ public class Player : Unit
     public override void GetHit()
     {
         stateBar.SetHpValue(armor, curHp, maxHp);
+        SoundManager.Instance.PlaySFXSound("PlayerHit");
 
         base.GetHit();
     }
 
     public override void OnDeath()
     {
+        SoundManager.Instance.PlaySFXSound("PlayerDie");
+
         base.OnDeath();
     }
     

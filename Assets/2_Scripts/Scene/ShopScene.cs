@@ -39,6 +39,7 @@ public class ShopScene : MonoBehaviour
             {
                 _curSelectedItem = itemButtons[i1];
                 SetBubble(itemButtons[i1].originItem.desc);
+                SoundManager.Instance.PlaySFXSound("ShopOwner");
 
                 foreach (var itemButton in itemButtons)
                 {
@@ -67,6 +68,8 @@ public class ShopScene : MonoBehaviour
         }
 
         SetBubble("구매해줘서 고맙다네");
+        SoundManager.Instance.PlaySFXSound("Buy");
+        
         _curSelectedItem.SetSprite(_curSelectedItem.originItem.shopSoldSprite);
         ItemManager.Instance.items.Add(_curSelectedItem.originItem);
         ItemManager.Instance.Gold -= _curSelectedItem.originItem.cost;

@@ -33,6 +33,7 @@ public class SpriteEffect : MonoBehaviour
                 break;
             case EffectType.Grid:
                 StartCoroutine(Co_DestroyGrid());
+                SoundManager.Instance.PlaySFXSound("EnemyAttackState");
                 break;
         }
     }

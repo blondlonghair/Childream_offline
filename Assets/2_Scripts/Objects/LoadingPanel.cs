@@ -27,6 +27,8 @@ public class LoadingPanel : MonoBehaviour
 
     public void Close(Action action)
     {
+        SoundManager.Instance.PlaySFXSound("BookSlide");
+        
         if (_coroutine != null)
         {
             StopCoroutine(_coroutine);

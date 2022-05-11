@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TutorialScene : MonoBehaviour
@@ -15,6 +16,7 @@ public class TutorialScene : MonoBehaviour
     [SerializeField] private LoadingPanel loadingPanel;
 
     [SerializeField] private Image bubbleImage;
+    [SerializeField] private Image playerImage;
     [SerializeField] private TextMeshProUGUI bubbleText;
     [SerializeField] private Image backGround;
     [SerializeField] private Sprite[] bgSprite;
@@ -25,15 +27,19 @@ public class TutorialScene : MonoBehaviour
     private bool _isSkip;
     private Coroutine _coroutine;
     private int _curCount;
+    private Vector3 _playerPos;
     
     void Start()
     {
         loadingPanel.gameObject.transform.position = Vector3.zero;
         loadingPanel.Open(() => InitBubble("안녕? 나는 너의 게임시작을 위해 나타난 도우미야!"));
+        _playerPos = playerImage.transform.position;
     }
 
     void Update()
     {
+        playerImage.transform.position = _playerPos + Vector3.up * 0.5f * Mathf.Sin(Time.time);
+        
         if (Input.GetMouseButtonDown(0))
         {
             if (_isWriting)
@@ -96,6 +102,7 @@ public class TutorialScene : MonoBehaviour
 
     private void OnIngame()
     {
+        //dmddo
         switch (_curCount)
         {
             case 1:
@@ -103,11 +110,20 @@ public class TutorialScene : MonoBehaviour
                 InitBubble("로비화면에서 도전버튼을 누르면 던전으로 입장 할 수 있어");
                 break;
             case 2:
+                InitBubble("너가 가지고 있는 카드들을 이용해서 적을 공격할 수 있어");
                 break;
             case 3:
+                InitBubble("그리고 적을 처치하면 다음 스테이지로 갈 수 있어");
                 break;
             case 4:
-                InitBubble("우측 상단에 홈버튼을 누르면 다시 로비화면으로 갈 수 있어");
+                InitBubble("너의 목표는 사악한 마왕을 처치하는거야");
+                break;
+            case 5:
+                InitBubble("행운을 빌어!");
+                break;
+            case 6:
+                //튜토리얼 끝난거 처리
+                loadingPanel.Close(() => SceneManager.LoadScene("Lobby"));
                 _curCount = 0;
                 break;
         }

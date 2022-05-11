@@ -1,4 +1,5 @@
 ﻿using System;
+using Firebase.Analytics;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,7 +7,11 @@ using UnityEngine.SceneManagement;
 public class IntroScene : MonoBehaviour
 {
     [SerializeField] private LoadingPanel loadingPanel;
-    
+
+    private void Start()
+    {
+    }
+
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -18,9 +23,9 @@ public class IntroScene : MonoBehaviour
             //
             // else
             // {
-            //     loadingPanel.Close(() => SceneManager.LoadScene("Tutorial"));
+            // loadingPanel.Close(() => SceneManager.LoadScene("Tutorial"));
             //     PlayerPrefs.SetInt("Tutorial", 1);
-            // }    
+            // }   
         }
     }
 }

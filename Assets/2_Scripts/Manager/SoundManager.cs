@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager : SingletonMonoCreate<SoundManager>
 {
@@ -34,9 +35,24 @@ public class SoundManager : SingletonMonoCreate<SoundManager>
         {
             _bgmDict.Add(audioClip.name, audioClip);
         }
+
+        PlayBGMSound("Intro");
+        
+        SceneManager.sceneLoaded += (scene, mode) =>
+        {
+            if (scene.name == "Intro")
+            {
+                PlayBGMSound("Intro");
+            }
+
+            if (scene.name == "Lobby")
+            {
+                PlayBGMSound("Lobby");
+            }
+        };
     }
 
-    public void PlaySFXSound(string clipName, float volume = 1f)
+    public void PlaySFXSound(string clipName, float volume = 0.5f)
     {
         if (_sfxDict.ContainsKey(clipName) == false)
         {
@@ -46,8 +62,9 @@ public class SoundManager : SingletonMonoCreate<SoundManager>
         sfxPlayer.PlayOneShot(_sfxDict[clipName], volume * sfxVolume * masterVolume);
     }
 
-    public void PlayBGMSound(string clipName, float volume = 1f)
+    public void PlayBGMSound(string clipName, float volume = 0.5f)
     {
+        
         bgmPlayer.loop = true;
         bgmPlayer.volume = volume * bgmVolume * masterVolume;
         bgmPlayer.clip = _bgmDict[clipName];

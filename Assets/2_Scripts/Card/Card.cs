@@ -63,6 +63,7 @@ namespace Cards
         {
             target[0].GetDamage((int)((float)(power + caster.Strength) * (caster.Weakness > 0 ? 0.75f : 1f)));
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -95,6 +96,7 @@ namespace Cards
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             target[0].Vulnerable += _vulnerable;
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -124,6 +126,7 @@ namespace Cards
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Squash", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Squash");
 
             base.Effect(caster, target);
         }
@@ -148,6 +151,7 @@ namespace Cards
             {
                 monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
                 EffectManager.Instance.InitEffect("DeathFault", monster.transform);
+                SoundManager.Instance.PlaySFXSound("DeathFault");
             }
 
             base.Effect(caster, target);
@@ -174,6 +178,7 @@ namespace Cards
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             caster.GetDamage(_loseHealth);
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -198,6 +203,7 @@ namespace Cards
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Bash", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Bash");
 
             base.Effect(caster, target);
         }
@@ -224,6 +230,7 @@ namespace Cards
 
             caster.Armor += _armor;
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -250,6 +257,7 @@ namespace Cards
 
             CardManager.Instance.DrawCard();
             EffectManager.Instance.InitEffect("Strike", target[0]?.transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -284,6 +292,7 @@ namespace Cards
             {
                 monster.GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
                 EffectManager.Instance.InitEffect("Voltage", monster.transform);
+                SoundManager.Instance.PlaySFXSound("Voltage");
 
                 monster.Vulnerable -= _vulnerable;
             }
@@ -311,6 +320,7 @@ namespace Cards
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -341,6 +351,7 @@ namespace Cards
 
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -370,6 +381,7 @@ namespace Cards
 
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Strike");
 
             base.Effect(caster, target);
         }
@@ -398,7 +410,8 @@ namespace Cards
             target[0].Vulnerable += _vulnerable;
             target[0].Weakness += _weakness;
             EffectManager.Instance.InitEffect("Strike", target[0].transform);
-         
+            SoundManager.Instance.PlaySFXSound("Strike");
+
             base.Effect(caster, target);
         }
     }
@@ -420,6 +433,7 @@ namespace Cards
         {
             target[0].GetDamage((power + caster.Strength) * (caster.Weakness > 0 ? 3/4 : 1));
             EffectManager.Instance.InitEffect("Squash", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Squash");
 
             base.Effect(caster, target);
         }
@@ -442,6 +456,7 @@ namespace Cards
         {
             caster.Armor += power;
             EffectManager.Instance.InitEffect("Defence", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Defence");
 
             base.Effect(caster, target);
         }
@@ -475,7 +490,8 @@ namespace Cards
             caster.Armor += power;
             CardManager.Instance.DrawCard();
             EffectManager.Instance.InitEffect("Defence", caster.transform);
-      
+            SoundManager.Instance.PlaySFXSound("Defence");
+
             base.Effect(caster, target);
         }
 
@@ -505,6 +521,7 @@ namespace Cards
             caster.Armor += power;
             CardManager.Instance.DestroyCard(CardManager.Instance.cards[Random.Range(0, CardManager.Instance.cards.Count)]);
             EffectManager.Instance.InitEffect("Defence", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Defence");
 
             base.Effect(caster, target);
         }
@@ -527,6 +544,7 @@ namespace Cards
         {
             caster.Armor *= power;
             EffectManager.Instance.InitEffect("Defence", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Defence");
 
             base.Effect(caster, target);
         }
@@ -556,6 +574,7 @@ namespace Cards
         {
             caster.Armor += power * CardManager.Instance.cards.Count;
             EffectManager.Instance.InitEffect("Defence", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Defence");
 
             int cardCount = CardManager.Instance.cards.Count;
             
@@ -628,6 +647,7 @@ namespace Cards
         {
             target[0].Strength -= 2;
             EffectManager.Instance.InitEffect("StrengthDown", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("StrengthDown");
 
             base.Effect(caster, target);
         }
@@ -652,6 +672,7 @@ namespace Cards
             {
                 monster.Weakness += 1;
                 EffectManager.Instance.InitEffect("Weakness", monster.transform);
+                SoundManager.Instance.PlaySFXSound("Weakness");
             }
 
             base.Effect(caster, target);
@@ -675,6 +696,7 @@ namespace Cards
         {
             caster.Strength *= power;
             EffectManager.Instance.InitEffect("Strength", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Strength");
 
             base.Effect(caster, target);
         }
@@ -724,6 +746,7 @@ namespace Cards
         {
             caster.Strength += power;
             EffectManager.Instance.InitEffect("Strength", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Strength");
 
             base.Effect(caster, target);
         }
@@ -770,6 +793,7 @@ namespace Cards
         {
             caster.CurHp += power;
             EffectManager.Instance.InitEffect("Heal", caster.transform);
+            SoundManager.Instance.PlaySFXSound("Heal");
 
             base.Effect(caster, target);
         }
@@ -792,6 +816,7 @@ namespace Cards
         {
             target[0].Weakness += power;
             EffectManager.Instance.InitEffect("Weakness", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Weakness");
 
             base.Effect(caster, target);
         }
@@ -814,6 +839,7 @@ namespace Cards
         {
             target[0].Vulnerable += power;
             EffectManager.Instance.InitEffect("Vulnerable", target[0].transform);
+            SoundManager.Instance.PlaySFXSound("Vulnerable");
 
             base.Effect(caster, target);
         }

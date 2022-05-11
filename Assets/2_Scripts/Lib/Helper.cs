@@ -54,6 +54,18 @@ public class Helper
 
         return b1 && b2 && b3 && b4 && b5 && b6 && b7 && b8 && b9;
     }
+    
+    public static bool Approximately(Vector3 a, Vector3 b)
+    {
+        var b1 = (double) Mathf.Abs(b.x - a.x) < (double)
+            Mathf.Max(1E-06f * Mathf.Max(Mathf.Abs(a.x), Mathf.Abs(b.x)), Mathf.Epsilon * 8f);
+        var b2 = (double) Mathf.Abs(b.y - a.y) < (double)
+            Mathf.Max(1E-06f * Mathf.Max(Mathf.Abs(a.y), Mathf.Abs(b.y)), Mathf.Epsilon * 8f);
+        var b3 = (double) Mathf.Abs(b.z - a.z) < (double)
+            Mathf.Max(1E-06f * Mathf.Max(Mathf.Abs(a.z), Mathf.Abs(b.z)), Mathf.Epsilon * 8f);
+
+        return b1 && b2 && b3;
+    }
 }
 
 public class PRS

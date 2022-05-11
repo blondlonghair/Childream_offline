@@ -138,8 +138,24 @@ public class InGameManager : SingletonMono<InGameManager>
             if (_curStage == 1)
             {
                 matchingDoor.OpenDoor(null);
+                SoundManager.Instance.PlayBGMSound("Stage1~3");
+            }
+            
+            if (_curStage == 4)
+            {
+                SoundManager.Instance.PlayBGMSound("Stage4~6");
+            }
+        
+            if (_curStage == 7)
+            {
+                SoundManager.Instance.PlayBGMSound("Stage7~9");
             }
 
+            if (_curStage == 10)
+            {
+                SoundManager.Instance.PlayBGMSound("BossStage");
+            }
+            
             loadingPanel.Open(null);
             OnChangeStage();
 
@@ -309,6 +325,8 @@ public class InGameManager : SingletonMono<InGameManager>
 
     private void ChangeState(GameState gameState)
     {
+        SoundManager.Instance.PlaySFXSound("ChangeTurn");
+        
         _gameState = gameState;
     }
     
@@ -318,6 +336,8 @@ public class InGameManager : SingletonMono<InGameManager>
         {
             StopCoroutine(_stateRoutine);
         }
+        SoundManager.Instance.PlaySFXSound("ChangeTurn");
+
         _gameState = GameState.None;
 
         _stateRoutine = StartCoroutine(Co_ChangeState(gameState));

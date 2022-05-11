@@ -24,6 +24,7 @@ public class LobbyScene : MonoBehaviour
     public void GameStartButton()
     {
         matchingDoor.CloseDoor(() => SceneManager.LoadScene("Ingame"));
+        SoundManager.Instance.PlaySFXSound("CloseDoor");
     }
 
     public void ShopButton()

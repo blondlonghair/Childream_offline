@@ -376,8 +376,41 @@ MonoBehaviour:
   sfxVolume: 1
   bgmVolume: 1
   masterVolume: 1
-  sfx: []
-  bgm: []
+  sfx:
+  - {fileID: 8300000, guid: 99563cb057f67414eb219e57fe096848, type: 3}
+  - {fileID: 8300000, guid: 5275394ff40018c4e97945ca9424b225, type: 3}
+  - {fileID: 8300000, guid: 1b642616b74b2034bb37fa46e991bf28, type: 3}
+  - {fileID: 8300000, guid: 3fea93b7b8cfe8649a4d44baf6a50acb, type: 3}
+  - {fileID: 8300000, guid: eb84209380e73194e83c37c73dfa26ec, type: 3}
+  - {fileID: 8300000, guid: 0372e65847680454ea98cf770e03fe63, type: 3}
+  - {fileID: 8300000, guid: fce14962dc3237f478d42865626cef9a, type: 3}
+  - {fileID: 8300000, guid: 713454a4705d05e4499565ed5fff4b5b, type: 3}
+  - {fileID: 8300000, guid: 98579386f6c6caa40827fcc661c3fd13, type: 3}
+  - {fileID: 8300000, guid: 8b1e0ca3bf618154d93562ee5ec6c61d, type: 3}
+  - {fileID: 8300000, guid: 4ee00c812fbdc24459db6730be449eda, type: 3}
+  - {fileID: 8300000, guid: b9390909208c4a145aa115b05cd26eb6, type: 3}
+  - {fileID: 8300000, guid: 1a817635798a57947850b2b3af16f822, type: 3}
+  - {fileID: 8300000, guid: e34ef78c2708355459a5c9d897a83fbb, type: 3}
+  - {fileID: 8300000, guid: c8a1b9d4d6fe75946b83d90ae5616aa2, type: 3}
+  - {fileID: 8300000, guid: b399994184f7a274587c5828293fd27c, type: 3}
+  - {fileID: 8300000, guid: a0e4e0552be2bad40ac47a270d99f425, type: 3}
+  - {fileID: 8300000, guid: e6deed12f2845cb45a768e67e8efa55b, type: 3}
+  - {fileID: 8300000, guid: 1cbbdf13931454745b91835a84a522f9, type: 3}
+  - {fileID: 8300000, guid: 7fce421c17691ec43b7a239da5c1a9b6, type: 3}
+  - {fileID: 8300000, guid: e6d911b195d0b1545abac3e401cd48b4, type: 3}
+  - {fileID: 8300000, guid: c13292d441010104c91bb8cb3656941f, type: 3}
+  - {fileID: 8300000, guid: 26f68a6ec00b91e48a5b8a2122a1f8ba, type: 3}
+  - {fileID: 8300000, guid: 75d5707c0f2596948953c8b5c130778f, type: 3}
+  - {fileID: 8300000, guid: 4ef3248ad22918045bcabe832f7059dd, type: 3}
+  - {fileID: 8300000, guid: 0d383bd59547aae4b82c224952902b7b, type: 3}
+  - {fileID: 8300000, guid: 7f54ddb96f085634f9cf342058437150, type: 3}
+  bgm:
+  - {fileID: 8300000, guid: d7e1e4192dd722b449d5ce6b3fdc06e2, type: 3}
+  - {fileID: 8300000, guid: dd22cb3a205fecd4287f3c427b24c517, type: 3}
+  - {fileID: 8300000, guid: b1fee7c8f33988841a6a125901acb98d, type: 3}
+  - {fileID: 8300000, guid: c6200b993b3c76041bef9bbbf21c4c67, type: 3}
+  - {fileID: 8300000, guid: bdccb3365e0bad942bda8e6220835a7d, type: 3}
+  - {fileID: 8300000, guid: a8407de914f75414db8edad09d89f940, type: 3}
 --- !u!4 &1369825105
 Transform:
   m_ObjectHideFlags: 0

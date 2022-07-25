@@ -43,7 +43,6 @@ public class ItemDesc : MonoBehaviour
             descImage.color = _color;
             descText.color = _color;
 
-            print(_color);
             yield return YieldCache.WaitForSeconds(0.01f);
         }
     }

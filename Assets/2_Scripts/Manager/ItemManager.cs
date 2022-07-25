@@ -39,6 +39,7 @@ public class ItemManager : SingletonMono<ItemManager>
     private void Start()
     {
         // gold = JsonUtility.FromJson<int>(File.ReadAllText(filePath));
+        gold = PlayerPrefs.GetInt("Gold");
         
         SetScene();
     }
